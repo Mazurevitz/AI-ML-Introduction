@@ -2,7 +2,7 @@
 # 🤖 Notatki trenera — Dzień 2: LLM, Context Engineering i Agenci AI
 
 **Slajdy:** `RevealJS/day2/part1.html`, `part2.html`, `part3.html`
-**Notebooki:** `combined_exercise.ipynb` (Części 4-5), `simple_python_agent.ipynb`, `langgraph_ticket_router.ipynb`
+**Notebooki:** `day2_01_ml_vs_llm_comparison.ipynb` (Części 4-5), `day2_02_python_agent.ipynb`, `day2_03_langgraph_orchestration.ipynb`
 **Czas:** 09:00–16:45 (z przerwami)
 **Charakter:** 75% praktyka, 25% teoria
 
@@ -10,10 +10,11 @@
 
 ## ✅ Checklist przed warsztatem
 
-- [ ] Google Colab z GPU T4 — wszystkie 3 notebooki otwarte, runtime ustawiony
+- [ ] Google Colab — wszystkie 3 notebooki otwarte (GPU nie wymagane dla day2_01_ml_vs_llm_comparison)
 - [ ] `large_tickets.csv` wgrany do Colab
-- [ ] Ollama zainstalowana na laptopie trenera (`ollama list` działa)
-- [ ] Modele Ollama pobrane: `gemma3:4b`, `phi4-mini`
+- [ ] Klucz OpenRouter API z saldem (do udostępnienia uczestnikom dla day2_02_python_agent.ipynb)
+- [ ] Ollama zainstalowana na laptopie trenera (`ollama list` działa) — do demo Modelfile
+- [ ] Modele Ollama pobrane: `gemma3:4b` — do demo Modelfile
 - [ ] LM Studio zainstalowane (opcja: do porównania z Ollama)
 - [ ] Transformer Explainer otwarty: https://poloclub.github.io/transformer-explainer/
 - [ ] Chatbot Arena otwarty: https://lmarena.ai
@@ -32,7 +33,7 @@
 | 09:00–09:10 | Powitanie + Agenda | — | part1 |
 | 09:10–09:30 | LLM: tokeny, attention | Quiz tokenizacji (Zoom reactions) | part1 |
 | 09:30–09:40 | Transformer | Demo: Transformer Explainer | part1 |
-| 09:40–10:25 | LLM + RAG | combined_exercise.ipynb (Części 4-5) | part1 |
+| 09:40–10:25 | LLM + RAG | day2_01_ml_vs_llm_comparison.ipynb (Części 4-5) | part1 |
 | 10:25–10:30 | Q&A + przejście | — | part1 |
 | 10:30–10:45 | ☕ Przerwa | — | — |
 | 10:45–11:15 | Context Engineering | Teoria + przykłady kodu | part2 |
@@ -42,9 +43,9 @@
 | 11:55–12:15 | Popularne modele + LLM limits | Slajdy + dyskusja | part2 |
 | 12:15–12:45 | Architektura agentów | Whiteboard: zaprojektuj agenta | part2 |
 | 12:45–13:45 | 🍽️ Obiad | — | — |
-| 13:45–14:45 | Python Agent | simple_python_agent.ipynb | part3 |
+| 13:45–14:45 | Python Agent | day2_02_python_agent.ipynb | part3 |
 | 14:45–15:00 | ☕ Przerwa | — | — |
-| 15:00–16:10 | LangGraph | langgraph_ticket_router.ipynb | part3 |
+| 15:00–16:10 | LangGraph | day2_03_langgraph_orchestration.ipynb | part3 |
 | 16:10–16:30 | Ryzyka AI | Hallucination hunt + jailbreak | part3 |
 | 16:30–16:45 | Podsumowanie | Refleksja + Q&A | part3 |
 
@@ -120,7 +121,7 @@
 
 ---
 
-### Ćwiczenie: LLM + RAG — combined_exercise.ipynb Części 4-5 (~25 min)
+### Ćwiczenie: LLM + RAG — day2_01_ml_vs_llm_comparison.ipynb Części 4-5 (~25 min)
 
 #### Intro — co powiedzieć
 „Pamiętacie wczorajsze ćwiczenie? Klasyfikowaliśmy zgłoszenia ręcznie (Część 1), z ML (Część 2), z KMeans (Część 3). Teraz porównamy te same 10 zgłoszeń z LLM (zero-shot) i z RAG (LLM + baza wiedzy)."
@@ -129,7 +130,7 @@
 „To jak różnica między pytaniem kogoś z ulicy ('Jak sklasyfikować to zgłoszenie?') a pytaniem eksperta, który ma przed sobą dokumentację firmy. Obie osoby mogą być inteligentne, ale ta z dokumentacją da lepszą odpowiedź."
 
 #### Jak poprowadzić krok po kroku
-1. Otwórz `combined_exercise.ipynb` w Colab
+1. Otwórz `day2_01_ml_vs_llm_comparison.ipynb` w Colab
 2. Przejdź do **Części 4: LLM Zero-Shot**
 3. Uruchom komórki — model klasyfikuje 10 zgłoszeń bez żadnego kontekstu
 4. **Zwróć uwagę na „Drukarka sieciowa nie odpowiada"** — model prawdopodobnie powie Sprzęt
@@ -144,9 +145,9 @@
 - „Czy 85% accuracy wystarczy do produkcji? Co byście dodali?"
 
 #### Wskazówki do moderowania
-- **Jeśli GPU nie działa**: notebook ma `fallback_llm_results` i `fallback_rag_results` — użyj ich
-- **Jeśli model się ładuje wolno** (~3 min): opowiedz w tym czasie o RAG w praktyce
-- **Typowy wynik**: ML ~80-85%, LLM ~70-80%, RAG ~85-90%
+- **Jeśli brak klucza API**: notebook ma `fallback_llm_results` i `fallback_rag_results` — użyj ich
+- **API odpowiada w 1-3 sekundy**: dużo szybciej niż lokalne modele. Koszt < $0.001
+- **Typowy wynik**: ML ~80-85%, LLM ~70-80%, RAG ~85-100%
 
 #### Przejście do przerwy
 „Zobaczyliśmy 5 podejść do tego samego problemu. Po przerwie pójdziemy dalej — od prostych promptów do Context Engineering, czyli nowoczesnego podejścia do sterowania modelami AI."
@@ -314,46 +315,62 @@ Szybki przegląd rynku modeli 2026. Pokaż tabelę ze slajdu.
 ## 🔹 Blok 3: Python Agent Workshop (13:45–14:45)
 
 ### Intro — co powiedzieć
-„Przed przerwą projektowaliśmy agentów na papierze. Teraz czas na kod. 5 kroków — od prostego wywołania LLM do pełnego agenta z narzędziami, pamięcią i structured output. Wszystko w Pythonie, wszystko lokalnie na Ollama."
+„Przed przerwą projektowaliśmy agentów na papierze. Teraz czas na kod. Zbudujemy agenta IT helpdesk od zera — z native tool calling przez API. Żadnego GPU, żadnego Ollama — czyste HTTP requesty do modelu w chmurze."
 
 ### Storytelling
-„To jak budowanie robota z LEGO Technic. Krok 1: sam silnik — obraca się, ale nic nie robi. Krok 2: dodajemy koła. Krok 3: kierownicę. Krok 4: GPS. Krok 5: ładunek. Na końcu mamy działającego robota."
+„To jak budowanie robota z LEGO Technic. Krok 1: sam silnik — obraca się, ale nic nie robi. Krok 2: dodajemy narzędzia. Krok 3: uczmy go używać narzędzi samodzielnie. Krok 4: pamięć. Na końcu mamy działającego robota."
+
+### Setup przed ćwiczeniem
+- Podziel się kluczem API OpenRouter z uczestnikami (wklej na czacie)
+- Model: `meta-llama/llama-3.1-8b-instruct` (~$0.06/M tokenów, koszt dla 20 osób: <$2)
+- GPU nie jest wymagane — zaznacz to wyraźnie!
+- Notebook ma fallback mode (mock responses) gdy brak klucza API
 
 ### Jak poprowadzić — krok po kroku
 
+#### Krok 0: Setup (~3 min)
+- Uczestnicy wklejają klucz API (getpass lub Colab Secrets)
+- Test połączenia — powinien wypisać „API: działa!"
+- Jeśli ktoś nie ma klucza: notebook przełączy się na fallback automatycznie
+
 #### Krok 1: Podstawowe wywołanie LLM (~8 min)
-- Pokaż funkcję `call_llm()` — 5 linijek, HTTP request do Ollama
-- Moment „wow": „To wszystko? Tak, 5 linijek = wywołanie modelu AI."
-- Daj 2-3 min na zmianę promptu
+- Pokaż funkcję `call_llm()` — HTTP POST do OpenRouter, format chat completions
+- **Kluczowy punkt**: funkcja zwraca pełny obiekt message, nie tylko tekst — bo potrzebujemy `tool_calls`
+- Moment „wow": „requests.post() i mamy AI. To wszystko."
+- Daj 2-3 min na zmianę system promptu
 
-#### Krok 2: Rejestr narzędzi (~10 min)
-- 3 narzędzia: `classify_ticket`, `search_knowledge_base`, `get_ticket_status`
-- Pokaż, jak agent decyduje, które narzędzie użyć
-- **Kluczowy punkt**: model nie „wie" — decyduje na podstawie promptu i listy dostępnych narzędzi
+#### Krok 2: Narzędzia — definicja (~10 min)
+- 4 narzędzia: `search_knowledge_base`, `get_ticket_status`, `query_ticket_stats`, `create_ticket`
+- 24 wbudowane zgłoszenia (6 per kategoria) — notebook jest samodzielny, bez plików
+- JSON Schema — pokaż pełny schemat `create_ticket` jako przykład
+- **Kluczowy punkt**: „Klasyfikacja NIE jest narzędziem — to rozumowanie, które model robi sam"
 
-#### Krok 3: Pamięć (~10 min)
-- Klasa `ITAgent` z historią ostatnich 5 wymian
-- Pokaż, jak agent pamięta kontekst: „A tamto zgłoszenie?" → wie, o czym mowa
+#### Krok 3: Pętla agenta (~15 min)
+- `agent_chat()` — serce agenta: pytanie → tool_calls? → wykonaj → odpowiedź
+- 3 testy: baza wiedzy, status zgłoszenia, statystyki
+- **Moment wow**: test 4 — „Utwórz zgłoszenie" — agent SAM decyduje o kategorii i priorytecie
+- Wypisz: „Klasyfikacja to rozumowanie, nie narzędzie!"
+
+#### Krok 4: Pamięć (~10 min)
+- Klasa `ITAgent` z `self.messages` — pełna historia rozmowy
+- 4-turowa rozmowa: status → inny status → baza wiedzy → utwórz zgłoszenie
+- `show_memory()` — pokaż pełny ślad rozmowy
 - **Storytelling**: „Bez pamięci agent ma Alzheimera — każda rozmowa to od nowa."
 
-#### Krok 4: Structured Output (~10 min)
-- JSON z `{category, confidence, reasoning, next_step}`
-- Porównaj z Krokiem 1: tekst vs JSON
-- **Storytelling**: „To jak różnica między ustną odpowiedzią a wypełnionym formularzem."
-
-#### Krok 5: Dostęp do danych (~10 min)
-- Narzędzie `query_tickets` pracujące na `large_tickets.csv`
-- Agent odpowiada na pytania o rzeczywiste dane
-- „Ile zgłoszeń sieciowych było w tym miesiącu?" → agent szuka w CSV
+#### Krok 5: Pełne demo (~10 min)
+- Scenariusz: drukarka → baza wiedzy → utwórz zgłoszenie → sprawdź statystyki
+- Opcjonalna interaktywna pętla (zakomentowana — odkomentuj jeśli czas pozwala)
 
 ### Fallback
-- Notebook ma pre-computed results dla każdego kroku
-- Jeśli Ollama nie działa na Colab: uruchom na laptopie trenera i pokaż ekran
+- Notebook ma tryb fallback (mock responses) gdy brak API key
+- Każda komórka działa bez API — zwraca `[FALLBACK] Odpowiedź na: ...`
+- Jeśli API nie działa: sprawdź klucz, saldo na openrouter.ai
 
 ### Aktywizacja po zakończeniu
 - „Co byście dodali do tego agenta?"
 - „Jakie narzędzia dalibyście agentowi w waszej firmie?"
 - „Gdzie jest granica — co agent powinien robić sam, a co z człowiekiem?"
+- „Kto zauważył, że klasyfikacja to rozumowanie, nie narzędzie? Dlaczego to ważne?"
 
 ---
 
@@ -389,7 +406,7 @@ Szybki przegląd rynku modeli 2026. Pokaż tabelę ze slajdu.
 - `add_conditional_edges` — kluczowy moment
 
 #### Część 3: Uruchomienie na 10 zgłoszeniach (~15 min)
-- Te same 10 zgłoszeń co w combined_exercise
+- Te same 10 zgłoszeń co w day2_01_ml_vs_llm_comparison
 - Pokaż, że różne zgłoszenia idą różnymi ścieżkami
 - **Moment wow**: „Drukarka sieciowa" idzie RAG ścieżką i zmienia z Sprzęt na Sieć
 
@@ -450,7 +467,7 @@ Szybki przegląd rynku modeli 2026. Pokaż tabelę ze slajdu.
 1. Zrozumieliśmy tokenizację i attention — jak LLM „myśli"
 2. Context Engineering — tools, structured output, RAG
 3. Ollama Modelfile — własny specjalista IT
-4. Python Agent — od zera do pełnego systemu
+4. Python Agent — od zera do pełnego systemu (z native tool calling)
 5. LangGraph — inteligentny router zgłoszeń
 6. Ryzyka — halucynacje, jailbreak, prywatność
 
@@ -482,11 +499,13 @@ Pokaż tabelę ze slajdu. Kluczowy nowy mit:
 
 | Problem | Rozwiązanie |
 |---------|-------------|
-| Colab nie łączy z GPU | Runtime → Change runtime → T4 GPU. Restart jeśli potrzeba |
-| Ollama na Colab nie działa | Użyj fallback results. Lub pokaż na laptopie trenera |
+| API OpenRouter nie działa | Sprawdź klucz, saldo na openrouter.ai. Notebook przełączy się na fallback automatycznie |
+| OpenRouter 401 Unauthorized | Klucz API nieprawidłowy lub wygasł. Wygeneruj nowy na openrouter.ai/keys |
+| OpenRouter 402 Payment Required | Brak salda. Doładuj konto (min $5). Model llama-3.1-8b kosztuje ~$0.06/M tokenów |
+| OpenRouter 429 Rate Limit | Za dużo zapytań. Poczekaj 30s i spróbuj ponownie |
+| Model nie wywołuje narzędzi | Niektóre tanie modele słabo obsługują tool calling. Zmień na `meta-llama/llama-3.3-70b-instruct` |
 | LangGraph install fails | `!pip install langgraph` ponownie. Restart kernel |
-| Model się ładuje zbyt wolno | Opowiadaj storytelling w trakcie. Phi-4 ładuje się ~3 min |
-| Uczestnicy nie mają Ollama | Pokaż na projektorze. Alternatywa: ChatGPT z Custom Instructions |
+| Uczestnicy nie mają klucza API | Udostępnij swój klucz na czacie. Notebook ma fallback mode bez API |
 | Chatbot Arena nie działa | Alternatywa: pokaż Poe.com lub Hugging Face Chat |
 | Notebook ma błędy JSON | Sprawdź polskie znaki — zamień „ na " |
 | Mało czasu | Pomiń Chatbot Arena i skróć whiteboard exercise |
