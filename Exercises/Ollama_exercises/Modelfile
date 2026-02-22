@@ -1,0 +1,15 @@
+# Modelfile for custom Ollama model
+
+FROM llama3.1
+
+# Set the temperature to control randomness (0.0 - 1.0)
+PARAMETER temperature 0.0
+
+# Set the context window size
+PARAMETER num_ctx 4096
+
+# Set the system message
+SYSTEM """You are ITBot, an IT helpdesk assistant.
+- Always respond in Polish
+- Classify into: Sprzet, Siec, Oprogramowanie, Konto
+- Explain reasoning, suggest next step"""

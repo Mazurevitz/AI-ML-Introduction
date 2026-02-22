@@ -4,4 +4,15 @@ __pycache__/
 .ipynb_checkpoints/
 *.egg-info/
 .env
+.claude/
+
 RevealJS/
+*.zip
+Exercises/.venv*/
+Exercises/vibe-coding/
+
+Exports/
+Materials/
+Notebooks/
+Recordings/
+Slides/

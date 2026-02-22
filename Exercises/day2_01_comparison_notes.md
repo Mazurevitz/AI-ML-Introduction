@@ -1,20 +1,25 @@
 
 # 🧠 Notatki trenera — Porównanie 5 podejść do klasyfikacji zgłoszeń IT
 
-**Notebook:** `combined_exercise.ipynb`
+**Notebook:** `day2_01_ml_vs_llm_comparison.ipynb`
 **Czas:** ~55 minut
-**Wymagania:** Google Colab z GPU T4 (części 4-5, opcjonalnie)
+**Wymagania:** Google Colab (GPU nie jest wymagane!), klucz API OpenRouter (https://openrouter.ai/keys)
 
 ---
 
 ## ✅ Checklist przed warsztatem
 
-- [ ] Notebook otwarty w Colab, runtime ustawiony na **T4 GPU**
-- [ ] `large_tickets.csv` wgrany do Colab (lub w tym samym folderze)
+- [ ] Notebook otwarty w Colab (lub VS Code) — runtime domyślny (CPU wystarczy!)
+- [ ] `large_tickets.csv` wgrany do Colab (lub w tym samym folderze co notebook)
 - [ ] Komórki setup (0) uruchomione — biblioteki zainstalowane
-- [ ] Jeśli brak GPU: sprawdzić, że fallback_llm_results i fallback_rag_results działają
-- [ ] Model Phi-4-mini-instruct pobrany wcześniej (pierwsze ładowanie: ~3 min)
+- [ ] **Klucz API OpenRouter** skonfigurowany (jeden z poniższych sposobów):
+  - Colab: dodaj `OPENROUTER_API_KEY` w Secrets (ikona 🔑 po lewej)
+  - Lokalnie (VS Code): utwórz plik `.env` obok notebooka z: `OPENROUTER_API_KEY=sk-or-...`
+  - Terminal: `export OPENROUTER_API_KEY="sk-or-..."`
+- [ ] Komórka API test (cell-15) zwraca „🔌 API: ✅ działa!"
+- [ ] Jeśli brak klucza API: sprawdzić, że fallback_llm_results i fallback_rag_results działają
 - [ ] Przygotować tablicę/whiteboard do zapisania wyników grupowych
+- [ ] Opcjonalnie: `pip install python-dotenv` (jeśli uruchamiasz lokalnie z plikiem `.env`)
 
 ---
 
@@ -26,8 +31,8 @@
 | 0:02 | Część 1 | Klasyfikacja ręczna — uczestnicy wpisują odpowiedzi |
 | 0:07 | Część 2 | Supervised ML — trening modelu, omówienie wyników |
 | 0:22 | Część 3 | KMeans — klastry bez etykiet, PCA wizualizacja |
-| 0:32 | Część 4 | LLM zero-shot — ładowanie modelu, klasyfikacja |
-| 0:42 | Część 5 | RAG — baza wiedzy + LLM, porównanie z Częścią 4 |
+| 0:32 | Część 4 | LLM zero-shot — API call, klasyfikacja |
+| 0:40 | Część 5 | RAG — baza wiedzy + LLM, porównanie z Częścią 4 |
 | 0:50 | Podsumowanie | Wykres, tabela, dyskusja |
 | 0:55 | Koniec | |
 
@@ -55,10 +60,12 @@
 - „Czy 10/10 jest realistyczne? Czy ekspert zawsze ma rację?"
 
 ### Wskazówki do moderowania
+- **Flaga SKIP_MANUAL**: w notebooku jest `SKIP_MANUAL = True` — zmień na `False`, jeśli chcesz, żeby uczestnicy wpisywali odpowiedzi ręcznie. Przy `True` notebook używa pre-set odpowiedzi eksperta IT (z celowymi 2 błędami na niejednoznacznych zgłoszeniach)
 - **Jeśli ktoś nie zna kategorii**: powiedz „Kieruj się intuicją — nie ma złych odpowiedzi na tym etapie"
 - **Jeśli ktoś wpisze błędnie**: accuracy_score wymaga dokładnego stringa — pokaż poprawną pisownię
 - **Typowy wynik**: 6-8/10 dla grupy. Jeśli ktoś ma 10/10, pochwal i zapytaj o logikę
 - **Ważne**: NIE podawaj poprawnych odpowiedzi przed uruchomieniem — niech komórka je wyświetli
+- **Rada**: przy dużej grupie (>10 osób) użyj `SKIP_MANUAL = True` i niech uczestnicy zapiszą odpowiedzi na kartce — oszczędza czas
 
 ### Przejście do Części 2
 „OK, zobaczyliście, że nawet dla nas to nie jest trywialne. A teraz dajmy te same zgłoszenia maszynie, która **nauczyła się z 200 przykładów**."
@@ -139,15 +146,17 @@
 
 ---
 
-## 🔹 Część 4: LLM — Phi-4-mini-instruct (~10 min)
+## 🔹 Część 4: LLM — klasyfikacja zero-shot przez API (~8 min)
 
 ### Intro — co powiedzieć
-„Teraz coś zupełnie innego: Large Language Model. Model z 3.8 miliarda parametrów, który widzi nasze zgłoszenia pierwszy raz. Zero-shot — zero przykładów treningowych."
+„Teraz coś zupełnie innego: Large Language Model. Model, który widzi nasze zgłoszenia pierwszy raz. Zero-shot — zero przykładów treningowych. Wysyłamy jedno zapytanie do API i dostajemy klasyfikację wszystkich 10 zgłoszeń."
 
 ### Wyjaśnienie — punkty techniczne
 - **Zero-shot**: model nie widział naszych danych ani naszych kategorii wcześniej
-- **Phi-4-mini-instruct**: Microsoft, 3.8B parametrów, mieści się na T4 GPU w float16
-- **Prompt engineering**: jedyne „trenowanie" to dobry prompt — jak sformułujemy pytanie
+- **OpenRouter API**: uniwersalne API do wielu modeli (Llama, Gemma, Qwen, GPT, Claude) — jeden klucz, wiele modeli
+- **Model**: `meta-llama/llama-3.1-8b-instruct` — dobry stosunek jakość/cena. Koszt klasyfikacji 10 zgłoszeń: < $0.001
+- **Batch classification**: wszystkie 10 zgłoszeń w jednym API call — tańsze i szybsze niż 10 osobnych
+- **Prompt engineering**: jedyne „trenowanie" to dobry prompt — prosimy o JSON array z kategoriami
 - **Dlaczego model się myli na niejednoznacznych?**: nie zna naszych wewnętrznych procedur
   - „Drukarka sieciowa" → LLM widzi „drukarka" i mówi Sprzęt (bo w internecie drukarka = hardware)
   - „Zalogować się do WiFi" → LLM widzi „zalogować" i mówi Konto
@@ -155,17 +164,21 @@
 ### Storytelling
 „LLM to jak nowy, bardzo inteligentny konsultant: świetnie rozumie język, ale nie zna waszych procedur. Mówicie mu 'sklasyfikuj to zgłoszenie' i on robi co może na podstawie ogólnej wiedzy. Ale nie wie, że w waszej firmie 'drukarka sieciowa' to dział Sieć."
 
+„Zwróćcie uwagę, że wysyłamy **jedno zapytanie** z 10 zgłoszeniami i dostajemy odpowiedź w 2 sekundy. To samo w firmie — można klasyfikować setki zgłoszeń w minutę za grosze."
+
 ### Aktywizacja — pytania do grupy
 - „Porównajcie wynik LLM z waszym ręcznym — na czym się zgadzacie?"
 - „Dlaczego LLM pomylił 'drukarkę sieciową'? Co mu brakuje?"
 - „Jak moglibyśmy poprawić prompt, żeby LLM lepiej klasyfikował?"
-- „Czy większy model (70B zamiast 3.8B) dałby lepsze wyniki?"
+- „Ile to kosztuje? Czy opłaca się vs zatrudnienie człowieka do klasyfikacji?"
 
 ### Wskazówki do moderowania
-- **Jeśli brak GPU**: powiedz „Używamy pre-computed results. W firmie możecie użyć API ChatGPT/Claude."
-- **Ładowanie modelu trwa 2-3 minuty**: użyj tego czasu na dyskusję o kosztach GPU
-- **Jeśli model daje dziwne odpowiedzi**: pokaż raw output — czasem LLM „gaduje" zamiast dać jedno słowo
+- **Jeśli brak klucza API**: notebook automatycznie przełącza się na fallback (pre-computed results). Powiedz: „Wyniki są pre-computed — w firmie podpinamy swój klucz API."
+- **API odpowiada w 1-3 sekundy**: dużo szybciej niż ładowanie lokalnego modelu. Podkreśl prostotę — zero instalacji, zero GPU
+- **Jeśli API zwraca błąd**: sprawdź klucz, sprawdź saldo na openrouter.ai. Fallback zadziała automatycznie
+- **Jeśli model daje dziwne odpowiedzi**: pokaż raw JSON response — czasem LLM dodaje komentarze do JSON
 - **Porównanie z ML**: jeśli ML > LLM, to doskonały moment na lekcję: „dane > model!"
+- **Zmiana modelu**: w komórce konfiguracji można zmienić `LLM_MODEL` na inny — dobra okazja, żeby porównać modele
 
 ### Przejście do Części 5
 „LLM nie zna naszych procedur — dlatego myli się na niejednoznacznych zgłoszeniach. A co jeśli **damy mu naszą dokumentację**? To właśnie robi RAG."
@@ -199,7 +212,7 @@
 ### Wskazówki do moderowania
 - **Kluczowy moment aha**: pokażcie side-by-side LLM vs RAG — te same zgłoszenia, różne wyniki
 - **Jeśli ktoś pyta o vector search**: „Świetne pytanie! W produkcji użylibyśmy ChromaDB lub Pinecone. Tu upraszczamy do keyword matching."
-- **Fallback działa dobrze**: nawet bez GPU, wyniki RAG są demonstracyjne i pouczające
+- **Fallback działa dobrze**: nawet bez klucza API, wyniki RAG są demonstracyjne i pouczające
 - **Jeśli RAG nie poprawia wszystkiego**: omów jakość bazy wiedzy — garbage in, garbage out
 
 ### Przejście do Podsumowania
@@ -215,7 +228,7 @@
 ### Wyjaśnienie — kluczowe wnioski
 1. **Dane > Model**: dobrze wytrenowany ML może pokonać LLM bez kontekstu
 2. **Kontekst jest królem**: RAG poprawia wyniki tam, gdzie brakuje wiedzy domenowej
-3. **Nie ma jednej metody**: wybór zależy od zasobów (dane, GPU, dokumentacja, budżet)
+3. **Nie ma jednej metody**: wybór zależy od zasobów (dane, API, dokumentacja, budżet)
 4. **Człowiek + AI**: najlepsze wyniki w produkcji daje human-in-the-loop
 
 ### Storytelling — finał
@@ -223,8 +236,8 @@
 - **2005**: człowiek czyta i sortuje (Część 1)
 - **2015**: algorytm wytrenowany na historii (Część 2)
 - **2020**: odkrywanie wzorców w danych (Część 3)
-- **2024**: AI rozumie tekst bez trenowania (Część 4)
-- **2025**: AI + wiedza firmowa = prawie perfekcja (Część 5)"
+- **2024**: AI rozumie tekst bez trenowania — jeden API call (Część 4)
+- **2025+**: AI + wiedza firmowa (RAG) = prawie perfekcja (Część 5)"
 
 ### Aktywizacja — pytania końcowe
 - „Którą metodę zastosowalibyście w swoim dziale?"
@@ -235,24 +248,32 @@
 
 ## 🚨 Strategie awaryjne (Fallback)
 
-### Brak GPU w Colab
-- Użyj fallback wyników (wbudowane w notebook)
-- Alternatywnie: zmień runtime na T4 (Runtime → Change runtime type → T4 GPU)
-- Jeśli GPU niedostępne w ogóle: pomiń komórkę ładowania modelu, reszta działa
+### Brak klucza API OpenRouter
+- Notebook automatycznie przełącza się na **fallback** (pre-computed results) — Części 4 i 5 działają bez API
+- Fallback wyniki realistycznie symulują typowe zachowanie LLM (błędy na niejednoznacznych) i RAG (poprawki)
+- Powiedz: „Wyniki są pre-computed z prawdziwego modelu — w firmie podpinamy swój klucz API"
+- Aby uzyskać klucz: https://openrouter.ai/keys (rejestracja przez Google, darmowe credits na start)
 
-### Model nie ładuje się
-- Sprawdź VRAM: `!nvidia-smi`
-- Jeśli za mało pamięci: użyj `torch_dtype=torch.float16` (już ustawione)
-- Plan B: użyj fallback_llm_results i fallback_rag_results
+### API zwraca błąd
+- **401 Unauthorized**: klucz API jest nieprawidłowy lub wygasł — sprawdź na openrouter.ai/keys
+- **402 Payment Required**: brak środków — doładuj saldo (klasyfikacja kosztuje < $0.001)
+- **429 Rate Limit**: za dużo zapytań — poczekaj minutę lub zmień model na płatny (bez sufiksu `:free`)
+- **Timeout / SSL error**: problem z siecią — sprawdź połączenie internetowe
+- W każdym przypadku notebook automatycznie przełączy się na fallback
+
+### Uruchamianie lokalnie (VS Code / Jupyter)
+- Utwórz plik `.env` obok notebooka: `OPENROUTER_API_KEY=sk-or-...`
+- Zainstaluj: `pip install python-dotenv requests scikit-learn pandas matplotlib seaborn`
+- **Ważne**: upewnij się, że VS Code używa właściwego Pythona (venv) — sprawdź w prawym dolnym rogu
+- Jeśli SSL się zawiesza: prawdopodobnie złe środowisko Python — utwórz nowy venv
 
 ### CSV nie ładuje się
-- Upewnij się, że plik jest w tym samym folderze co notebook
+- Upewnij się, że `large_tickets.csv` jest w tym samym folderze co notebook
 - W Colab: użyj File → Upload lub zamontuj Google Drive
-- Backup: dane inline w notebooku (komentarz w komórce 7)
 
 ### Uczestnicy mają problemy z input()
-- W Colab input() działa — ale wymaga kliknięcia w pole
-- Jeśli nie działa: pokaż na swoim ekranie, reszta grupy ogląda
+- Ustaw `SKIP_MANUAL = True` (domyślnie) — pomija ręczne wpisywanie
+- Jeśli chcesz interaktywność: zmień na `False`, w Colab input() działa (wymaga kliknięcia w pole)
 - Alternatywnie: niech każdy zapisze odpowiedzi na kartce i porówna po reveal
 
 ---
