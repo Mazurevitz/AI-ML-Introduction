@@ -1,0 +1,1132 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <title>Dzień 2 – Część 2: Context Engineering i Agenci AI</title>
+    <link rel="stylesheet" href="../../dist/reset.css">
+    <link rel="stylesheet" href="../../dist/reveal.css">
+    <link rel="stylesheet" href="../../dist/theme/black.css">
+    <link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+    <style>
+        .reveal:focus {
+            outline: none;
+        }
+
+        .reveal *:focus {
+            outline: none;
+        }
+
+        .reveal * {
+            caret-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- #region - Context Engineering -->
+
+            <section style="font-size: 0.9em;">
+                <h2>🧠 Od Prompt Engineering do Context Engineering</h2>
+
+                <ul>
+                    <li class="fragment">2023: „Jak napisać lepszy prompt?"</li>
+                    <li class="fragment">2024: „Jak zbudować system promptów z rolami i szablonami?"</li>
+                    <li class="fragment">2026: „Jak dostarczyć modelowi <strong>właściwy kontekst</strong> – narzędzia, dane, pamięć?"</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em;">
+                    🎯 Context Engineering = sztuka budowania <strong>całego środowiska</strong>, w którym model pracuje
+                </p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „W 2023 cały świat mówił o prompt engineering — jak napisać lepszy prompt. W 2024 przeszliśmy do
+                    systemów promptów z rolami i szablonami. Teraz, w 2026, to za mało. Modele są na tyle mądre,
+                    że kluczowe nie jest JAK pytasz, ale CO im dajesz."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Wyobraźcie sobie nowego pracownika. Opcja A: dajecie mu lepszą instrukcję — 'bądź dokładny,
+                    odpowiadaj po polsku'. Opcja B: dajecie mu dostęp do CRM-a, bazy wiedzy, systemu ticketowego
+                    i mówicie: 'użyj tego, co potrzebujesz'. Która opcja daje lepsze wyniki? Oczywiście B.
+                    To jest Context Engineering."<br>
+                    🔹 „Inny przykład: lekarz. Czy lepszy prompt to 'bądź dokładny'? Nie. Lepszy kontekst to:
+                    wyniki badań, historia choroby, aktualne leki. To robi różnicę."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 Zapytaj: „Kto z Was pisał kiedykolwiek system prompt? Co w nim było?"<br>
+                    🔹 Zbierz 2-3 odpowiedzi — to pokaże, na jakim poziomie jest grupa.</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Zobaczmy, z jakich warstw składa się kontekst modelu — to fundament, na którym budujemy resztę dnia."</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.8em;">
+                <h2>🧩 Co składa się na kontekst modelu?</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6em; margin-top: 0.8em;">
+                    <div class="fragment" style="background: #1a2a3a; padding: 0.6em 0.8em; border-radius: 8px; border-left: 4px solid #42affa;">
+                        <h4 style="margin: 0;">📋 System Prompt</h4>
+                        <p style="font-size: 0.8em; margin: 0.2em 0 0;">Rola, zasady, ograniczenia</p>
+                    </div>
+                    <div class="fragment" style="background: #1a3a1a; padding: 0.6em 0.8em; border-radius: 8px; border-left: 4px solid #4dff4d;">
+                        <h4 style="margin: 0;">🔧 Tools (Narzędzia)</h4>
+                        <p style="font-size: 0.8em; margin: 0.2em 0 0;">API, bazy danych, wyszukiwarki</p>
+                    </div>
+                    <div class="fragment" style="background: #3a2a1a; padding: 0.6em 0.8em; border-radius: 8px; border-left: 4px solid #ffb703;">
+                        <h4 style="margin: 0;">📚 RAG / Wiedza</h4>
+                        <p style="font-size: 0.8em; margin: 0.2em 0 0;">Dokumenty, procedury, baza wiedzy</p>
+                    </div>
+                    <div class="fragment" style="background: #3a1a2a; padding: 0.6em 0.8em; border-radius: 8px; border-left: 4px solid #ff4d6a;">
+                        <h4 style="margin: 0;">💾 Pamięć</h4>
+                        <p style="font-size: 0.8em; margin: 0.2em 0 0;">Historia rozmowy, stan zadania</p>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <p><strong>Wyjaśnienie:</strong><br>
+                    🔹 Pokaż każdy element jako „warstwę" kontekstu. Odsłaniaj fragmenty po kolei.<br>
+                    🔹 System Prompt = kim jest model, jakie ma zasady.<br>
+                    🔹 Tools = co model MOŻE zrobić: API, bazy danych, funkcje.<br>
+                    🔹 RAG/Wiedza = dokumenty, procedury dopasowane do pytania.<br>
+                    🔹 Pamięć = historia rozmowy, preferencje użytkownika.</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Pomyślcie o przygotowaniu sali konferencyjnej: System prompt = agenda spotkania.
+                    Tools = laptop i projektor. RAG = materiały na stole. Memory = notatki z poprzedniego spotkania.
+                    Im lepiej przygotowana sala, tym lepsze spotkanie."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 Zapytaj: „Gdybyście budowali chatbota dla waszej firmy — które z tych 4 warstw byłyby najważniejsze?"<br>
+                    🔹 Zbierz odpowiedzi — zazwyczaj padają Tools lub RAG.</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Przyjrzyjmy się dwóm konkretnym technikom: Tool Calling i Structured Outputs — to jest to, co
+                    odróżnia nowoczesne aplikacje AI od prostych chatbotów."</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.75em;">
+                <h2>🔧 Tool Calling – model używa narzędzi</h2>
+
+                <p class="fragment">Model nie „wie" wszystkiego – ale może <strong>wywołać funkcję</strong>, żeby się dowiedzieć.</p>
+
+                <pre class="fragment"><code class="language-python" data-trim>
+tools = [{
+  "type": "function",
+  "function": {
+    "name": "classify_ticket",
+    "description": "Classify an IT ticket",
+    "parameters": {
+      "properties": {
+        "category": {"enum": ["Hardware","Network","Software","Account"]},
+        "confidence": {"type": "number"},
+        "reasoning": {"type": "string"}
+}}}}]
+                </code></pre>
+
+                <p class="fragment" style="margin-top: 0.5em;">
+                    🤖 Model widzi narzędzia → decyduje, które wywołać → zwraca structured output
+                </p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Dwa kluczowe pojęcia nowoczesnego AI: Tool Calling — model SAM decyduje, które narzędzie użyć.
+                    Popatrzcie na ten JSON — to definicja 'narzędzia', które model może wywołać."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Wyobraźcie sobie nowego pracownika. Zamiast mówić mu 'wygoogluj to sam', dajecie mu
+                    listę narzędzi: 'tu masz CRM, tu bazę wiedzy, tu system ticketowy'. Model działa tak samo —
+                    widzi, jakie narzędzia ma do dyspozycji, i sam decyduje, którego użyć."</p>
+
+                    <p><strong>Wyjaśnienie:</strong><br>
+                    🔹 Pokaż kod z slajdu — to definicja narzędzia w formacie JSON.<br>
+                    🔹 Kluczowy punkt: w 2023 musieliśmy sami parsować output modelu. W 2026 model sam
+                    zwraca dane w strukturze, którą mu zdefiniowaliśmy.<br>
+                    🔹 Nie wchodź zbyt głęboko w implementację — zobaczymy to w praktyce w notebooku agenta.</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „A co model zwraca? Zobaczmy Structured Outputs — koniec z parsowaniem tekstu."</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.75em;">
+                <h2>📐 Structured Outputs – JSON mode</h2>
+
+                <div style="display: flex; gap: 1.5em; margin-top: 0.8em;">
+                    <div class="fragment" style="flex: 1;">
+                        <h4 style="color: #ff6666; margin: 0 0 0.3em;">❌ 2023</h4>
+                        <pre style="font-size: 0.8em;"><code class="language-text" data-trim>
+Prompt: "Classify this ticket"
+
+Output: "I would classify this
+as Network because..."
+                        </code></pre>
+                        <p style="font-size: 0.75em; color: #ff9999;">→ Parsowanie tekstu, regex...</p>
+                    </div>
+
+                    <div class="fragment" style="flex: 1;">
+                        <h4 style="color: #66ff66; margin: 0 0 0.3em;">✅ 2026</h4>
+                        <pre style="font-size: 0.8em;"><code class="language-json" data-trim>
+{
+  "category": "Network",
+  "confidence": 0.85,
+  "reasoning": "Printer via IP"
+}
+                        </code></pre>
+                        <p style="font-size: 0.75em; color: #99ff99;">→ Gotowy JSON, zero parsowania</p>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Porównajmy stare i nowe podejście. Po lewej: 2023, model gadał jak chciał. Po prawej: 2026, czysty JSON."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Pamiętacie regex? Kto kiedyś parsował odpowiedź LLM-a, żeby wyciągnąć jedną wartość?
+                    W 2023 to była codzienność — model zwracał tekst, a Ty musiałeś go 'obierać' jak cebulę."<br>
+                    🔹 „To jak formularz urzędowy vs list. List możesz napisać jak chcesz — pięknie, ale trudno go
+                    automatycznie przetworzyć. Formularz ma pola: imię, data, kwota. Model ze Structured Output
+                    zachowuje się jak pracownik wypełniający formularz."</p>
+
+                    <p><strong>Wyjaśnienie:</strong><br>
+                    🔹 Pokaż oba przykłady side-by-side.<br>
+                    🔹 Powiązanie z ćwiczeniem: „W naszym notebooku z agentem Pythonowym zobaczymy to w praktyce —
+                    model zwraca JSON z kategorią, pewnością i uzasadnieniem."</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „OK, wiemy jak model dostaje narzędzia i zwraca strukturę. Ale jest jeszcze kilka parametrów,
+                    które kontrolujemy — zobaczmy je."</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.85em;">
+                <h2>🌡️ Parametry modelu – co kontrolujemy?</h2>
+
+                <ul>
+                    <li class="fragment"><strong>Temperature</strong> – 0 = deterministic, 1.5 = kreatywny chaos
+                        <br><small>Klasyfikacja = 0, brainstorm = 1.0+</small>
+                    </li>
+                    <li class="fragment"><strong>Max tokens</strong> – limit długości odpowiedzi
+                        <br><small>Krótka odpowiedź = 100, esej = 4000</small>
+                    </li>
+                    <li class="fragment"><strong>Context window</strong> – ile tekstu model „pamięta"
+                        <br><small>GPT-4o: 128K, Claude: 200K, Gemini: 2M tokenów</small>
+                    </li>
+                    <li class="fragment"><strong>System prompt</strong> – „osobowość" i reguły modelu
+                        <br><small>Kim jest, jak się zachowuje, czego nie wolno</small>
+                    </li>
+                </ul>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Mamy kilka 'pokręteł', którymi sterujemy modelem. Najważniejsze to temperatura i context window."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Temperature to jak pokrętło kreatywności. Na 0 model jest urzędnikiem — zawsze ta sama odpowiedź.
+                    Na 1.5 jest artystą — każda odpowiedź inna, czasem genialna, czasem szalona."<br>
+                    🔹 „Context window to jak biurko modelu — ile dokumentów może mieć otwartych naraz.
+                    GPT-3 miał małe biurko (4K tokenów). Gemini 2.5 ma cały magazyn (2M tokenów)."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 „Jaką temperaturę ustawilibyście do klasyfikacji zgłoszeń?" (0 — chcemy powtarzalność)<br>
+                    🔹 „A do pisania kreatywnych opisów produktów?" (0.7-1.0)</p>
+
+                    <p><strong>Wskazówki do moderowania:</strong><br>
+                    🔹 Pokażecie to za chwilę w Ollama — ta sama prośba na temperature 0 vs 1.5.<br>
+                    🔹 Jeśli ktoś pyta o top_p, frequency_penalty — powiedz: „Zaawansowane parametry, temperature
+                    wystarczy w 90% przypadków."</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Teraz zobaczmy, jakie modele mamy do dyspozycji — i czym się różnią."</p>
+                </aside>
+            </section>
+
+            <!-- #region - Model types -->
+
+            <section>
+                <section>
+                    <h2>🧱 Typy modeli językowych</h2>
+                    <ul>
+                        <li class="fragment"><strong>Foundation model:</strong> ogólny, ogromny, bez specjalizacji (np.
+                            GPT-4o, Claude, Gemini)
+                        </li>
+                        <li class="fragment"><strong>Fine-tuned:</strong> ten sam model, ale podciągnięty pod konkretny
+                            temat (np. model do analizy CV)</li>
+                        <li class="fragment"><strong>RAG:</strong> najpierw szuka informacji w dokumentach, potem
+                            odpowiada</li>
+                    </ul>
+                    <aside class="notes">
+                        <p><strong>Intro:</strong><br>
+                        „Nie wszystkie modele są takie same. Zobaczmy 3 główne typy i kiedy którego użyć."</p>
+
+                        <p><strong>Storytelling:</strong><br>
+                        🔹 Foundation = encyklopedyczny student — wie dużo, ale ogólnie.<br>
+                        🔹 Fine-tuned = specjalista z wieloletnim doświadczeniem w jednej branży.<br>
+                        🔹 RAG = konsultant z dostępem do dokumentacji — sprawdza zanim odpowie.</p>
+
+                        <p><strong>Aktywizacja:</strong><br>
+                        🔹 Zapytaj: „Który typ najbardziej pasowałby do waszej firmy?"</p>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>📊 Kiedy użyć którego?</h2>
+                    <ul>
+                        <li class="fragment"><strong>Foundation:</strong> kreatywne zadania, testowanie, „pogadaj z AI"
+                        </li>
+                        <li class="fragment"><strong>Fine-tuned:</strong> dokładność, konkretne zadania, np. CV, analiza
+                            logów</li>
+                        <li class="fragment"><strong>RAG:</strong> chatbot firmowy, AI z dostępem do dokumentacji</li>
+                    </ul>
+                    <aside class="notes">
+                        <p><strong>Wyjaśnienie:</strong><br>
+                        🔹 Jeśli masz swoje dane treningowe — fine-tune.<br>
+                        🔹 Jeśli masz swoje źródła/dokumentację — RAG.<br>
+                        🔹 Jeśli chcesz pogadać o sensie życia — foundation.</p>
+
+                        <p><strong>Wskazówki do moderowania:</strong><br>
+                        🔹 Większość firm zaczyna od RAG — bo nie wymaga trenowania modelu, tylko bazy wiedzy.<br>
+                        🔹 Fine-tuning jest droższy i trudniejszy, ale daje najlepsze wyniki na specjalistycznych danych.</p>
+
+                        <p><strong>Przejście:</strong><br>
+                        „Sprawdźmy, czy rozróżniacie te typy — czas na szybki quiz!"</p>
+                    </aside>
+                </section>
+            </section>
+
+            <!-- Quiz typy modeli -->
+            <section>
+                <section>
+                    <h2>Quiz: Typy modeli LLM</h2>
+                    <p>Reaguj na Zoomie:<br>
+                        👍 = Foundation | 🎉 = Fine-tuned | 😲 = RAG</p>
+                    <aside class="notes">
+                        <p>„6 scenariuszy z 2026. Każdy to realne zastosowanie AI, które moglibyście spotkać w swojej firmie.
+                        Wasz cel: rozpoznać, który TYP modelu stoi za każdym rozwiązaniem."</p>
+                        <p>Tempo: ~20 sekund na reakcje, potem odpowiedź. Nie spiesz się — daj czas na dyskusję.</p>
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 1/6</h2>
+                    <p>📋 Agent AI w firmie sprawdza Confluence i Jira, zanim odpowie na pytanie pracownika</p>
+                    <small>👍 Foundation | 🎉 Fine-tuned | 😲 RAG</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 1/6 — Odpowiedź</h2>
+                    <p>📋 Agent AI z dostępem do Confluence i Jira</p>
+                    <p style="margin-top: 1em;">➡️ <strong>😲 RAG</strong></p>
+                    <aside class="notes">
+                        <p>🔹 Model przeszukuje firmowe źródła (Confluence, Jira) ZANIM odpowie — klasyczny RAG.<br>
+                        🔹 „To jak nowy pracownik, który przed odpowiedzią zagląda do wiki firmy."<br>
+                        🔹 Kluczowe: model SAM nie zna waszych danych — musi je najpierw pobrać.</p>
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 2/6</h2>
+                    <p>🤖 Cursor / Claude Code generuje kod na podstawie opisu w komentarzu</p>
+                    <small>👍 Foundation | 🎉 Fine-tuned | 😲 RAG</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 2/6 — Odpowiedź</h2>
+                    <p>🤖 Cursor / Claude Code — generowanie kodu</p>
+                    <p style="margin-top: 1em;">➡️ <strong>👍 Foundation</strong></p>
+                    <aside class="notes">
+                        <p>🔹 Modele w Cursor i Claude Code to foundation models (Claude, GPT) — nie są dotrenowywane na WASZYM kodzie.<br>
+                        🔹 „Ale czemu tak dobrze piszą kod?" — bo w danych treningowych było dużo kodu z GitHuba.<br>
+                        🔹 Pułapka: „Ale Cursor widzi moje pliki!" — tak, przez context window (jak RAG), ale SAM MODEL jest foundation.
+                        To context engineering, nie fine-tuning.</p>
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 3/6</h2>
+                    <p>🎯 System klasyfikujący zgłoszenia IT na podstawie 50 000 historycznych ticketów</p>
+                    <small>👍 Foundation | 🎉 Fine-tuned | 😲 RAG</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 3/6 — Odpowiedź</h2>
+                    <p>🎯 Klasyfikator IT — 50K ticketów treningowych</p>
+                    <p style="margin-top: 1em;">➡️ <strong>🎉 Fine-tuned</strong></p>
+                    <aside class="notes">
+                        <p>🔹 Model WYTRENOWANY na waszych danych — nauczył się wzorców z 50K ticketów.<br>
+                        🔹 „Krzysztof, to mogłoby działać z waszymi incydentami — model uczy się z historii zamkniętych zgłoszeń."<br>
+                        🔹 Różnica vs RAG: nie szuka w ticketach w runtime — NAUCZYŁ SIĘ wzorców podczas treningu.</p>
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 4/6</h2>
+                    <p>📝 Claude generuje podsumowanie spotkania z wklejonej transkrypcji</p>
+                    <small>👍 Foundation | 🎉 Fine-tuned | 😲 RAG</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 4/6 — Odpowiedź</h2>
+                    <p>📝 Claude — podsumowanie z transkrypcji</p>
+                    <p style="margin-top: 1em;">➡️ <strong>👍 Foundation</strong></p>
+                    <aside class="notes">
+                        <p>🔹 Model dostaje tekst w prompcie i streszcza — to ogólna zdolność foundation modelu.<br>
+                        🔹 Pułapka: „Ale daję mu MOJE dane!" — tak, ale w context window, nie jako trening.
+                        Model nie uczy się z tego na przyszłość.<br>
+                        🔹 Kluczowa zasada: jeśli dane idą w prompt → foundation/RAG. Jeśli dane zmieniają WAGI modelu → fine-tuned.</p>
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 5/6</h2>
+                    <p>🏥 Model wytrenowany na 100K raportów klinicznych do klasyfikacji efektów ubocznych leków</p>
+                    <small>👍 Foundation | 🎉 Fine-tuned | 😲 RAG</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 5/6 — Odpowiedź</h2>
+                    <p>🏥 Klasyfikator efektów ubocznych — pharma</p>
+                    <p style="margin-top: 1em;">➡️ <strong>🎉 Fine-tuned</strong></p>
+                    <aside class="notes">
+                        <p>🔹 „Wytrenowany na 100K raportów" = fine-tuning. Wagi modelu zostały zmienione.<br>
+                        🔹 Jakub, to jest realne w pharma — FDA i EMA coraz bardziej akceptują AI w pharmacovigilance.<br>
+                        🔹 Dlaczego nie RAG? Bo model musi ROZUMIEĆ terminologię medyczną i wzorce — samo wyszukiwanie nie wystarczy.</p>
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 6/6</h2>
+                    <p>🛒 Chatbot e-commerce przeszukuje katalog 10K produktów i historię zamówień klienta</p>
+                    <small>👍 Foundation | 🎉 Fine-tuned | 😲 RAG</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 6/6 — Odpowiedź</h2>
+                    <p>🛒 Chatbot e-commerce — katalog + zamówienia</p>
+                    <p style="margin-top: 1em;">➡️ <strong>😲 RAG</strong></p>
+                    <aside class="notes">
+                        <p>🔹 „Przeszukuje" = retrieval w runtime. Model nie zna waszych produktów — szuka ich w bazie.<br>
+                        🔹 Analogia: „sprzedawca, który sprawdza magazyn i historię klienta zanim doradzi."<br>
+                        🔹 To najpopularniejszy wzorzec w e-commerce 2026 — tańszy niż fine-tuning, łatwy do aktualizacji.</p>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>🧠 Zasada na wynos</h2>
+                    <ul>
+                        <li class="fragment"><strong>Dane w prompcie</strong> → Foundation (lub RAG, jeśli są pobierane automatycznie)</li>
+                        <li class="fragment"><strong>Dane zmieniają wagi modelu</strong> → Fine-tuned</li>
+                        <li class="fragment"><strong>Model szuka danych przed odpowiedzią</strong> → RAG</li>
+                    </ul>
+                    <p class="fragment" style="margin-top: 1em; color: #42affa; font-size: 0.9em;">
+                        💡 Większość firm w 2026 zaczyna od RAG — nie wymaga trenowania, łatwo aktualizować dane
+                    </p>
+                    <aside class="notes">
+                        <p>🔹 „Te 3 kategorie to nie jest teoria — to decyzja, którą podejmiecie wybierając rozwiązanie AI dla firmy."<br>
+                        🔹 „RAG jest najpopularniejszy, bo nie musisz trenować modelu — wystarczy baza wiedzy."<br>
+                        🔹 „Fine-tuning daje najlepsze wyniki, ale kosztuje i wymaga danych + MLOps."</p>
+                    </aside>
+                </section>
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - Popularne modele i porównanie -->
+
+            <section style="font-size: 0.75em;">
+                <h2>📦 Popularne modele LLM – 2026</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Firma</th>
+                            <th>Charakterystyka</th>
+                            <th>Lokalnie?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="fragment">
+                            <td><strong>GPT-4o</strong></td>
+                            <td>OpenAI</td>
+                            <td>Multimodalny, szybki, popularny</td>
+                            <td>❌ API</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Claude 4</strong></td>
+                            <td>Anthropic</td>
+                            <td>200K kontekst, bezpieczny, analityczny</td>
+                            <td>❌ API</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Gemini 2.5</strong></td>
+                            <td>Google</td>
+                            <td>2M kontekst, integracja z Google</td>
+                            <td>❌ API</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Gemma 3</strong></td>
+                            <td>Google</td>
+                            <td>4B–27B, multimodalny, świetny lokalnie</td>
+                            <td>✅ Ollama</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Llama 4</strong></td>
+                            <td>Meta</td>
+                            <td>Open source, duży ekosystem</td>
+                            <td>✅ Ollama</td>
+                        </tr>
+                        <tr class="fragment">
+                            <td><strong>Phi-4</strong></td>
+                            <td>Microsoft</td>
+                            <td>Mały, szybki, świetny do zadań specjalistycznych</td>
+                            <td>✅ Ollama</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Szybki przegląd rynku modeli 2026. Zwróćcie uwagę na kolumnę 'Lokalnie?' —
+                    to kluczowa informacja dla firm dbających o prywatność."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Rynek modeli to jak rynek samochodów. GPT-4o i Claude to limuzyny — drogie, potężne, w chmurze.
+                    Gemma 3 i Phi-4 to miejskie auta — lekkie, szybkie, na Twoim laptopie."<br>
+                    🔹 Podkreśl: context window rośnie: od 4K (GPT-3) do 2M (Gemini) — to zmienia grę.</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 Zapytaj: „Gdybyście mieli wybrać model do wdrożenia w swojej firmie —
+                    co byłoby ważniejsze: koszt, prywatność, czy jakość?"<br>
+                    🔹 Zbierz odpowiedzi — zazwyczaj prywatność wygrywa w firmach regulowanych.</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Zamiast mi wierzyć na słowo — sprawdźcie sami w blind teście. Chatbot Arena!"</p>
+                </aside>
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - Ćwiczenie: Chatbot Arena -->
+
+            <section style="font-size: 0.9em;">
+                <h2>⚔️ Ćwiczenie: Chatbot Arena</h2>
+
+                <p class="fragment">Porównajmy modele na żywo – blind test!</p>
+                <p class="fragment" style="margin-top: 1em;">
+                    👉 <a href="https://lmarena.ai" target="_blank" style="color: #42affa;">lmarena.ai</a>
+                </p>
+
+                <ul style="margin-top: 1em;">
+                    <li class="fragment">Wpiszcie prompt → dostajecie 2 odpowiedzi od nieznanych modeli</li>
+                    <li class="fragment">Wybierzcie lepszą → na końcu zobaczcie, jakie to były modele</li>
+                    <li class="fragment">🎯 Pytanie: „Classify this IT ticket: Network printer not responding"</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em; font-size: 0.85em;">
+                    ⏱️ 5 minut – potem porównujemy wyniki na czacie!
+                </p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Zamiast mi wierzyć na słowo, że różne modele dają różne wyniki — sprawdźcie sami. W blind teście.
+                    Nie widzicie nazw modeli, dopóki nie zagłosujecie."</p>
+
+                    <p><strong>Jak poprowadzić:</strong><br>
+                    🔹 Otwórz lmarena.ai na projektorze. Pokaż flow: wpisujesz prompt → 2 odpowiedzi
+                    (Model A vs B) → głosujesz → widzisz nazwy.<br>
+                    🔹 Uczestnicy robią to samo na swoich komputerach.<br>
+                    🔹 Sugerowany prompt: „Classify this IT ticket: Network printer not responding.
+                    Respond with category and reasoning."<br>
+                    🔹 Czas: 5 minut.</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 Po 5 minutach: „Które modele wygrywały? Kto był zaskoczony?"<br>
+                    🔹 „Czy droższy model zawsze wygrywał?"</p>
+
+                    <p><strong>Wskazówki do moderowania:</strong><br>
+                    🔹 Jeśli lmarena.ai nie działa: alternatywa Poe.com lub Hugging Face Chat.<br>
+                    🔹 Puenta: „Nie zawsze najdroższy model = najlepszy do waszego zadania. Testujcie!"</p>
+                </aside>
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - Vibe Coding -->
+
+            <section style="font-size: 0.85em;">
+                <h2>🎨 Vibe Coding — budujemy razem!</h2>
+
+                <p class="fragment">AI pisze kod. <strong>Wy decydujecie co.</strong></p>
+
+                <div class="fragment" style="background: #1a2a3a; padding: 0.8em; border-radius: 8px; margin-top: 0.8em;">
+                    <p style="margin: 0;"><strong>Format:</strong> 4 rundy decyzji</p>
+                    <p style="margin: 0.3em 0 0;">Każda runda → głosujecie reakcjami Zoom → trener promptuje AI</p>
+                    <p style="margin: 0.3em 0 0;">Na koniec → działająca aplikacja zbudowana w ~20 minut</p>
+                </div>
+
+                <p class="fragment" style="margin-top: 0.8em; font-size: 0.85em;">
+                    🛠️ Narzędzie: Claude Code / Cursor (trener na ekranie)
+                </p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Vibe coding to najgorętszy temat w tech w 2026 — opisujesz co chcesz, AI pisze kod.
+                    Ale zamiast ja sam decydował — wy będziecie sterować. W 4 rundach zagłosujecie,
+                    co budujemy, jaki framework, jakie funkcje. Ja tylko promptuję AI."</p>
+
+                    <p><strong>Jak poprowadzić:</strong><br>
+                    🔹 Otwórz Claude Code lub Cursor na projektorze (screen share).<br>
+                    🔹 Po każdej rundzie głosowania: sformułuj prompt na żywo, pokaż jak AI generuje kod.<br>
+                    🔹 Testuj po każdym kroku — uruchom aplikację i pokaż wynik.<br>
+                    🔹 Jeśli AI wygeneruje błąd — to moment dydaktyczny! „Dlatego nadal potrzebujemy ludzi."</p>
+
+                    <p><strong>Czas:</strong> ~20-25 minut (4 rundy × ~5 min)</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.85em;">
+                <h2>🎨 Runda 1: Co budujemy?</h2>
+
+                <p>Głosujcie reakcjami Zoom!</p>
+
+                <div style="margin-top: 1em; font-size: 1.1em;">
+                    <p class="fragment">👍 <strong>Dashboard zgłoszeń IT</strong> — tabela, filtry, statusy</p>
+                    <p class="fragment">🎉 <strong>Wyszukiwarka bazy wiedzy</strong> — search bar + wyniki</p>
+                    <p class="fragment">😲 <strong>Monitor statusu systemów</strong> — karty, kolory, uptime</p>
+                </div>
+
+                <aside class="notes">
+                    <p>🔹 Daj 10 sekund na reakcje. Policz i ogłoś wynik.<br>
+                    🔹 Sformułuj prompt np.: „Zbuduj aplikację Streamlit: dashboard zgłoszeń IT
+                    z tabelą, filtrami po kategorii i statusie, i kolorowym priorytetem."<br>
+                    🔹 Uruchom AI — pokaż jak generuje kod.</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.85em;">
+                <h2>🎨 Runda 2: Jaki framework?</h2>
+
+                <p>Głosujcie!</p>
+
+                <div style="margin-top: 1em; font-size: 1.1em;">
+                    <p class="fragment">👍 <strong>Streamlit</strong> — Python, prosty, idealny do prototypów</p>
+                    <p class="fragment">🎉 <strong>Flask + HTML</strong> — klasyka, pełna kontrola</p>
+                    <p class="fragment">😲 <strong>Czysty HTML/JS</strong> — zero backendu, od razu w przeglądarce</p>
+                </div>
+
+                <aside class="notes">
+                    <p>🔹 Dla tego typu aplikacji Streamlit jest najszybszy — ale niech głosują!<br>
+                    🔹 Dostosuj prompt do wybranego frameworka.<br>
+                    🔹 Po wygenerowaniu — uruchom i pokaż wynik na żywo.</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.85em;">
+                <h2>🎨 Runda 3: Pierwsza funkcja?</h2>
+
+                <p>Głosujcie!</p>
+
+                <div style="margin-top: 1em; font-size: 1.1em;">
+                    <p class="fragment">👍 <strong>Wykresy i statystyki</strong> — ile zgłoszeń per kategoria</p>
+                    <p class="fragment">🎉 <strong>Wyszukiwanie</strong> — filtruj po tekście, kategorii</p>
+                    <p class="fragment">😲 <strong>Formularz dodawania</strong> — nowe zgłoszenie z poziomu UI</p>
+                </div>
+
+                <aside class="notes">
+                    <p>🔹 Prompt np.: „Dodaj wykres słupkowy z liczbą zgłoszeń per kategoria
+                    i wykres kołowy ze statusami."<br>
+                    🔹 Pokaż jak AI rozumie kontekst istniejącego kodu i dodaje nową funkcję.</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.85em;">
+                <h2>🎨 Runda 4: Finishing touch?</h2>
+
+                <p>Ostatnie głosowanie!</p>
+
+                <div style="margin-top: 1em; font-size: 1.1em;">
+                    <p class="fragment">👍 <strong>Dark mode</strong> — ciemny motyw</p>
+                    <p class="fragment">🎉 <strong>Eksport CSV</strong> — pobierz dane</p>
+                    <p class="fragment">😲 <strong>AI klasyfikator</strong> — wpisz zgłoszenie, AI kategoryzuje</p>
+                </div>
+
+                <p class="fragment" style="margin-top: 1em; font-size: 0.85em;">
+                    🎯 Aplikacja gotowa! Od zera do działającego narzędzia w ~20 minut.
+                </p>
+
+                <aside class="notes">
+                    <p>🔹 Po ostatnim kroku podsumuj: „Właśnie zbudowaliśmy działającą aplikację
+                    w 20 minut. Żaden z Was nie pisał kodu — a mimo to wiecie, co się dzieje pod spodem,
+                    bo dzisiaj budowaliście agentów ręcznie. To jest prawdziwy power user 2026."</p>
+
+                    <p><strong>Puenta:</strong><br>
+                    „Vibe coding to nie magia — to narzędzie. Działa najlepiej, gdy ROZUMIESZ co AI generuje.
+                    Dlatego najpierw uczymy się pisać agentów od zera, a potem przyspieszamy z AI."</p>
+                </aside>
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - Ćwiczenie: Ollama Modelfile -->
+
+            <section style="font-size: 0.8em;">
+                <h2>🛠️ Ćwiczenie: Budujemy specjalistę z Ollama Modelfile</h2>
+
+                <p class="fragment">Stwórzmy własnego bota IT – z nazwą, osobowością i parametrami!</p>
+
+                <pre class="fragment"><code class="language-dockerfile" data-trim>
+FROM gemma3:4b
+PARAMETER temperature 0
+SYSTEM """You are ITBot, an IT helpdesk assistant.
+- Always respond in Polish
+- Classify into: Sprzet, Siec, Oprogramowanie, Konto
+- Explain reasoning, suggest next step"""
+                </code></pre>
+
+                <pre class="fragment" style="margin-top: 0.3em;"><code class="language-bash" data-trim>
+ollama create itbot -f /tmp/ITBot && ollama run itbot
+                </code></pre>
+
+                <p class="fragment" style="font-size: 0.85em; margin-top: 0.5em;">🎯 Przetestuj: „Drukarka sieciowa nie odpowiada po awarii prądu"</p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Teraz zbudujemy własnego specjalistę IT. Z nazwą, osobowością, parametrami. W 30 sekund."</p>
+
+                    <p><strong>Jak poprowadzić:</strong><br>
+                    🔹 Pokaż Modelfile ze slajdu — wyjaśnij: FROM = bazowy model, PARAMETER = ustawienia,
+                    SYSTEM = osobowość.<br>
+                    🔹 Uruchom na projektorze: <code>ollama create itbot -f /tmp/ITBot &amp;&amp; ollama run itbot</code><br>
+                    🔹 Przetestuj na 3 zgłoszeniach:<br>
+                    — „Drukarka sieciowa nie odpowiada po awarii prądu"<br>
+                    — „Kolega nie może się zalogować po urlopie"<br>
+                    — „Excel zawiesza się przy dużych plikach"<br>
+                    🔹 Czas: ~10 minut.</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Stworzyliście własnego specjalistę IT w 30 sekund. Ma temperaturę 0 (deterministyczny),
+                    zawsze odpowiada po polsku, zawsze klasyfikuje i sugeruje kolejny krok. W firmie można takich
+                    'botów' mieć kilka — do HR, do IT, do finansów."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 „Co byście zmienili w system prompcie?"<br>
+                    🔹 „Jakie inne boty byłyby przydatne w waszej firmie?"</p>
+
+                    <p><strong>Wskazówki do moderowania:</strong><br>
+                    🔹 Fallback: jeśli ktoś nie ma Ollama — może to zrobić w ChatGPT ustawiając Custom Instructions.<br>
+                    🔹 Jeśli Ollama wolno odpowiada — wyjaśnij, że to mały model na CPU, w produkcji
+                    byłby szybszy na GPU lub przez API.</p>
+                </aside>
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - Co LLM umie i czego nie -->
+
+            <section>
+                <h2>🤔 Co LLM umie – a czego nie?</h2>
+                <ul>
+                    <li class="fragment">✅ Generowanie tekstu, kodu, podsumowań, tłumaczenie</li>
+                    <li class="fragment">✅ Klasyfikacja, analiza sentymentu, ekstrakcja danych</li>
+                    <li class="fragment">❌ Nie „rozumie" świata – halucynacje, wymyślanie faktów</li>
+                    <li class="fragment">❌ Nie ma pamięci między sesjami (chyba że mu ją zbudujesz!)</li>
+                    <li class="fragment">⚠️ Context Engineering rozwiązuje wiele tych ograniczeń</li>
+                </ul>
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Zanim pójdziemy dalej — zatrzymajmy się na chwilę. LLM to potężne narzędzie,
+                    ale ma realne ograniczenia."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „LLM to bardzo pewny siebie znajomy. Mówi pięknie, płynnie... ale czasem kompletnie
+                    wymyśla fakty. Dlatego potrzebujemy Context Engineering — żeby dać mu prawdziwe źródła."<br>
+                    🔹 „W jednej firmie prawnik użył wyników AI w sądzie. Problem? AI wymyśliło 3 z 5
+                    cytowanych precedensów. To nie anegdota — to realny przypadek."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 Zapytaj: „Kto z Was miał sytuację, że AI pewnie podało błędną odpowiedź?"<br>
+                    🔹 Zbierz 2-3 przykłady — to buduje świadomość i przygotowuje grunt pod blok o ryzykach.</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Te ograniczenia to powód, dla którego budujemy agentów — systemy, które nie tylko
+                    generują tekst, ale mogą sprawdzać, planować i działać."</p>
+                </aside>
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - Architektura agentów AI -->
+
+            <section>
+                <h2>🤖 Od modeli do agentów AI</h2>
+
+                <p class="fragment">LLM to potężny silnik… ale sam nie wie, co ma robić 🚗</p>
+
+                <ul style="margin-top: 1em;">
+                    <li class="fragment"><strong>Agent = LLM + Tools + Memory + Planning</strong></li>
+                    <li class="fragment">Model decyduje, które narzędzie użyć</li>
+                    <li class="fragment">Pamięta kontekst rozmowy</li>
+                    <li class="fragment">Planuje kolejne kroki</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em;">
+                    🎯 To jest kierunek, w którym idzie cała branża AI w 2026
+                </p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Do tej pory budowaliśmy chatboty — odpowiadały na pytania. Teraz budujemy agentów —
+                    wykonują zadania. LLM to silnik. Agent to cały samochód."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Chatbot to informacja. Agent to akcja. Chatbot mówi: 'Twoje zgłoszenie dotyczy sieci.'
+                    Agent mówi: 'Sprawdzam ping do drukarki... brak odpowiedzi... tworzę ticket w Jira...
+                    powiadamiam zespół sieciowy.' To fundamentalna zmiana."<br>
+                    🔹 „Model to jak nowy samochód bez kierowcy. Agent to kierowca, który wie, gdzie jechać,
+                    zatrzyma się na czerwonym i zamówi wam kawę po drodze."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 „Kto z Was używa Copilota, Cursora albo Claude Code? To wszystko są agenci AI — mają dostęp
+                    do waszego kodu, pamiętają kontekst i sami decydują, co zrobić dalej."</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Zobaczmy, z jakich komponentów składa się agent — a potem zaprojektujecie swojego."</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.8em;">
+                <h2>📚 Komponenty agenta AI</h2>
+                <ul>
+                    <li class="fragment"><strong>🧠 Model językowy (LLM):</strong> rozumienie instrukcji, podejmowanie decyzji</li>
+                    <li class="fragment"><strong>🔧 Narzędzia (Tools):</strong> API, bazy danych, funkcje systemowe</li>
+                    <li class="fragment"><strong>💾 Pamięć:</strong> krótkoterminowa (rozmowa) i długoterminowa (baza wiedzy)</li>
+                    <li class="fragment"><strong>📋 Planowanie:</strong> podział zadania na kroki, ustalanie kolejności</li>
+                    <li class="fragment"><strong>👁️ Monitorowanie:</strong> kontrola poprawności i bezpieczeństwa</li>
+                </ul>
+
+                <aside class="notes">
+                    <p><strong>Wyjaśnienie:</strong><br>
+                    🔹 Pokaż 5 komponentów jako puzzle — każdy jest potrzebny do pełnego agenta.<br>
+                    🔹 LLM = mózg. Tools = ręce. Memory = notatnik. Planning = strategia. Monitoring = sumienie.</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Przykład: agent logistyczny. Sprawdza API pogody → analizuje bazę zamówień →
+                    decyduje, czy zmienić trasę → wysyła powiadomienie kierowcy. Każdy krok to inny komponent."</p>
+
+                    <p><strong>Wskazówki do moderowania:</strong><br>
+                    🔹 Podkreśl: agent to coś więcej niż LLM — to system modularny.<br>
+                    🔹 W naszym ćwiczeniu Pythonowym po obiedzie zbudujemy to krok po kroku.</p>
+                </aside>
+            </section>
+
+            <!-- Chatbot vs Agent visual -->
+            <section style="font-size: 0.75em;">
+                <h2>💬 vs 🤖 — Chatbot vs Agent</h2>
+
+                <div style="display: flex; gap: 1.5em; margin-top: 0.8em;">
+                    <div class="fragment" style="flex: 1; background: #2a1a1a; padding: 0.8em; border-radius: 10px; border: 2px solid #ff6666;">
+                        <h3 style="margin: 0 0 0.5em; color: #ff6666;">💬 Chatbot</h3>
+                        <div style="text-align: center; font-size: 0.9em; line-height: 1.8;">
+                            <div style="background: #3a2a2a; padding: 0.3em 0.6em; border-radius: 6px; margin-bottom: 0.3em;">Uzytkownik pyta</div>
+                            <div>↓</div>
+                            <div style="background: #3a2a2a; padding: 0.3em 0.6em; border-radius: 6px; margin-bottom: 0.3em;">LLM generuje tekst</div>
+                            <div>↓</div>
+                            <div style="background: #3a2a2a; padding: 0.3em 0.6em; border-radius: 6px;">Odpowiedz tekstowa</div>
+                        </div>
+                        <p style="margin: 0.6em 0 0; color: #ff9999; text-align: center; font-size: 0.85em;">
+                            "Twoje zgloszenie dotyczy sieci."
+                        </p>
+                    </div>
+
+                    <div class="fragment" style="flex: 1; background: #1a2a1a; padding: 0.8em; border-radius: 10px; border: 2px solid #66ff66;">
+                        <h3 style="margin: 0 0 0.5em; color: #66ff66;">🤖 Agent</h3>
+                        <div style="text-align: center; font-size: 0.9em; line-height: 1.8;">
+                            <div style="background: #2a3a2a; padding: 0.3em 0.6em; border-radius: 6px; margin-bottom: 0.3em;">Uzytkownik pyta</div>
+                            <div>↓</div>
+                            <div style="background: #2a3a2a; padding: 0.3em 0.6em; border-radius: 6px; margin-bottom: 0.3em;">LLM <strong>decyduje</strong> i uzywa narzedzi</div>
+                            <div>↓</div>
+                            <div style="background: #2a3a2a; padding: 0.3em 0.6em; border-radius: 6px; margin-bottom: 0.3em;">Sprawdza baze wiedzy, tworzy ticket</div>
+                            <div>↓</div>
+                            <div style="background: #2a3a2a; padding: 0.3em 0.6em; border-radius: 6px;">Odpowiedz + <strong>wykonana akcja</strong></div>
+                        </div>
+                        <p style="margin: 0.6em 0 0; color: #99ff99; text-align: center; font-size: 0.85em;">
+                            "Sprawdzilem ping — brak. Ticket T-026 utworzony."
+                        </p>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Chatbot to informacja. Agent to akcja. Chatbot mowi: 'Twoje zgloszenie dotyczy sieci.'
+                    Agent mowi: 'Sprawdzam ping do drukarki... brak odpowiedzi... tworze ticket w Jira...
+                    powiadamiam zespol sieciowy.' To fundamentalna zmiana."<br>
+                    🔹 Analogia do zycia: chatbot = asystent glosowy, ktory mowi 'Sprawdz pogode na telefonie'.
+                    Agent = asystent, ktory SAM sprawdza pogode, bierze parasol i zamawia Ubera.</p>
+                </aside>
+            </section>
+
+            <!-- Agent Loop visual -->
+            <section style="font-size: 0.7em;">
+                <h2>🔄 Petla agenta — jak to dziala?</h2>
+
+                <div style="position: relative; margin-top: 0.6em;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5em; flex-wrap: wrap;">
+                        <div class="fragment" style="background: #1a3a5a; padding: 0.5em 0.8em; border-radius: 8px; border: 2px solid #42affa; text-align: center;">
+                            <div style="font-size: 1.3em;">👤</div>
+                            <div><strong>Uzytkownik</strong></div>
+                            <div style="font-size: 0.85em; color: #aaa;">"Drukarka nie dziala"</div>
+                        </div>
+                        <div class="fragment" style="font-size: 1.5em;">→</div>
+                        <div class="fragment" style="background: #3a1a5a; padding: 0.5em 0.8em; border-radius: 8px; border: 2px solid #a64dff; text-align: center;">
+                            <div style="font-size: 1.3em;">🧠</div>
+                            <div><strong>LLM</strong></div>
+                            <div style="font-size: 0.85em; color: #aaa;">Analiza + decyzja</div>
+                        </div>
+                        <div class="fragment" style="font-size: 1.5em;">→</div>
+                        <div class="fragment" style="background: #1a3a1a; padding: 0.5em 0.8em; border-radius: 8px; border: 2px solid #4dff4d; text-align: center;">
+                            <div style="font-size: 1.3em;">🔧</div>
+                            <div><strong>Narzedzie</strong></div>
+                            <div style="font-size: 0.85em; color: #aaa;">search_kb("drukarka")</div>
+                        </div>
+                        <div class="fragment" style="font-size: 1.5em;">→</div>
+                        <div class="fragment" style="background: #3a1a5a; padding: 0.5em 0.8em; border-radius: 8px; border: 2px solid #a64dff; text-align: center;">
+                            <div style="font-size: 1.3em;">🧠</div>
+                            <div><strong>LLM</strong></div>
+                            <div style="font-size: 0.85em; color: #aaa;">Formuluje odpowiedz</div>
+                        </div>
+                        <div class="fragment" style="font-size: 1.5em;">→</div>
+                        <div class="fragment" style="background: #1a3a5a; padding: 0.5em 0.8em; border-radius: 8px; border: 2px solid #42affa; text-align: center;">
+                            <div style="font-size: 1.3em;">👤</div>
+                            <div><strong>Odpowiedz</strong></div>
+                            <div style="font-size: 0.85em; color: #aaa;">"Sprawdz ping do IP..."</div>
+                        </div>
+                    </div>
+
+                    <div class="fragment" style="text-align: center; margin-top: 0.8em; background: #2a2a2a; padding: 0.5em; border-radius: 8px;">
+                        <strong>Kluczowe:</strong> LLM jest wywolywany <strong>2 razy</strong> — raz na decyzje ("uzyc narzedzia?"), raz na odpowiedz
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „To jak wizyty u lekarza. Mowisz: 'Boli mnie brzuch'. Lekarz (LLM) mysli: potrzebuje
+                    badan. Zleca USG (narzedzie). Dostaje wyniki. I dopiero teraz mowi: 'To kamica nerkowa,
+                    przepisuje leki.' Dwa wywolania — jedno na decyzje, drugie na odpowiedz."<br>
+                    🔹 „To jest ta magiczna petla. W Pythonie to 20 linijek kodu. Po obiedzie napiszemy ja sami."</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.75em;">
+                <h2>🌍 Przykłady agentów AI w praktyce</h2>
+
+                <ul>
+                    <li class="fragment">📩 <strong>IT Helpdesk:</strong> klasyfikacja, baza wiedzy, eskalacja</li>
+                    <li class="fragment">📈 <strong>Asystent sprzedażowy:</strong> analiza leadów, oferty, follow-upy</li>
+                    <li class="fragment">🔍 <strong>Code Review:</strong> pull requesty, poprawki, bezpieczeństwo</li>
+                    <li class="fragment">📊 <strong>Data Analyst:</strong> SQL, raporty, wizualizacje</li>
+                    <li class="fragment">🛡️ <strong>Security:</strong> monitoring logów, anomalie, eskalacja</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 0.8em;">🌟 W 2026 agenci to codzienne narzędzia: Claude Code, Copilot, Cursor</p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Agenci to nie science fiction — to narzędzia, które już działają w firmach."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 Przejdź przez listę i do każdego daj krótki przykład z życia.<br>
+                    🔹 IT Helpdesk: „Automatycznie klasyfikuje zgłoszenie, szuka w bazie wiedzy, i eskaluje
+                    jeśli pewność jest niska — zamiast czekać na człowieka."<br>
+                    🔹 Code Review: „Sprawdza pull request, znajduje bugi bezpieczeństwa, proponuje poprawki."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 Zapytaj: „W której kategorii najchętniej zobaczylibyście agenta w swojej firmie?"<br>
+                    🔹 To bezpośrednie przygotowanie do ćwiczenia whiteboard.</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Teraz wasza kolej — zaprojektujecie własnego agenta na papierze!"</p>
+                </aside>
+            </section>
+
+            <!-- Orchestration patterns -->
+            <section style="font-size: 0.7em;">
+                <h2>🔀 Wzorce orkiestracji agentow</h2>
+                <p style="margin-bottom: 0.5em;">Nie kazdy agent to ta sama architektura. Oto 4 glowne wzorce:</p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6em;">
+                    <div class="fragment" style="background: #1a2a3a; padding: 0.6em; border-radius: 8px; border-left: 4px solid #42affa;">
+                        <h4 style="margin: 0; color: #42affa;">🚦 Router</h4>
+                        <p style="margin: 0.2em 0 0; font-size: 0.9em;">Klasyfikuj → wybierz sciezke → wykonaj</p>
+                        <p style="margin: 0.2em 0 0; font-size: 0.8em; color: #aaa;">Analogia: <strong>recepcja hotelowa</strong> — goscie kierowani do wlasciwego pietra</p>
+                        <p style="margin: 0.2em 0 0; font-size: 0.75em; color: #42affa;">Helpdesk, triage, routing</p>
+                    </div>
+                    <div class="fragment" style="background: #1a3a1a; padding: 0.6em; border-radius: 8px; border-left: 4px solid #4dff4d;">
+                        <h4 style="margin: 0; color: #4dff4d;">📋 Plan-and-Execute</h4>
+                        <p style="margin: 0.2em 0 0; font-size: 0.9em;">Jeden model planuje, tani model wykonuje</p>
+                        <p style="margin: 0.2em 0 0; font-size: 0.8em; color: #aaa;">Analogia: <strong>architekt + ekipa budowlana</strong> — plan rysuje drogi, buduje tani</p>
+                        <p style="margin: 0.2em 0 0; font-size: 0.75em; color: #4dff4d;">Redukcja kosztow o 90%</p>
+                    </div>
+                    <div class="fragment" style="background: #3a2a1a; padding: 0.6em; border-radius: 8px; border-left: 4px solid #ffb703;">
+                        <h4 style="margin: 0; color: #ffb703;">🪞 Reflect</h4>
+                        <p style="margin: 0.2em 0 0; font-size: 0.9em;">Agent sprawdza swoj wynik i poprawia</p>
+                        <p style="margin: 0.2em 0 0; font-size: 0.8em; color: #aaa;">Analogia: <strong>redaktor prasowy</strong> — pisze, czyta, poprawia, czyta znowu</p>
+                        <p style="margin: 0.2em 0 0; font-size: 0.75em; color: #ffb703;">QA, code review, recenzje</p>
+                    </div>
+                    <div class="fragment" style="background: #3a1a2a; padding: 0.6em; border-radius: 8px; border-left: 4px solid #ff4d6a;">
+                        <h4 style="margin: 0; color: #ff4d6a;">👤 Human-in-the-Loop</h4>
+                        <p style="margin: 0.2em 0 0; font-size: 0.9em;">Agent pyta czlowieka w kluczowych momentach</p>
+                        <p style="margin: 0.2em 0 0; font-size: 0.8em; color: #aaa;">Analogia: <strong>pilot automatyczny</strong> — leci sam, ale laduje pilot</p>
+                        <p style="margin: 0.2em 0 0; font-size: 0.75em; color: #ff4d6a;">Finanse, medycyna, prawo</p>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Nie kazdy agent to ta sama architektura. W zaleznosci od problemu, wybieramy inny wzorzec.
+                    Po obiedzie zbudujemy Router w LangGraph — ale warto wiedziec, ze sa tez inne."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 Router = recepcja hotelowa — gosc mowi czego potrzebuje, recepcjonista kieruje na wlasciwe pietro.<br>
+                    🔹 Plan-and-Execute = architekt rysuje plan, ekipa budowlana wykonuje. Architekta placi za myslenie, ekipe za rece.<br>
+                    🔹 Reflect = redaktor, ktory pisze artyktul, czyta go krytycznie, poprawia, czyta znowu. Petla samopoprawy.<br>
+                    🔹 Human-in-the-Loop = autopilot w samolocie — leci sam, ale ladowanie robi pilot.</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 „Ktory wzorzec pasowałby do waszego agenta z wczesniejszego cwiczenia?"</p>
+                </aside>
+            </section>
+
+            <!-- Real-life orchestration: restaurant kitchen -->
+            <section style="font-size: 0.75em;">
+                <h2>🍳 Orkiestracja w kuchni restauracji</h2>
+                <p style="margin-bottom: 0.5em;">Agenci AI dzialaja jak dobrze zorganizowana kuchnia:</p>
+
+                <div style="display: flex; gap: 0.5em; align-items: stretch; margin-top: 0.5em;">
+                    <div class="fragment" style="flex: 1; background: #3a2a1a; padding: 0.5em; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 1.8em;">📋</div>
+                        <div style="font-weight: bold; margin: 0.2em 0;">Kelner</div>
+                        <div style="font-size: 0.8em; color: #aaa;">Zbiera zamowienie<br><em>(Input)</em></div>
+                    </div>
+                    <div class="fragment" style="display: flex; align-items: center; font-size: 1.3em;">→</div>
+                    <div class="fragment" style="flex: 1; background: #1a2a3a; padding: 0.5em; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 1.8em;">👨‍🍳</div>
+                        <div style="font-weight: bold; margin: 0.2em 0;">Szef kuchni</div>
+                        <div style="font-size: 0.8em; color: #aaa;">Decyduje co robic<br><em>(LLM)</em></div>
+                    </div>
+                    <div class="fragment" style="display: flex; align-items: center; font-size: 1.3em;">→</div>
+                    <div class="fragment" style="flex: 1.2; background: #1a3a1a; padding: 0.5em; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 1.8em;">🍳🥗🔥</div>
+                        <div style="font-weight: bold; margin: 0.2em 0;">Kucharze</div>
+                        <div style="font-size: 0.8em; color: #aaa;">Specjalisci od dan<br><em>(Narzedzia)</em></div>
+                    </div>
+                    <div class="fragment" style="display: flex; align-items: center; font-size: 1.3em;">→</div>
+                    <div class="fragment" style="flex: 1; background: #3a1a2a; padding: 0.5em; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 1.8em;">✅</div>
+                        <div style="font-weight: bold; margin: 0.2em 0;">Wydanie</div>
+                        <div style="font-size: 0.8em; color: #aaa;">Kontrola jakosci<br><em>(Monitoring)</em></div>
+                    </div>
+                </div>
+
+                <div class="fragment" style="margin-top: 0.8em; background: #2a2a2a; padding: 0.5em 0.8em; border-radius: 8px; text-align: center;">
+                    <strong>Kluczowe:</strong> Szef kuchni nie gotuje — <strong>koordynuje</strong>. LLM nie wykonuje akcji — <strong>decyduje</strong>, ktore narzedzie wykonuje.
+                </div>
+
+                <aside class="notes">
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Wyobrazcie sobie kuchnie w restauracji. Kelner przynosi zamowienie (input). Szef kuchni
+                    patrzy i decyduje: zurek do kucharza zup, steak do grilla, deser do cukiernika. Kazdy
+                    specjalista robi swoja czesc. Szef kuchni nie gotuje — koordynuje."<br>
+                    🔹 „Dokladnie tak dziala agent AI. LLM to szef kuchni. Narzedzia to kucharze. Pamiec to
+                    ksiazka z zamowieniami. A orkiestracja? To caly system, ktory sprawia, ze kuchnia dziala."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 „Co sie stanie, jezeli szef kuchni jest swietny, ale kucharze kiepscy?" (Dobre narzedzia sa kluczowe!)<br>
+                    🔹 „A co jezeli kuchnia nie ma menu — nie wiadomo, co mozna zamowic?" (Brak opisu narzedzi = LLM nie wie, co moze robic)</p>
+                </aside>
+            </section>
+
+            <!-- Ćwiczenie whiteboard -->
+            <section style="font-size: 0.8em;">
+                <h2>📝 Ćwiczenie: Zaprojektuj swojego agenta</h2>
+
+                <p class="fragment">W grupach 2-3 osoby – 10 minut:</p>
+
+                <ol style="margin-top: 0.8em;">
+                    <li class="fragment">Wybierz problem z pracy, który agent mógłby rozwiązać</li>
+                    <li class="fragment">Narysuj: <strong>Input → Analiza → Decyzja → Akcja</strong></li>
+                    <li class="fragment">Określ: narzędzia? Pamięć? Reguły?</li>
+                    <li class="fragment">Przedstaw w 1 minucie na czacie</li>
+                </ol>
+
+                <div class="fragment" style="margin-top: 0.8em; background: #1a2a3a; padding: 0.7em; border-radius: 8px; font-size: 0.85em;">
+                    <strong>Przykład:</strong> Agent HR — CV (input) → analiza doświadczenia (LLM) →
+                    wymagania (tool: baza HR) → zaproszenie/odrzucenie → mail (action)
+                </div>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Czas na waszą kreatywność! Zaprojektujcie agenta, który rozwiązuje realny problem z waszej pracy."</p>
+
+                    <p><strong>Jak poprowadzić:</strong><br>
+                    🔹 Grupy 2-3 osoby (breakout rooms w Zoomie lub przy stolikach).<br>
+                    🔹 Zadanie: wybierz problem → narysuj schemat → określ narzędzia i reguły.<br>
+                    🔹 10 min projektowanie + 5 min prezentacje (1 min na grupę).<br>
+                    🔹 Jeśli zdalnie: poproś o wpisanie schematu tekstowo na czacie.</p>
+
+                    <p><strong>Wskazówki do moderowania:</strong><br>
+                    🔹 Jeśli ktoś nie wie, co wymyślić: podaj przykład agenta HR — CV → analiza doświadczenia
+                    → sprawdzenie wymagań → zaproszenie/odrzucenie → mail.<br>
+                    🔹 Obserwuj grupy — podpowiadaj tym, które utknęły.<br>
+                    🔹 Pochwal kreatywne pomysły!</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Świetne pomysły! Po obiedzie zbudujemy prawdziwego agenta w Pythonie — to, co teraz
+                    zaprojektowaliście na papierze, zamieni się w działający kod."</p>
+                </aside>
+            </section>
+
+            <!-- #endregion -->
+
+            <section>
+                <h2>🍽️ Przerwa obiadowa – 60 minut</h2>
+                <p class="fragment">Wracamy o 13:45</p>
+                <p class="fragment" style="margin-top: 1em; font-size: 0.85em;">
+                    Po przerwie: budujemy prawdziwego agenta w Pythonie! 🐍
+                </p>
+                <aside class="notes">
+                    <p><strong>Wskazówki:</strong><br>
+                    🔹 Przerwa obiadowa — po przerwie wchodzimy w najbardziej praktyczną część dnia.<br>
+                    🔹 Upewnij się, że Colab działa i simple_python_agent.ipynb jest otwarty.<br>
+                    🔹 Sprawdź, że Ollama działa na Colab: <code>!ollama list</code><br>
+                    🔹 Jeśli ktoś ma pytania o agentach — odłóż na po obiedzie, zobaczymy to w kodzie.</p>
+                </aside>
+            </section>
+
+            <section>
+                <h2>Przejdź do Części 3</h2>
+                <p><a href="part3.html" style="font-size: 1.2em; padding: 0.5em 1em; background: #42affa; color: white; border-radius: 8px; text-decoration: none;">➡️ Część 3: Warsztaty praktyczne i Podsumowanie</a></p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="../../dist/reveal.js"></script>
+    <script src="../../plugin/notes/notes.js"></script>
+    <script src="../../plugin/markdown/markdown.js"></script>
+    <script src="../../plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+            pdfSeparateFragments: false
+        });
+    </script>
+
+</body>
+
+</html>

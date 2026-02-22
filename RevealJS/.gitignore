@@ -1,0 +1,43 @@
+.idea/
+*.iml
+*.iws
+*.eml
+out/
+.DS_Store
+.svn
+log/*.log
+tmp/**
+node_modules/
+.sass-cache
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Build / dist
+dist/
+*.zip
+*.7z
+
+# System files
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# Temp / cache
+*.log
+.cache/
+tmp/
+
+# Reveal.js build artifacts
+plugin/**/*.map
+js/**/*.map
+
+# OS / misc
+*.tmp
+*.bak

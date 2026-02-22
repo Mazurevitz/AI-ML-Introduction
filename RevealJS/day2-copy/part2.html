@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <title>Dzień 2 – Część 2: Agenty AI i możliwości AI</title>
+    <link rel="stylesheet" href="../../dist/reset.css">
+    <link rel="stylesheet" href="../../dist/reveal.css">
+    <link rel="stylesheet" href="../../dist/theme/black.css">
+    <link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+    <style>
+        .reveal:focus {
+            outline: none;
+        }
+
+        .reveal *:focus {
+            outline: none;
+        }
+
+        .reveal * {
+            caret-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- #region - Agenty AI  -->
+
+            <section>
+                <h2>🍽️ Przerwa obiadowa – 30 minut</h2>
+                <p class="fragment">Wracamy 14:30</p>
+                <aside class="notes">
+                    Przerwa obiadowa: 45 minut – zadbaj o różnorodność dań i czas na networking.
+                </aside>
+            </section>
+
+            <section>
+                <h2>🧠 Przed agentami – krótkie podsumowanie</h2>
+                <ul>
+                    <li class="fragment">Poznaliśmy 4 typy uczenia: supervised, unsupervised, semi-supervised i
+                        reinforcement learning</li>
+                    <li class="fragment">Dowiedzieliśmy się, jak działają modele językowe – od tokenów po attention</li>
+                    <li class="fragment">Zrozumieliśmy, jak LLM przewiduje tekst zamiast go rozumieć</li>
+                    <li class="fragment">Mieliśmy warsztaty z prompt engineeringu – i optymalizacji promptów pod kątem
+                        kosztu</li>
+                </ul>
+
+                <aside class="notes">
+                    <p><strong>Storytelling i przejście:</strong></p>
+                    <p>„To był intensywny kawałek teorii, ale wszystko po coś – żeby teraz zobaczyć, jak to się składa w
+                        całość."</p>
+                    <p>„Modele potrafią generować tekst, ale to nie koniec – mogą też podejmować decyzje, działać,
+                        reagować na otoczenie. I tu właśnie pojawiają się agenci."</p>
+                    <p>„Zobaczmy teraz, jak to wygląda w praktyce – bez magii, ale z dużym potencjałem."</p>
+                </aside>
+            </section>
+
+            <section>
+                <h2>🤖 Co to są agenci AI?</h2>
+                <p class="fragment">Agenci AI = systemy, które potrafią samodzielnie podejmować decyzje i wykonywać
+                    zadania w imieniu użytkownika.</p>
+                <ul>
+                    <li class="fragment">Mogą analizować dane, planować działania i uruchamiać inne aplikacje.</li>
+                    <li class="fragment">Często korzystają z LLM (np. ChatGPT) i narzędzi automatyzacji (np. n8n).
+                    </li>
+                    <li class="fragment">Celem jest zmniejszenie udziału człowieka w prostych lub powtarzalnych
+                        procesach.</li>
+                </ul>
+                <aside class="notes">
+                    <p><strong>Wprowadzenie:</strong> Agenci AI to bardzo aktualny i ekscytujący temat. Wyjaśnij
+                        uczestnikom, że agent nie jest "magicznym robotem" — to program, który podejmuje decyzje na
+                        podstawie danych i predefiniowanych zasad lub modeli AI.</p>
+                    <p><strong>Kluczowa różnica:</strong> Chatbot to rozmówca. Agent AI = wykonawca zadań (np.
+                        znajdź
+                        dane, zanalizuj je, wyślij e-mail, zaktualizuj system CRM).</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.7em;">
+                <h2>🌍 Przykłady agentów AI w realnych zastosowaniach</h2>
+
+                <ul>
+                    <li class="fragment">📩 Automatyczne helpdeski: analiza zgłoszeń i przypisanie do odpowiedniego
+                        zespołu</li>
+                    <li class="fragment">📈 Agenci sprzedażowi: analizują leady i rekomendują kolejne działania</li>
+                    <li class="fragment">🛡️ Agenci monitorujący: wykrywają anomalie w systemach IT i automatycznie
+                        eskalują problemy</li>
+                    <li class="fragment">🏢 Agenci RPA + AI: czytają dokumenty i wypełniają systemy CRM automatycznie
+                    </li>
+                    <li class="fragment">🧠 Agenci personalni: zarządzają kalendarzem, rezerwują spotkania, wysyłają
+                        follow-upy</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em;">🌟 Agenci stają się nie tylko narzędziami — ale partnerami
+                    w pracy człowieka.</p>
+
+                <aside class="notes">
+                    <p><strong>Jak poprowadzić:</strong></p>
+                    <ul>
+                        <li>🌎 Powiedz: "Wielu z nas korzysta z agentów AI na co dzień, nawet o tym nie wiedząc."</li>
+                        <li>🤔 Zapytaj uczestników: "W której z tych kategorii Wy najchętniej zobaczylibyście wsparcie
+                            agenta AI w swojej pracy?"</li>
+                        <li>📚 Jeśli masz czas: poproś o 1-2 szybkie przykłady od uczestników ("Gdzie moglibyście
+                            wdrożyć agenta?")</li>
+                    </ul>
+
+                    <p><strong>Tip:</strong> Jeśli chcesz, możesz pokazać dodatkowo np. jak wygląda ticketing automation
+                        w Zendesk albo Microsoft Copilot.</p>
+                </aside>
+            </section>
+
+            <section>
+                <h2>📚 Typowe komponenty agenta AI</h2>
+                <ul>
+                    <li class="fragment"><strong>Model językowy (LLM):</strong> rozumienie instrukcji i generowanie
+                        odpowiedzi</li>
+                    <li class="fragment"><strong>Planowanie zadań:</strong> podział na kroki, ustalanie kolejności
+                        działań</li>
+                    <li class="fragment"><strong>Interfejsy narzędziowe:</strong> API, pluginy, funkcje systemowe
+                    </li>
+                    <li class="fragment"><strong>Pamięć:</strong> śledzenie stanu i historii interakcji</li>
+                    <li class="fragment"><strong>Monitorowanie:</strong> kontrola poprawności i bezpieczeństwa
+                        działań
+                    </li>
+                </ul>
+                <aside class="notes">
+                    <p>Ważne, by pokazać, że agent to coś więcej niż LLM. To system modularny, który łączy modele
+                        AI,
+                        narzędzia i logikę biznesową.</p>
+                    <p>Przykład: agent może najpierw zapytać API pogody, potem podjąć decyzję czy zmienić plan
+                        dostaw.
+                    </p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.8em;">
+                <h2>🛠️ Jak technicznie działa agent AI?</h2>
+
+                <ul>
+                    <li class="fragment">📩 Wejście danych (input): wiadomość, zapytanie, dane z API</li>
+                    <li class="fragment">🧠 Rozumienie (parsing, klasyfikacja, ekstrakcja kluczowych informacji)</li>
+                    <li class="fragment">⚡ Decyzja (logika IF/Switch lub model AI podejmuje decyzję)</li>
+                    <li class="fragment">🛠️ Akcja (np. zapisanie danych, wysłanie wiadomości, aktualizacja systemu)
+                    </li>
+                    <li class="fragment">📜 Monitorowanie i logowanie działań (audyt, rollback w razie błędów)</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em;">🌟 Agenci AI łączą elementy klasycznej architektury opartej
+                    na event-driven programming + komponenty AI.</p>
+
+                <aside class="notes">
+                    <p><strong>Storytelling dla programistów:</strong></p>
+                    <p>"Wyobraźcie sobie agenta jak mikroserwis: odbiera event, przetwarza go przez własną logikę
+                        decyzyjną i wykonuje akcję.
+                        Różnica? Agent może mieć dynamiczną, zmieniającą się logikę bazującą na wynikach modeli AI."</p>
+
+                    <p><strong>Tip:</strong></p>
+                    <ul>
+                        <li>🔧 Jeśli grupa jest techniczna, możesz szybko narysować na tablicy prosty schemat: Input →
+                            Analyze → Decision → Action → Log.</li>
+                        <li>🤔 Możesz zadać pytanie: "Gdzie byście zastosowali event-driven agents w waszych systemach?"
+                        </li>
+                    </ul>
+                </aside>
+            </section>
+
+            <section>
+                <h2>⚠️ Ryzyka związane z agentami AI</h2>
+                <ul>
+                    <li class="fragment">❌ Niewłaściwe działania (hallucinations LLM + błędy w akcji)</li>
+                    <li class="fragment">🔒 Brak kontroli nad procesem (np. niezamierzone zmiany w systemie)</li>
+                    <li class="fragment">💬 Błędy komunikacyjne (niewłaściwe odpowiedzi do klientów)</li>
+                    <li class="fragment">⚙️ Awarie złożonych sekwencji działań</li>
+                    <li class="fragment">📜 Regulacje i compliance (zwłaszcza RODO / prywatność danych)</li>
+                </ul>
+                <aside class="notes">
+                    <p>To bardzo ważny slajd. Zaznacz, że agenci mogą popełniać błędy nawet szybciej niż ludzie —
+                        dlatego tak istotne są: monitoring, limity działań, tryby testowe.</p>
+                    <p>Podaj przykład: agent, który miał wysłać przypomnienie klientom... przez pomyłkę wysłał 10x
+                        to
+                        samo. Lub pomylił imiona.</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.95em;">
+                <h2>🤖 Od modeli ➡️ do agentów</h2>
+
+                <p class="fragment">LLM to potężny silnik… ale sam w sobie nie wie, co ma robić 🚗</p>
+
+                <ul style="margin-top: 1em;">
+                    <li class="fragment">Agent = LLM + zadanie + narzędzia</li>
+                    <li class="fragment">Dzięki agentom modele stają się aktywnymi pomocnikami</li>
+                    <li class="fragment">Planowanie ➡️ Podejmowanie decyzji ➡️ Działanie</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em;">
+                    🎯 Za chwilę zbudujemy własnego prostego agenta AI!
+                </p>
+
+                <aside class="notes">
+                    <p><strong>Storytelling:</strong></p>
+                    <p>"Model to jak nowy samochód bez kierowcy. Agent to kierowca, który wie, gdzie jechać, zatrzyma
+                        się na czerwonym i zamówi wam kawę po drodze."</p>
+
+                    <p><strong>Jak poprowadzić:</strong></p>
+                    <ul>
+                        <li>🔧 Zapytaj: "Czy ktoś z was używał kiedyś automatyzacji typu Zapier, Make albo n8n?"</li>
+                        <li>🔍 Powiedz: "Agenci AI to podobny pomysł – tylko z dodatkową kreatywnością!"</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <section>
+                <h2>☕ Przerwa kawowa – 10 minut</h2>
+                <p class="fragment">Czas na kawę!<br> Wracamy 14:30</p>
+                <aside class="notes">
+                    Przerwa kawowa: 15 minut – sprawdź, czy jest świeża kawa i drożdżówki.
+                </aside>
+            </section>
+
+            <section style="font-size: 0.9em;">
+                <h2>🛠️ Warsztat: budowa własnego agenta AI</h2>
+
+                <ul>
+                    <li class="fragment">🤔 Chcemy, aby agent sam reagował na dane o pogodzie</li>
+                    <li class="fragment">📩 W zależności od warunków wyśle inną wiadomość e-mail</li>
+                    <li class="fragment">🛠️ Zbudujemy to bez kodowania – użyjemy platformy <strong>n8n</strong></li>
+                    <li class="fragment">✅ Będzie logika decyzyjna (Switch) i automatyczna reakcja</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em;">🚀 Przeklikamy to krok po kroku razem – a potem spróbujecie
+                    własnych modyfikacji!</p>
+
+                <aside class="notes">
+                    <p><strong>Storytelling do wprowadzenia:</strong></p>
+                    <p>"Wyobraźcie sobie, że macie swojego małego pomocnika, który sam sprawdza pogodę i wysyła Wam
+                        przypomnienie: 'Idź na spacer!' albo 'Weź parasol!'. Dziś każdy z Was stworzy takiego prostego
+                        agenta – bez pisania ani jednej linijki kodu."</p>
+
+                    <p><strong>Jak poprowadzić:</strong></p>
+                    <ul>
+                        <li>🔧 Powiedz: "n8n to jak LEGO dla automatyzacji: łączysz klocki i budujesz funkcjonalnego
+                            agenta."</li>
+                        <li>🙋 Zachęć: "Zróbcie screenshot slajdu, będzie nam pomagał jako mapa!"</li>
+                        <li>📢 Jeśli ktoś nie zna n8n – wyjaśnij w jednym zdaniu: "Platforma typu no-code do budowy
+                            workflow – coś jak automatyczne przepływy w Excelu, ale mocniejsze."</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.9em;">
+                <h2>🎯 Bonus: Agent Discordowy</h2>
+
+                <ul>
+                    <li class="fragment">📩 Agent odbiera wiadomość od użytkownika</li>
+                    <li class="fragment">🧠 Analizuje, czy wiadomość zawiera słowo "problem"</li>
+                    <li class="fragment">🔀 Wysyła zgłoszenie na odpowiedni kanał na Discordzie</li>
+                    <li class="fragment">⚡ Prosty IF + Integracja z Discordem = szybka i praktyczna automatyzacja</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em;">🚀 Chętni będą mogli spróbować tego ćwiczenia po głównym
+                    warsztacie!</p>
+
+                <aside class="notes">
+                    <p><strong>Storytelling:</strong></p>
+                    <p>"Wyobraźcie sobie agenta, który automatycznie sortuje zgłoszenia klientów — pilne trafiają do
+                        techników, reszta idzie do ogólnego kanału zespołu.
+                        Taki agent odciąża ludzi od ręcznego przekazywania wiadomości."</p>
+
+                    <p><strong>Tip:</strong></p>
+                    <ul>
+                        <li>📣 Możesz zaproponować: "Kto z Was chciałby spróbować z Discordem? Pokażę jak szybko to
+                            podłączyć!"</li>
+                        <li>🔧 Jeśli czas pozwala — zrób szybkie demo tworzenia webhooka na Discordzie.</li>
+                    </ul>
+                </aside>
+            </section>
+
+
+            <section>
+                <h2>✅ Podsumowanie: Agenci AI</h2>
+                <ul>
+                    <li class="fragment">🚀 Agenci = samodzielne systemy do realizacji zadań</li>
+                    <li class="fragment">🛠️ Łączą LLM, API i automatyzację</li>
+                    <li class="fragment">⚖️ Wymagają monitoringu i kontroli</li>
+                    <li class="fragment">🌟 Wielki potencjał w biznesie i automatyzacji</li>
+                </ul>
+                <aside class="notes">
+                    <p><strong>Podsumowanie sekcji:</strong> Przypomnij, że agenci to bardzo przyszłościowy temat,
+                        ale
+                        też wymagający odpowiedzialności i dobrego zarządzania ryzykiem.</p>
+                    <p>❓ Zakończ pytaniem do grupy: <br> "Gdybyście mieli stworzyć własnego agenta – co by robił? W
+                        czym
+                        by Was odciążył?"</p>
+                </aside>
+            </section>
+
+
+            <!-- #endregion -->
+
+
+            <!-- #region - Możliwości i ograniczenia AI  -->
+            <section style="font-size: 0.95em;">
+                <h2>💪 Co AI naprawdę potrafi?</h2>
+                <ul>
+                    <li class="fragment">✅ Tworzyć teksty, kod, podsumowania</li>
+                    <li class="fragment">✅ Odpowiadać na pytania o znane fakty</li>
+                    <li class="fragment">✅ Przetwarzać duże ilości danych (np. opinie, logi, umowy)</li>
+                    <li class="fragment">✅ Pomagać w podejmowaniu decyzji</li>
+                </ul>
+                <aside class="notes">
+                    To nie magia – ale też nie science fiction. W wielu obszarach AI działa już teraz i przynosi
+                    realne
+                    oszczędności.
+                    Zrób szybkie „kto korzystał z…" na czacie (ChatGPT, Copilot, Claude itd.)
+                </aside>
+            </section>
+
+            <section style="font-size: 0.95em;">
+                <h2>⚠️ Gdzie AI zawodzi (na dziś)?</h2>
+                <ul>
+                    <li class="fragment">❌ Halucynacje – wymyślanie odpowiedzi lub źródeł</li>
+                    <li class="fragment">❌ Brak aktualnej wiedzy (chyba że zastosujemy RAG)</li>
+                    <li class="fragment">❌ Nie rozumie kontekstu „po ludzku" – tylko statystycznie</li>
+                    <li class="fragment">❌ Wrażliwe dane? Nie każde AI może ich używać</li>
+                </ul>
+                <aside class="notes">
+                    <p><strong>Storytelling wprowadzenie:</strong></p>
+                    <p>Wyobraźcie sobie, że macie bardzo pewnego siebie znajomego. Gdy go zapytacie, kto napisał
+                        "Wojnę i Pokój", bez zająknięcia odpowie: "Szekspir" – z pełnym przekonaniem. Tak właśnie
+                        działa AI, gdy halucynuje.</p>
+
+                    <p><strong>Jak poprowadzić:</strong></p>
+                    <ul>
+                        <li>💬 Zapytaj: "Czy ktoś z Was kiedyś sprawdzał źródła wygenerowane przez AI?"</li>
+                        <li>📚 Jeśli masz czas, pokaż szybki przykład promptu: "Podaj trzy badania o wpływie kawy na
+                            zdrowie" – często modele wymyślają nieistniejące cytaty.</li>
+                    </ul>
+
+                    <p><strong>Tip:</strong></p>
+                    <ul>
+                        <li>🎯 Podkreśl: "Im pewniej brzmi odpowiedź AI, tym bardziej powinniśmy ją weryfikować."
+                        </li>
+                    </ul>
+                </aside>
+            </section>
+
+
+            <section>
+                <section style="font-size: 0.6em;">
+                    <h2>🧪 Warsztat: AI w Twojej pracy</h2>
+                    <div class="fragment"
+                        style="background: #2a2a2a; padding: 1em; border-radius: 8px; margin-bottom: 1em;">
+                        <p><strong>Wybierz zadanie i zaprojektuj rozwiązanie:</strong></p>
+                        <ol style="margin-left: 1.2em;">
+                            <li>Co chcesz zautomatyzować?</li>
+                            <li>Jakie są dane wejściowe?</li>
+                            <li>Jaki powinien być wynik?</li>
+                        </ol>
+                    </div>
+                    <div style="display: flex; gap: 1em; margin-bottom: 1em;">
+                        <div class="fragment" style="flex: 1; background: #1e1e1e; padding: 1em; border-radius: 8px;">
+                            <p><strong>📝 Przykład 1</strong><br>
+                                "Podsumuj opinie klientów w 3 punktach"</p>
+                        </div>
+                        <div class="fragment" style="flex: 1; background: #1e1e1e; padding: 1em; border-radius: 8px;">
+                            <p><strong>💻 Przykład 2</strong><br>
+                                "Wygeneruj testy do funkcji walidacji e-mail"</p>
+                        </div>
+                    </div>
+                    <div class="fragment" style="background: #1d3b1d; padding: 1em; border-radius: 8px;">
+                        <h4>💡 Gotowy szablon:</h4>
+                        <pre style="margin: 0; font-size: 0.65em;"><code>Jesteś ekspertem od [temat].
+                Przeanalizuj [dane] i wygeneruj [format wyniku].
+                Uwzględnij: [wymagania].</code></pre>
+                    </div>
+                    <aside class="notes">
+                        <strong>Przykładowe odpowiedzi:</strong>
+                        1. "Chatbot do FAQ: Wejście - pytania klientów, Wyjście - odpowiedzi z dokumentacji"
+                        2. "Automatyczne tagowanie ticketów: Wejście - treść zgłoszenia, Wyjście - kategoria (np.
+                        'płatności', 'techniczne')"
+                        <strong>Typowe problemy:</strong>
+                        - Zbyt ogólne polecenia
+                        - Brak określenia formatu wyjściowego
+                        - Nieprecyzyjne dane wejściowe
+                    </aside>
+                </section>
+
+                <section style="font-size: 0.5em;">
+                    <h2>🎯 Przykłady progresywne: Jak ulepszać prompty</h2>
+
+                    <div style="display: flex; flex-direction: column; gap: 1em; margin-top: 1.5em;">
+                        <div class="fragment" style="background: #3a1a1a; padding: 1em; border-radius: 8px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 0.5em;">
+                                <div
+                                    style="background: #ff4d4d; color: white; border-radius: 50%; width: 1.5em; height: 1.5em; display: flex; align-items: center; justify-content: center; margin-right: 0.5em;">
+                                    1</div>
+                                <h4 style="margin: 0;">Wersja podstawowa</h4>
+                            </div>
+                            <pre style="margin: 0;"><code>"Podsumuj opinie klientów"</code></pre>
+                            <div style="font-size: 0.7em; color: #aaa; margin-top: 0.5em;">
+                                ❌ Zbyt ogólne, brak struktury, nie wiadomo jakie opinie
+                            </div>
+                        </div>
+
+                        <div class="fragment" style="background: #3a3a1a; padding: 1em; border-radius: 8px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 0.5em;">
+                                <div
+                                    style="background: #ffcc00; color: black; border-radius: 50%; width: 1.5em; height: 1.5em; display: flex; align-items: center; justify-content: center; margin-right: 0.5em;">
+                                    2</div>
+                                <h4 style="margin: 0;">Wersja ulepszona</h4>
+                            </div>
+                            <pre style="margin: 0;"><code>"Podsumuj 100 opinii z CSV w 3 kategoriach:
+                1. Zalety produktu
+                2. Wady
+                3. Propozycje ulepszeń"</code></pre>
+                            <div style="font-size: 0.7em; color: #aaa; margin-top: 0.5em;">
+                                ✅ Lepsze, ale brakuje formatu i szczegółów
+                            </div>
+                        </div>
+
+                        <div class="fragment" style="background: #1a3a1a; padding: 1em; border-radius: 8px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 0.5em;">
+                                <div
+                                    style="background: #4dff4d; color: black; border-radius: 50%; width: 1.5em; height: 1.5em; display: flex; align-items: center; justify-content: center; margin-right: 0.5em;">
+                                    3</div>
+                                <h4 style="margin: 0;">Wersja optymalna</h4>
+                            </div>
+                            <pre style="margin: 0;"><code>"Jesteś analitykiem doświadczeń klientów.
+                Przeanalizuj załączone opinie (100 rekordów) i:
+                1. Wyodrębnij 3 główne tematy w każdej kategorii:
+                   - Zalety (max 5 słów na temat)
+                   - Wady (z podziałem na pilne/niepilne)
+                   - Propozycje (z linkami do podobnych rozwiązań)
+                2. Przedstaw wyniki w tabeli CSV
+                3. Dodaj statystyki (np. % pozytywnych opinii)"</code></pre>
+                            <div style="font-size: 0.7em; color: #aaa; margin-top: 0.5em;">
+                                💡 Idealnie: konkretna rola, struktura, format wyjściowy i dodatkowe wymagania
+                            </div>
+                        </div>
+                    </div>
+
+                    <aside class="notes">
+                        <!-- Rozbudowane notatki trenerskie -->
+                        <h3>Szczegółowe omówienie przykładów progresywnych</h3>
+
+                        <h4>1. Wersja podstawowa - "Podsumuj opinie klientów"</h4>
+                        <ul>
+                            <li><strong>Typowe problemy:</strong>
+                                <ul>
+                                    <li>Brak kontekstu (jakie opinie? skąd?)</li>
+                                    <li>Nieokreślony zakres (ile opinii?)</li>
+                                    <li>Brak struktury wyniku</li>
+                                </ul>
+                            </li>
+                            <li><strong>Efekt:</strong> Ogólnikowe podsumowanie, trudne do wykorzystania</li>
+                            <li><strong>Jak poprawić:</strong> Zapytać uczestników co brakuje w tym promptcie</li>
+                        </ul>
+
+                        <h4>2. Wersja ulepszona - z kategoriami</h4>
+                        <ul>
+                            <li><strong>Co działa:</strong>
+                                <ul>
+                                    <li>Określona liczba opinii (100)</li>
+                                    <li>Podstawowa struktura (3 kategorie)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Brakujące elementy:</strong>
+                                <ul>
+                                    <li>Format wyniku (tabela? lista?)</li>
+                                    <li>Więcej szczegółów o danych wejściowych</li>
+                                    <li>Brak kontekstu (kto analizuje?)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Ćwiczenie:</strong> Poproś uczestników o dodanie 1 ulepszenia</li>
+                        </ul>
+
+                        <h4>3. Wersja optymalna - pełna specyfikacja</h4>
+                        <ul>
+                            <li><strong>Kluczowe elementy:</strong>
+                                <ul>
+                                    <li>Określona rola (analityk doświadczeń)</li>
+                                    <li>Szczegółowe wymagania (5 słów na temat)</li>
+                                    <li>Konkretny format wyjściowy (CSV)</li>
+                                    <li>Dodatkowe analizy (statystyki)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Dyskusja:</strong>
+                                <ul>
+                                    <li>Czy każdy projekt potrzebuje tak szczegółowego promptu?</li>
+                                    <li>Kiedy warto poświęcić czas na dopracowanie promptu?</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <h4>Scenariusz prowadzenia warsztatu</h4>
+                        <ol>
+                            <li>Pokaż pierwszą wersję, zapytaj co jest nie tak</li>
+                            <li>Pokaż drugą wersję, poproś o sugestie ulepszeń</li>
+                            <li>Odkryj trzecią wersję jako przykład "idealnego" promptu</li>
+                            <li>Porównaj wyniki - pokaż jak jakość odpowiedzi rośnie</li>
+                        </ol>
+
+                        <h4>Przykłady z poprzednich szkoleń</h4>
+                        <ul>
+                            <li>"Uczestnicy często zapominają o formacie wyjściowym"</li>
+                            <li>"Ważne by podkreślić różnicę między 'podsumuj' a 'przeanalizuj'"</li>
+                            <li>"Dobrze działa analogia do briefu dla współpracownika"</li>
+                        </ul>
+                    </aside>
+                </section>
+                <section style="font-size: 0.75em;">
+                    <h3>🔍 Porównanie efektów promptów</h3>
+
+                    <!-- Wersja 1 -->
+                    <div class="fragment"
+                        style="background: #3a1a1a; padding: 0.8em; border-radius: 6px; margin: 0.3em 0;">
+                        <div style="display: flex; align-items: center;">
+                            <div
+                                style="background: #ff4d4d; width: 1.3em; height: 1.3em; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-right: 0.5em; font-size: 0.8em;">
+                                1</div>
+                            <h4 style="margin: 0; font-size: 1em;">Podstawowy</h4>
+                        </div>
+                        <div style="margin-left: 1.8em; font-size: 0.9em;">
+                            <p style="margin: 0.3em 0;"><em>"Ogólnie dobry produkt..."</em></p>
+                            <p style="color: #ff9999; font-size: 0.8em; margin: 0.2em 0;">❌ Brak struktury, tylko
+                                ogólniki</p>
+                        </div>
+                    </div>
+
+                    <!-- Wersja 2 -->
+                    <div class="fragment"
+                        style="background: #3a3a1a; padding: 0.8em; border-radius: 6px; margin: 0.3em 0;">
+                        <div style="display: flex; align-items: center;">
+                            <div
+                                style="background: #ffcc00; width: 1.3em; height: 1.3em; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-right: 0.5em; font-size: 0.8em;">
+                                2</div>
+                            <h4 style="margin: 0; font-size: 1em;">Ulepszony</h4>
+                        </div>
+                        <div style="margin-left: 1.8em; font-size: 0.9em;">
+                            <p style="margin: 0.2em 0;"><strong>Zalety:</strong> szybka dostawa</p>
+                            <p style="margin: 0.2em 0;"><strong>Wady:</strong> słaba jakość</p>
+                            <p style="color: #ffcc99; font-size: 0.8em; margin: 0.2em 0;">✅ Lepsze, ale brak
+                                statystyk i
+                                priorytetów</p>
+                        </div>
+                    </div>
+
+                    <!-- Wersja 3 -->
+                    <div class="fragment"
+                        style="background: #1a3a1a; padding: 0.8em; border-radius: 6px; margin: 0.3em 0;">
+                        <div style="display: flex; align-items: center;">
+                            <div
+                                style="background: #4dff4d; width: 1.3em; height: 1.3em; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; margin-right: 0.5em; font-size: 0.8em;">
+                                3</div>
+                            <h4 style="margin: 0; font-size: 1em;">Optymalny</h4>
+                        </div>
+                        <div style="margin-left: 1.8em; font-size: 0.9em;">
+                            <p style="margin: 0.2em 0;">Dostawa: 68% pozytywnych</p>
+                            <p style="margin: 0.2em 0;">Jakość: 42% negatywnych</p>
+                            <p style="color: #99ff99; font-size: 0.8em; margin: 0.2em 0;">💡 Gotowe do raportu, z
+                                analizą ilościową</p>
+                        </div>
+                    </div>
+                    <aside class="notes">
+                        <p><strong>Przejście:</strong> "Widzieliśmy właśnie, jak stopniowe ulepszanie promptu wpływa
+                            na
+                            jakość odpowiedzi. Teraz spójrzmy na konkretne efekty tego podejścia..."</p>
+
+                        <h4>Analiza porównawcza wyników</h4>
+                        <div style="border-left: 3px solid #4fc0ff; padding-left: 1em; margin-left: 0.5em;">
+                            <p><strong>Wersja podstawowa →</strong> "Ogólne wrażenia"<br>
+                                <em>Jak wykorzystać?:</em> Tylko jako wstępna eksploracja tematu
+                            </p>
+
+                            <p><strong>Wersja ulepszona →</strong> "Strukturalne uwagi"<br>
+                                <em>Jak wykorzystać?:</em> Do identyfikacji głównych obszarów problemowych
+                            </p>
+
+                            <p><strong>Wersja optymalna →</strong> "Gotowe analizy"<br>
+                                <em>Jak wykorzystać?:</em> Bezpośrednio w raportach i decyzjach biznesowych
+                            </p>
+                        </div>
+
+                        <h4>Wnioski praktyczne</h4>
+                        <ul style="font-size: 0.9em;">
+                            <li><strong>Reguła 80/20:</strong> Już średnio dobry prompt daje 80% wartości</li>
+                            <li><strong>Moment przełomowy:</strong> Największy skok jakości między wersją 1 a 2</li>
+                            <li><strong>Case study:</strong> W firmie X takie dopracowanie promptów skróciło czas
+                                analiz
+                                o 65%</li>
+                        </ul>
+
+                        <p style="margin-top: 1.5em;"><strong>Przejście dalej:</strong> "Teraz, gdy widzimy już
+                            różnice
+                            w wynikach, przeanalizujmy wspólnie..."</p>
+                    </aside>
+                </section>
+
+            </section>
+
+
+            <section>
+
+
+                <section style="font-size: 0.95em;">
+                    <h2>📚 Case studies: AI w praktyce</h2>
+
+                    <div class="fragment" style="margin-bottom: 1em;">
+                        ✅ <strong>Support IT:</strong> AI klasyfikuje zgłoszenia → znaczna oszczędność czasu
+                    </div>
+                    <div class="fragment" style="margin-bottom: 1em;">
+                        ✅ <strong>Marketing:</strong> AI pisze nagłówki kampanii → lepszy CTR (po sprawdzeniu przez
+                        człowieka)
+                    </div>
+                    <div class="fragment" style="margin-bottom: 1em;">
+                        ❌ <strong>AI jako doradca finansowy:</strong> model odpowiada z pewnością, ale błędnie
+                        (halucynacje)
+                    </div>
+                    <div class="fragment">
+                        ❌ <strong>AI jako analityk prawny:</strong> wymyślone precedensy – model brzmiał mądrze, ale
+                        kłamał
+                    </div>
+
+                    <aside class="notes">
+                        Pokaż, że AI działa świetnie w niektórych zadaniach – ale trzeba rozumieć jej ograniczenia.
+                        Idealnie nadaje się do przyspieszania pracy człowieka, ale nie do pełnej autonomii
+                        (jeszcze).
+                    </aside>
+                </section>
+
+                <section style="font-size: 0.95em;">
+                    <h2>🌍 Nietypowe zastosowania AI</h2>
+                    <ul>
+                        <li class="fragment">🎨 Muzea – AI do opisu dzieł sztuki dla niewidomych</li>
+                        <li class="fragment">🏗️ Budownictwo – przewidywanie awarii sprzętu</li>
+                        <li class="fragment">🚜 Rolnictwo – drony i AI do analizy gleby i plonów</li>
+                        <li class="fragment">🧘‍♀️ Wellness – AI analizujące oddech i stres głosem</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Czy to problem dla AI?</h2>
+                    <ul>
+                        <li class="fragment">🔁 Czy problem jest powtarzalny?</li>
+                        <li class="fragment">📊 Czy masz dane (dużo i jakościowo)?</li>
+                        <li class="fragment">🎯 Czy znasz pożądany wynik lub etykietę?</li>
+                        <li class="fragment">🧠 Czy reguły są trudne do zaprogramowania ręcznie?</li>
+                    </ul>
+                    <p class="fragment" style="margin-top: 1em;">
+                        Jeśli większość odpowiedzi to <strong>tak</strong> – AI może mieć sens.
+                    </p>
+                    <aside class="notes">
+                        <p><strong>Narracja:</strong></p>
+                        <p>„Czasem dostaję pytanie – jak w ogóle rozpoznać, że jakiś problem w firmie nadaje się do
+                            zastosowania AI? Odpowiedź nie musi być skomplikowana."</p>
+                        <p>„Dla mnie to 4 pytania kontrolne: Czy zadanie jest powtarzalne? Czy masz dane? Czy wiesz,
+                            jaki ma być wynik? Czy ciężko to ręcznie zakodować?"</p>
+                        <p>„Jeśli 3–4 razy odpowiadasz tak – to znak, że warto zainteresować się rozwiązaniem ML albo
+                            LLM."</p>
+                        <p><strong>Przejście:</strong> „To tylko szybka matryca decyzyjna – nie rozwijamy teraz tego
+                            bloku, ale zostawiam Wam to jako ramę do dalszych rozważań."</p>
+                    </aside>
+                </section>
+
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - Wdrożenie AI w firmie  -->
+
+            <section>
+                <section>
+                    <h2>🏢 Wdrożenie AI – case: helpdesk w dużej firmie</h2>
+                    <ol>
+                        <li class="fragment"><strong>Problem:</strong> dużo zgłoszeń, powtarzalne pytania</li>
+                        <li class="fragment"><strong>Dane:</strong> 10 000 zgłoszeń, część oznaczona ręcznie</li>
+                        <li class="fragment"><strong>Model:</strong> klasyfikator lub LLM z promptem</li>
+                        <li class="fragment"><strong>Prototyp:</strong> podpowiedź kategorii + sugerowana odpowiedź
+                        </li>
+                    </ol>
+                    <aside class="notes">
+                        Opowiedz jako historię – „w firmie X pracownicy helpdesku przetwarzali setki zgłoszeń
+                        dziennie,
+                        a 80% z nich dotyczyło 5 tematów..."
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>🚀 Jak wygląda delivery projektu AI?</h2>
+                    <ul>
+                        <li class="fragment">1️⃣ Zidentyfikuj problem → Co jest powtarzalne / czasochłonne?</li>
+                        <li class="fragment">2️⃣ Dane → Czy mamy dane? Jakiej jakości?</li>
+                        <li class="fragment">3️⃣ Wybierz podejście → Model klasyczny? LLM + prompt? RAG?</li>
+                        <li class="fragment">4️⃣ Testuj z użytkownikami → Feedback > dokładność</li>
+                        <li class="fragment">5️⃣ Utrzymanie → Monitoruj skuteczność, aktualizuj</li>
+                    </ul>
+                    <aside class="notes">
+                        Ten slajd daje szerszy obraz procesu. Możesz go porównać do cyklu DevOps: planuj,
+                        prototypuj,
+                        wdrażaj, monitoruj.
+                    </aside>
+                </section>
+
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - Slajdy uzupełniające - dane wrażliwe, koszty i realia, zarządzanie projektami  -->
+
+            <section style="font-size: 0.8em;">
+                <h2>🔒 Czy mogę to wrzucić do ChatGPT?</h2>
+
+                <p class="fragment">Wyobraź sobie: jesteś po spotkaniu z klientem, masz protokół i… pomysł: wrzucę
+                    to do
+                    AI, niech zrobi z tego podsumowanie.</p>
+
+                <p class="fragment">💥 Tylko że ten tekst zawiera dane klienta, NIP, nazwę projektu i coś, co
+                    jeszcze
+                    nie poszło w świat.</p>
+
+                <ul style="margin-top: 1em;">
+                    <li class="fragment">🧾 Publiczne modele (np. ChatGPT) mogą przechowywać dane – nie wrzucaj
+                        informacji poufnych</li>
+                    <li class="fragment">🛡️ Rekomendowane: lokalne modele, własne pipeline'y, kontrola dostępu</li>
+                    <li class="fragment">⚖️ Zasada: wszystko, czego nie wkleiłbyś na Slacka z całej firmy – nie
+                        wrzucaj
+                        do AI</li>
+                </ul>
+
+                <aside class="notes">
+                    Pokaż uczestnikom przykład z życia – „miałem maila, chciałem streścić, ale zatrzymałem się, bo
+                    to
+                    dane klienta".
+                    Wspomnij, że modele takie jak ChatGPT nie są GDPR-compliant „z pudełka".
+                </aside>
+            </section>
+
+            <section style="font-size: 0.8em;">
+                <h2>💰 Kto za to płaci, czyli koszty AI</h2>
+
+                <ul>
+                    <li class="fragment">📈 Modele AI mogą generować wartość – ale też spore zużycie tokenów, GPU i
+                        czasu operacyjnego</li>
+                    <li class="fragment">🔧 Fine-tuning = koszt trenowania, RAG = koszt integracji</li>
+                    <li class="fragment">📊 Wybór modelu to często kompromis: szybkość vs jakość vs cena</li>
+                </ul>
+
+                <aside class="notes">
+                    <p><strong>Storytelling wprowadzenie:</strong></p>
+                    <p>AI jest darmowe tylko wtedy... gdy nie działa 😄. Każda interakcja, każde tokeny, każde GPU w
+                        chmurze kosztują realne pieniądze.</p>
+
+                    <p><strong>Jak poprowadzić:</strong></p>
+                    <ul>
+                        <li>💬 Opowiedz: "Wyobraźmy sobie typową sytuację: firma chce wdrożyć AI, żeby pomóc
+                            zespołowi supportu. Mają dwie opcje:
+                            <ul>
+                                <li>✅ Fine-tuning dużego modelu na własnych danych: czas trwania – 3 tygodnie, koszt
+                                    – ok. 15 000 PLN, ryzyko – nie wiadomo, czy jakość będzie lepsza.</li>
+                                <li>✅ Alternatywa: szybkie wdrożenie RAG (czyli połączenie gotowego modelu z własną
+                                    bazą wiedzy) – czas – 5 dni, koszt – ok. 2 000 PLN, szybsze testy.</li>
+                            </ul>
+                        </li>
+                        <li>📈 Zamiast tabelki, podsumuj ustnie:
+                            <ul>
+                                <li><strong>Fine-tune:</strong> wysoki koszt, dłuższy czas, potencjalnie lepsze
+                                    dopasowanie.</li>
+                                <li><strong>RAG:</strong> niski koszt, szybkie MVP, ale zależność od jakości bazy
+                                    wiedzy.</li>
+                            </ul>
+                        </li>
+                        <li>🎯 I podkreśl: "Najczęściej wygrywa opcja, która pozwala szybciej pokazać efekt przy
+                            niższym koszcie ryzyka."</li>
+                    </ul>
+
+                    <p><strong>Tip:</strong></p>
+                    <ul>
+                        <li>🎯 Zapytaj: "Kto z Was miał projekt, w którym budżet albo czas zmienił zupełnie decyzję
+                            technologiczną?"</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.8em;">
+                <h2>📦 Delivery AI ≠ zwykły projekt</h2>
+
+                <p class="fragment">Klasyczne IT: brief → backlog → deliver</p>
+                <p class="fragment">AI: <strong>hipoteza → eksperyment → popraw → znowu popraw</strong></p>
+
+                <ul style="margin-top: 1em;">
+                    <li class="fragment">📅 Projekty AI mają charakter eksperymentalny – testujesz, mierzysz,
+                        iterujesz
+                    </li>
+                    <li class="fragment">📊 Efekty często zależą bardziej od danych niż od samego modelu</li>
+                    <li class="fragment">🧠 Sukces AI = technologia + kultura organizacyjna + kompetencje zespołu
+                    </li>
+                </ul>
+
+                <aside class="notes">
+                    <p><strong>Storytelling wprowadzenie:</strong></p>
+                    <p>Wdrożenie AI to nie jest budowanie mostu według planu. To jak robienie ciasta bez przepisu –
+                        eksperymentujemy, testujemy smaki, dostosowujemy proporcje.</p>
+
+                    <p><strong>Jak poprowadzić:</strong></p>
+                    <ul>
+                        <li>💬 Zapytaj uczestników: "Kto z Was miał projekt, który całkowicie zmienił się po
+                            pierwszych testach?"</li>
+                        <li>🛠️ Pokaż schemat: Hipoteza → Eksperyment → Korekta → Nowy eksperyment.</li>
+                    </ul>
+
+                    <p><strong>Tip:</strong></p>
+                    <ul>
+                        <li>🎯 Podkreśl: "W AI bardziej liczy się gotowość na zmiany niż idealne planowanie na
+                            start."</li>
+                    </ul>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.8em;">
+                <h2>🧠 Mity o AI – a jak jest naprawdę?</h2>
+
+                <table style="font-size: 0.9em;">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left;">❌ Mit</th>
+                            <th style="text-align:left;">✅ Rzeczywistość</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fragment">„AI zastąpi wszystkich ludzi"</td>
+                            <td class="fragment">AI wspiera ludzi w zadaniach powtarzalnych i wspomaga analizę</td>
+                        </tr>
+                        <tr>
+                            <td class="fragment">„Wystarczy dać dane i AI zadziała"</td>
+                            <td class="fragment">Dane muszą być dobre, kontekstowe i zrozumiałe dla modelu</td>
+                        </tr>
+                        <tr>
+                            <td class="fragment">„AI zawsze wie, co mówi"</td>
+                            <td class="fragment">AI generuje prawdopodobne odpowiedzi, ale może „halucynować"</td>
+                        </tr>
+                        <tr>
+                            <td class="fragment">„Nie trzeba programować, żeby korzystać z AI"</td>
+                            <td class="fragment">To prawda – ale trzeba myśleć krytycznie i jasno formułować
+                                potrzeby
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="fragment">„Im większy model, tym lepszy"</td>
+                            <td class="fragment">Nie zawsze – czasem lepszy jest model mniejszy, ale lepiej
+                                dopasowany
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <aside class="notes">
+                    Ten slajd działa jak „oddech przed końcem". Pozwala lekko uporządkować wiedzę i podkreślić
+                    krytyczne
+                    myślenie.
+                    Zachęć uczestników do dodania swojego „mita z pracy" lub tego, co kiedyś sami myśleli o AI.
+
+                    Do punktu o micie „AI zastąpi ludzi" możesz dodać taką historię:
+
+                    „W jednym z banków wdrożono AI do analizy dokumentów kredytowych. Model działał świetnie –
+                    szybciej,
+                    dokładniej, bez literówek. Ale… po paru tygodniach zespół zauważył, że klienci są mniej
+                    zadowoleni.
+                    Dlaczego? Bo model nie zadawał pytań. Nie zauważał kontekstu – że ktoś założył firmę po długiej
+                    przerwie, albo że wnioskujący przesłał pismo po terminie, bo był w szpitalu.
+                    Ostatecznie AI zostało – ale jako wsparcie. Ludzie wrócili na pierwszy front. Bo AI nie
+                    rozmawia. AI
+                    nie pyta: 'jak mogę pomóc?'."
+
+                    To historia o tym, że technologia nie wypiera empatii, negocjacji, intuicji – tylko je
+                    uzupełnia. I
+                    o tym warto dziś przypomnieć.
+                </aside>
+            </section>
+
+
+
+            <!-- #endregion -->
+
+            <section>
+                <h2>Przejdź do Części 3</h2>
+                <p><a href="part3.html" style="font-size: 1.2em; padding: 0.5em 1em; background: #42affa; color: white; border-radius: 8px; text-decoration: none;">➡️ Część 3: Prompt engineering i podsumowanie</a></p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="../../dist/reveal.js"></script>
+    <script src="../../plugin/notes/notes.js"></script>
+    <script src="../../plugin/markdown/markdown.js"></script>
+    <script src="../../plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+            pdfSeparateFragments: false
+        });
+    </script>
+
+</body>
+
+</html>

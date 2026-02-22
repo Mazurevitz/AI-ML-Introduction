@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+	<meta charset="utf-8">
+	<title>Dzień 1 – Część 1: Wprowadzenie do AI i ML</title>
+	<link rel="stylesheet" href="../../dist/reset.css">
+	<link rel="stylesheet" href="../../dist/reveal.css">
+	<link rel="stylesheet" href="../../dist/theme/black.css">
+	<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+	<style>
+		.reveal:focus {
+			outline: none;
+		}
+
+		.reveal *:focus {
+			outline: none;
+		}
+
+		.reveal * {
+			caret-color: transparent;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- #region Temat - Wprowadzenie -->
+
+			<section>
+				<h1>Wprowadzenie do AI i ML</h1>
+				<p>Podstawowe pojęcia i różnice</p>
+				<aside class="notes"><!-- slide-01 --></aside>
+			</section>
+
+			<section>
+				<h2>📅 Agenda – Dzień 1</h2>
+				<div style="display: flex; flex-wrap: wrap; gap: 3em; font-size: 0.55em;">
+					<div style="flex: 1; min-width: 300px;">
+						<ul>
+							<li class="fragment"><strong>09:00–10:15</strong> – Wprowadzenie do AI i ML
+								<ul>
+									<li>Czym jest AI i gdzie się ją stosuje</li>
+									<li>Symulacja decyzji AI (ćwiczenie)</li>
+									<li>Czym jest ML, DL i sieci neuronowe</li>
+									<li>Generatywna AI – przykłady</li>
+								</ul>
+							</li>
+							<li class="fragment"><strong>10:15–10:45</strong> – Historia AI – czemu teraz?</li>
+							<li class="fragment"><strong>10:45–11:05</strong> – AI vs człowiek + ćwiczenie</li>
+							<li class="fragment"><strong>11:05–11:20</strong> – ☕ Przerwa kawowa</li>
+							<li class="fragment"><strong>11:20–12:45</strong> – Proces tworzenia modelu ML – część 1
+								<ul>
+									<li>Etapy procesu (od danych do wdrożenia)</li>
+									<li>Ćwiczenia: projektowanie decyzji + brudne dane</li>
+								</ul>
+							</li>
+							<li class="fragment"><strong>12:45–13:30</strong> – 🍽️ Przerwa obiadowa</li>
+						</ul>
+					</div>
+					<div style="flex: 1; min-width: 300px;">
+						<ul>
+							<li class="fragment"><strong>13:30–14:05</strong> – Proces ML – część 2
+								<ul>
+									<li>Trenowanie modelu i ocena skuteczności</li>
+									<li>Wdrożenie i monitoring</li>
+								</ul>
+							</li>
+							<li class="fragment"><strong>14:05–14:30</strong> – Projektowanie własnego projektu ML</li>
+							<li class="fragment"><strong>14:30–15:15</strong> – Demo ML w praktyce
+								<ul>
+									<li>Colab: klasyfikator SPAM/NIE-SPAM</li>
+									<li>Ćwiczenie: własne teksty</li>
+								</ul>
+							</li>
+							<li class="fragment"><strong>15:15–15:30</strong> – ☕ Druga przerwa kawowa</li>
+							<li class="fragment"><strong>15:30–16:15</strong> – Typy uczenia maszynowego
+								<ul>
+									<li>Supervised, Unsupervised, Reinforcement</li>
+									<li>Quiz rozpoznawania typów</li>
+								</ul>
+							</li>
+							<li class="fragment"><strong>16:15–16:45</strong> – Case studies i refleksja
+								<ul>
+									<li>Niestandardowe użycia AI</li>
+									<li>Retrospekcja dnia</li>
+								</ul>
+							</li>
+							<li class="fragment"><strong>16:45–17:00</strong> – Zapowiedź dnia 2 + pytania</li>
+						</ul>
+					</div>
+				</div>
+				<aside class="notes"><!-- slide-02 --></aside>
+			</section>
+
+			<section>
+				<h2>👋 Poznajmy się</h2>
+				<p style="margin-top: 1em;">Opowiedz w kilku zdaniach:</p>
+				<ul>
+					<li class="fragment">Czym się zajmujesz na co dzień?</li>
+					<li class="fragment">Jakie masz doświadczenie z AI?</li>
+					<li class="fragment">Co chcesz wynieść z tego szkolenia?</li>
+				</ul>
+				<aside class="notes"><!-- slide-03 --></aside>
+			</section>
+
+			<section>
+
+				<section>
+					<h2>AI w 2026 – gdzie jesteśmy?</h2>
+					<ul>
+						<li class="fragment">Sztuczna inteligencja (AI) – maszyny naśladujące inteligencję człowieka
+						</li>
+						<li class="fragment">Od chatbotów po autonomicznych agentów piszących kod i zarządzających
+							infrastrukturą</li>
+						<li class="fragment">Modele z oknami kontekstowymi 1M–10M tokenów, multimodalne
+							(tekst+obraz+audio+wideo)</li>
+					</ul>
+					<aside class="notes"><!-- slide-04 --></aside>
+				</section>
+
+				<section style="font-size: 0.9em;">
+					<h2>🔍 Gdzie w firmie może działać AI?</h2>
+					<ul>
+						<li class="fragment">🤖 Obsługa klienta: klasyfikacja zgłoszeń, analiza nastroju</li>
+						<li class="fragment">📈 Sprzedaż i marketing: scoring leadów, segmentacja klientów</li>
+						<li class="fragment">🛠️ IT: automatyzacja ticketów, wykrywanie anomalii</li>
+						<li class="fragment">📦 Logistyka: przewidywanie zapotrzebowania, optymalizacja tras</li>
+					</ul>
+					<p class="fragment" style="margin-top: 1em;">👉 Na czacie: <strong>jak AI już pomaga w Twojej
+							pracy? Gdzie są luki?</strong></p>
+					<aside class="notes"><!-- slide-05 --></aside>
+				</section>
+
+			</section>
+
+			<section style="font-size: 0.8em;">
+				<h2>Symulacja decyzji AI</h2>
+				<p><strong>👉 W jakich przypadkach AI podejmuje decyzje w Twojej pracy?</strong></p>
+				<p class="fragment">Pracuj w grupie lub samodzielnie: zaprojektuj proces podejmowania decyzji przez
+					AI w wybranym scenariuszu:</p>
+				<ul>
+
+					<li class="fragment">1. AI w systemie rekomendacji (np. dobór produktów).</li>
+					<li class="fragment">2. AI w systemie automatycznego klasyfikowania zgłoszeń IT.</li>
+					<li class="fragment">3. AI w zarządzaniu zasobami firmy (np. wybór priorytetu projektów).</li>
+				</ul>
+				<ul style="margin-top: 1em;">
+					<li class="fragment">Zastanów się: Gdzie może wystąpić błąd? Jakie są potencjalne skutki? Jak można
+						się zabezpieczyć?</li>
+				</ul>
+				<p class="fragment" style="margin-top: 1em;">➡️ 10 minut pracy + 5 minut prezentacji wyników</p>
+				<aside class="notes"><!-- slide-06 --></aside>
+
+			</section>
+
+			<section>
+				<h2>☕ Przerwa kawowa – wracamy o 12:00</h2>
+				<p class="fragment">Czas na kawę!<br> Wracamy o ~11:53</p>
+				<aside class="notes"><!-- slide-07 --></aside>
+			</section>
+
+
+			<section>
+				<section style="font-size: 0.9em;">
+					<h2>🧠 Czym jest Machine Learning?</h2>
+					<ul>
+						<li class="fragment">Uczenie maszynowe (ML) – poddziedzina sztucznej inteligencji</li>
+						<li class="fragment">Maszyny uczą się na podstawie danych – bez ręcznego programowania reguł
+						</li>
+						<li class="fragment">Model tworzy "własne" zasady na podstawie przykładów i doświadczenia</li>
+					</ul>
+					<p class="fragment" style="margin-top: 1em;">👉 Wyobraź sobie: nie piszesz instrukcji, tylko
+						pokazujesz
+						przykłady!</p>
+					<p class="fragment" style="font-size: 2em; text-align: center;">🐕</p>
+					<aside class="notes"><!-- slide-08 --></aside>
+				</section>
+
+			</section>
+
+
+			<section>
+				<section style="font-size: 0.9em;">
+					<h2>🤔 AI vs ML – o co w tym chodzi?</h2>
+					<p class="fragment" style="text-align: center;">"Każde ML to AI, ale nie każde AI to ML!"</p>
+					<table style="margin-top: 1em;">
+						<tr>
+							<th>🧠 AI</th>
+							<th>📈 ML</th>
+						</tr>
+						<tr class="fragment">
+							<td>Szerokie pojęcie: maszyny naśladują inteligencję</td>
+							<td>Specjalizacja: uczą się na podstawie danych</td>
+						</tr>
+						<tr class="fragment">
+							<td>Może działać na regułach (np. "jeśli... to...")</td>
+							<td>Bez ręcznie ustawionych reguł – uczy się wzorców</td>
+						</tr>
+						<tr class="fragment">
+							<td>Symuluje myślenie, wnioskowanie, planowanie</td>
+							<td>Rozpoznaje wzorce i przewiduje wyniki</td>
+						</tr>
+					</table>
+					<p class="fragment" style="margin-top: 1em; text-align: center;">👉 Kto już wcześniej znał tę
+						różnicę?
+						Reakcja 👍 / 👎 na Zoomie!</p>
+					<aside class="notes"><!-- slide-09 --></aside>
+				</section>
+			</section>
+
+			<section style="font-size: 0.9em;">
+				<h2>🧠 Uczenie głębokie (DL)</h2>
+				<p class="fragment" style="text-align: center;">"Gdy masz zbyt wiele danych dla zwykłego ML – wchodzi
+					Deep Learning!"</p>
+				<ul style="margin-top: 1em;">
+					<li class="fragment">Deep Learning = ML oparty na sieciach neuronowych</li>
+					<li class="fragment">Struktury inspirowane budową i działaniem ludzkiego mózgu</li>
+					<li class="fragment">Stosowane w rozpoznawaniu obrazów, mowy, tekstu i wielu innych</li>
+				</ul>
+
+				<aside class="notes"><!-- slide-10 --></aside>
+			</section>
+
+			<section style="font-size: 0.9em;">
+				<h2>🧠 Sieci neuronowe – co to?</h2>
+				<div class="fragment" style="text-align: center; font-size: 5em;">🧅</div>
+				<ul style="margin-top: 1em;">
+					<li class="fragment">Warstwy neuronów: wejściowa ➡️ ukryte ➡️ wyjściowa</li>
+					<li class="fragment">Każdy neuron = mała funkcja decyzyjna</li>
+					<li class="fragment">Uczenie poprzez wzmacnianie lub osłabianie połączeń</li>
+				</ul>
+
+				<aside class="notes"><!-- slide-11 --></aside>
+			</section>
+
+			<section>
+				<section>
+					<h2>📊 Przykład: Kto zrezygnuje z siłowni?</h2>
+					<p>Chcemy przewidzieć, którzy klienci siłowni zrezygnują z abonamentu w przyszłym miesiącu.</p>
+					<ul>
+						<li class="fragment">🎯 Cel: zredukować liczbę rezygnacji → szybciej reagować</li>
+						<li class="fragment">📁 Dane: wiek, płeć, liczba wizyt, data ostatniego treningu, liczba
+							treningów w 3 miesiące</li>
+						<li class="fragment">🧾 Etykieta: „zrezygnował / nie zrezygnował" (binary classification)</li>
+					</ul>
+
+					<aside class="notes"><!-- slide-12 --></aside>
+				</section>
+
+				<section>
+					<h2>🔄 Jak wygląda proces ML?</h2>
+					<ol>
+						<li class="fragment">📥 Zbieramy dane o klientach z systemu</li>
+						<li class="fragment">🧹 Czyścimy dane – np. uzupełniamy braki, usuwamy duplikaty</li>
+						<li class="fragment">🧠 Trenujemy model – uczymy go rozpoznawać wzorce</li>
+						<li class="fragment">🧪 Sprawdzamy skuteczność na nowych danych (walidacja)</li>
+						<li class="fragment">🚀 Używamy modelu w praktyce – np. do kampanii retention</li>
+					</ol>
+
+					<p class="fragment">Model nie robi wszystkiego za nas. Ale może pomóc podjąć lepszą decyzję.</p>
+
+					<aside class="notes"><!-- slide-13 --></aside>
+				</section>
+
+				<section>
+					<h2>❗ Co może pójść nie tak?</h2>
+					<ul>
+						<li class="fragment">🧂 Dane są niepełne lub z błędami</li>
+						<li class="fragment">📊 Dane historyczne nie pasują do nowych klientów</li>
+						<li class="fragment">🎯 Model uczy się z pozornych korelacji (np. „kto nie ma zdjęcia –
+							rezygnuje")</li>
+						<li class="fragment">🔁 System się zmienia, ale model nie</li>
+					</ul>
+
+					<aside class="notes"><!-- slide-14 --></aside>
+				</section>
+
+			</section>
+
+			<section style="font-size: 0.8em;">
+				<h2>🎮 Playground TensorFlow – nauka sieci neuronowych na żywo!</h2>
+
+				<p class="fragment">🌐 Link: <a href="https://playground.tensorflow.org/"
+						target="_blank">playground.tensorflow.org</a></p>
+
+				<p class="fragment" style="margin-top: 1em;">🧩 Możesz zmieniać:</p>
+				<ul>
+					<li class="fragment">➔ Liczbę warstw i neuronów</li>
+					<li class="fragment">➔ Rodzaj funkcji aktywacji (ReLU, tanh...)</li>
+					<li class="fragment">➔ Dane wejściowe (np. spirala, okrąg)</li>
+					<li class="fragment">➔ Parametry uczenia (learning rate, batch size)</li>
+				</ul>
+
+				<p class="fragment" style="margin-top: 1.5em; font-size: 0.85em; color: #777;">
+					🎯 Spróbuj: zmniejsz liczbę neuronów – czy sieć nadal daje radę?
+					🎯 Spróbuj: zmień dane wejściowe – która struktura jest łatwa do nauczenia?
+				</p>
+
+				<aside class="notes"><!-- slide-15 --></aside>
+			</section>
+
+
+			<section>
+				<section style="font-size: 0.85em;">
+					<h2>Generatywna AI w 2026</h2>
+					<table style="font-size: 0.75em; margin-top: 0.5em;">
+						<tr>
+							<th>Kategoria</th>
+							<th>Narzędzia</th>
+						</tr>
+						<tr class="fragment">
+							<td>💬 Tekst / Reasoning</td>
+							<td>GPT-5.3, Claude Opus 4.6, Gemini 3.1 Pro, DeepSeek V4</td>
+						</tr>
+						<tr class="fragment">
+							<td>🖼️ Obraz</td>
+							<td>Midjourney V7, Sora 2 (OpenAI), Flux 2, DALL-E → wycofany</td>
+						</tr>
+						<tr class="fragment">
+							<td>🎬 Wideo</td>
+							<td>Sora 2, Runway Gen-4.5, Kling 2.0</td>
+						</tr>
+						<tr class="fragment">
+							<td>🎵 Audio / Muzyka</td>
+							<td>ElevenLabs v3 (klonowanie głosu), Suno v5</td>
+						</tr>
+						<tr class="fragment">
+							<td>💻 Kod</td>
+							<td>Cursor 2.0, Claude Code, GitHub Copilot Agent, Devin 2.0</td>
+						</tr>
+					</table>
+					<p class="fragment" style="margin-top: 0.5em;">Generatywna AI to nie tylko tekst – to <strong>multimodalny ekosystem</strong></p>
+					<aside class="notes"><!-- slide-16 --></aside>
+				</section>
+				<section data-auto-animate>
+					<h2>🎨 Pytanie kreatywne!</h2>
+					<p class="fragment" style="text-align: center; font-size: 1.2em;">Czy kiedykolwiek stworzyłeś(-aś)
+						coś za pomocą AI?</p>
+					<p class="fragment" style="text-align: center; margin-top: 1em;">👍 Tak, sztukę &nbsp;&nbsp;&nbsp;
+						😮 Kod &nbsp;&nbsp;&nbsp; 🎉 Jeszcze nie</p>
+				</section>
+
+				<!-- AI Agents intro - replaces Poe.com -->
+				<section style="font-size: 0.85em;">
+					<h2>🤖 AI Agenci – nowy paradygmat</h2>
+					<p class="fragment" style="font-size: 0.9em;">Gartner: do 2028 r. <strong>33% aplikacji enterprise</strong> będzie zawierać agentyczne AI</p>
+					<ul style="margin-top: 0.5em;">
+						<li class="fragment"><strong>Chatbot</strong> → odpowiada na pytania (reaktywny)</li>
+						<li class="fragment"><strong>Agent AI</strong> → planuje, wykonuje, weryfikuje, iteruje (proaktywny)</li>
+					</ul>
+					<div class="fragment" style="margin-top: 1em; font-size: 0.9em; text-align: center;">
+						<span style="background: #333; padding: 0.3em 0.6em; border-radius: 5px;">Cel</span>
+						→ <span style="background: #333; padding: 0.3em 0.6em; border-radius: 5px;">Plan</span>
+						→ <span style="background: #333; padding: 0.3em 0.6em; border-radius: 5px;">Narzędzia</span>
+						→ <span style="background: #333; padding: 0.3em 0.6em; border-radius: 5px;">Wykonanie</span>
+						→ <span style="background: #333; padding: 0.3em 0.6em; border-radius: 5px;">Weryfikacja</span>
+						→ 🔄
+					</div>
+					<aside class="notes"><!-- slide-17 --></aside>
+				</section>
+
+				<section style="font-size: 0.75em;">
+					<h2>🛠️ Co mogą agenci AI w 2026?</h2>
+					<div style="display: flex; flex-wrap: wrap; gap: 1.5em; justify-content: center;">
+						<div style="flex: 1; min-width: 280px;">
+							<h3>👨‍💻 Dla developerów</h3>
+							<ul>
+								<li class="fragment">Cursor Agent – pisze, refaktoruje, testuje kod</li>
+								<li class="fragment">Claude Code – agent w terminalu z dostępem do plików</li>
+								<li class="fragment">Devin 2.0 – autonomiczny programista ($20/mies)</li>
+							</ul>
+						</div>
+						<div style="flex: 1; min-width: 280px;">
+							<h3>🏢 Dla biznesu</h3>
+							<ul>
+								<li class="fragment">n8n 2.0 – AI Agent builder (workflow + LLM)</li>
+								<li class="fragment">Microsoft Copilot Studio – agenci w Teams/Office</li>
+								<li class="fragment">LangGraph + CrewAI – orkiestracja wielu agentów</li>
+							</ul>
+						</div>
+					</div>
+					<div class="fragment" style="margin-top: 1em; padding: 0.5em; background: rgba(76,175,80,0.15); border-radius: 8px;">
+						<strong>🔌 MCP (Model Context Protocol)</strong> – standard łączenia agentów z narzędziami (bazy danych, API, pliki).
+						Stworzony przez Anthropic, teraz pod Linux Foundation. Wspierany przez OpenAI, Google, Microsoft.
+					</div>
+					<aside class="notes"><!-- slide-18 --></aside>
+				</section>
+
+			</section>
+
+			<section>
+				<style>
+					.timeline-dates {
+						display: flex;
+						justify-content: center;
+						gap: 1.5em;
+						margin-bottom: 1em;
+						font-size: 0.8em;
+					}
+
+					.timeline-dates span {
+						padding: 0.3em 0.6em;
+						border-radius: 5px;
+						background: #e0e0e0;
+						transition: background 0.3s, color 0.3s;
+					}
+
+					.timeline-dates .active {
+						background: #4caf50;
+						color: white;
+						font-weight: bold;
+					}
+				</style>
+
+				<section data-auto-animate>
+					<div class="timeline-dates">
+						<span class="active">1956</span>
+						<span>2012</span>
+						<span>2017</span>
+						<span>2022</span>
+						<span>2024</span>
+						<span>2026</span>
+					</div>
+
+					<h2>1956 – powstaje pojęcie „AI"</h2>
+					<img src="https://engineering.stanford.edu/sites/default/files/styles/card_1192x596/public/images/news/john_mccarthy.jpeg.webp?h=3751da6c&itok=B8abNXFd"
+						alt="John McCarthy" style="max-width: 80%; height: auto;" />
+					<p class="fragment" style="opacity: 0.6; font-size: 0.8em">👉 Czy w 1956 naprawdę wierzyli w
+						myślące maszyny? (👍 / 👎)</p>
+					<aside class="notes"><!-- slide-19 --></aside>
+				</section>
+
+				<section data-auto-animate>
+					<div class="timeline-dates">
+						<span>1956</span>
+						<span class="active">2012</span>
+						<span>2017</span>
+						<span>2022</span>
+						<span>2024</span>
+						<span>2026</span>
+					</div>
+
+					<h2>2012 – przełom ImageNet + DL</h2>
+					<img style="width: 60%; height: auto;"
+						src="https://www.researchgate.net/profile/Krishna-Kandarpa-2/publication/333424321/figure/fig1/AS:11431281213673965@1703118256662/Error-rates-on-the-ImageNet-Large-Scale-Visual-Recognition-Challenge-Accuracy.ppm"
+						alt="ImageNet accuracy over years" />
+					<p class="fragment" style="opacity: 0.6; font-size: 0.8em;">👉 Czy słyszeliście
+						wcześniej o AlexNet i przełomie 2012? (👍 / 👎)</p>
+
+					<aside class="notes"><!-- slide-20 --></aside>
+				</section>
+
+				<section data-auto-animate>
+					<div class="timeline-dates">
+						<span>1956</span>
+						<span>2012</span>
+						<span class="active">2017</span>
+						<span>2022</span>
+						<span>2024</span>
+						<span>2026</span>
+					</div>
+
+					<h2>2017 – „Attention Is All You Need"</h2>
+					<img style="max-width: 60%; height: auto;"
+						src="https://www.mygreatlearning.com/blog/wp-content/uploads/2025/04/transformer-architecture.jpg"
+						alt="Transformer architecture" />
+					<p class="fragment" style="opacity: 0.6; font-size: 0.8em;">👉 Czy przed szkoleniem słyszeliście o
+						Transformerach? (👍 / 👎)</p>
+
+					<aside class="notes"><!-- slide-21 --></aside>
+				</section>
+
+				<section data-auto-animate>
+					<div class="timeline-dates">
+						<span>1956</span>
+						<span>2012</span>
+						<span>2017</span>
+						<span class="active">2022</span>
+						<span>2024</span>
+						<span>2026</span>
+					</div>
+
+					<h2>2022 – ChatGPT i boom generatywnej AI</h2>
+					<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/120px-ChatGPT_logo.svg.png"
+						alt="ChatGPT logo" width="120" />
+
+					<p class="fragment" style="opacity: 0.6; font-size: 0.8em; margin-top: 2em;">👉 Pamiętacie swój
+						pierwszy kontakt z ChatGPT? Co wtedy pomyśleliście?</p>
+
+					<aside class="notes"><!-- slide-22 --></aside>
+				</section>
+
+				<section data-auto-animate>
+					<div class="timeline-dates">
+						<span>1956</span>
+						<span>2012</span>
+						<span>2017</span>
+						<span>2022</span>
+						<span class="active">2024</span>
+						<span>2026</span>
+					</div>
+
+					<h2>2024 – wyścig gigantów i regulacje</h2>
+					<ul style="font-size: 0.85em;">
+						<li class="fragment">GPT-4o – pierwszy masowy model multimodalny (tekst+obraz+audio)</li>
+						<li class="fragment">Claude 3, Gemini 1.5 Pro (1M tokenów kontekstu)</li>
+						<li class="fragment">Llama 3 (Meta) – open-source dogania zamknięte modele</li>
+						<li class="fragment">EU AI Act wchodzi w życie (sierpień 2024)</li>
+						<li class="fragment">Pierwsze AI agenty: Devin, Cursor, GitHub Copilot Workspace</li>
+					</ul>
+					<aside class="notes"><!-- slide-23 --></aside>
+				</section>
+
+				<section data-auto-animate style="font-size: 0.8em;">
+					<div class="timeline-dates">
+						<span>1956</span>
+						<span>2012</span>
+						<span>2017</span>
+						<span>2022</span>
+						<span>2024</span>
+						<span class="active">2026</span>
+					</div>
+
+					<h2>2026 – agenci, open-source i wyścig modeli</h2>
+					<ul>
+						<li class="fragment"><strong>GPT-5.3-Codex</strong> (OpenAI) – agentyczny model do kodu</li>
+						<li class="fragment"><strong>Claude Opus 4.6</strong> (Anthropic) – 1M tokenów kontekstu</li>
+						<li class="fragment"><strong>Gemini 3.1 Pro</strong> (Google) – rekordowe wyniki w rozumowaniu
+						</li>
+						<li class="fragment"><strong>DeepSeek V4</strong> – 1T parametrów, open-source, koszt treningu
+							~$6M</li>
+						<li class="fragment"><strong>Llama 4 Scout</strong> (Meta) – 10M tokenów kontekstu (!)</li>
+						<li class="fragment">Agentyczne kodowanie: Cursor (1M+ użytkowników), Claude Code, Devin
+							($20/mies)</li>
+					</ul>
+
+					<p class="fragment" style="margin-top: 0.5em; font-size: 0.9em;">Różnica open-source vs zamknięte
+						modele: już tylko <strong>5-7 punktów</strong> na benchmarkach</p>
+
+					<aside class="notes"><!-- slide-24 --></aside>
+				</section>
+
+				<section>
+					<h2>Dlaczego AI działa dopiero teraz?</h2>
+					<ul>
+						<li class="fragment">Ogromne zbiory danych (internet, social media, digitalizacja)</li>
+						<li class="fragment">GPU / cloud – moc obliczeniowa dostępna na żądanie</li>
+						<li class="fragment">Open-source: PyTorch, HuggingFace, Ollama, LangChain</li>
+						<li class="fragment">Inwestycje Big Tech: $650 mld na infrastrukturę AI w 2026</li>
+						<li class="fragment">Architektura Transformer (2017) – fundament wszystkich LLM</li>
+					</ul>
+					<aside class="notes"><!-- slide-25 --></aside>
+				</section>
+			</section>
+			<section style="font-size: 0.65em;">
+				<h2>🗺️ Mapa AI – gdzie to wszystko się mieści?</h2>
+				<div style="display: flex; flex-wrap: wrap; gap: 2em; justify-content: center;">
+
+					<div style="flex: 1; min-width: 250px;">
+						<h3>🎯 Zastosowania</h3>
+						<ul>
+							<li>Klasyfikacja maili (SPAM / NIE-SPAM)</li>
+							<li>Rozpoznawanie obrazów (np. rentgeny)</li>
+							<li>Generowanie tekstów (LLM)</li>
+							<li>Rekomendacje (filmy, produkty)</li>
+							<li>Przewidywanie (odejść pracowników, awarii)</li>
+						</ul>
+					</div>
+
+					<div style="flex: 1; min-width: 250px;">
+						<h3>🧠 Typy modeli</h3>
+						<ul>
+							<li>Modele klasyfikujące (drzewa, regresja)</li>
+							<li>Sieci neuronowe (MLP, CNN, RNN)</li>
+							<li>LLM (ChatGPT, Claude, Gemini...)</li>
+							<li>Modele klastrowania (K-means, DBSCAN)</li>
+							<li>Agentowe (Reinforcement Learning)</li>
+						</ul>
+					</div>
+
+					<div style="flex: 1; min-width: 250px;">
+						<h3>⚙️ Narzędzia</h3>
+						<ul>
+							<li>Python, scikit-learn, pandas</li>
+							<li>TensorFlow, PyTorch</li>
+							<li>HuggingFace, LangChain</li>
+							<li>OpenAI API, Claude, Gemini</li>
+							<li>Excel + Copilot, Power BI + AI</li>
+						</ul>
+					</div>
+
+				</div>
+
+				<p class="fragment" style="margin-top: 1em; text-align: center;">👉 Nie musisz znać wszystkiego – ale
+					warto wiedzieć, co jest możliwe</p>
+
+				<aside class="notes"><!-- slide-26 --></aside>
+			</section>
+
+			<!-- Local Models Section (3 slides) -->
+			<section>
+				<section>
+					<h2>🏠 Modele lokalne – AI bez chmury</h2>
+					<p class="fragment" style="font-size: 0.9em;">Nie każdy model AI musi działać na serwerach OpenAI czy Google</p>
+					<ul style="font-size: 0.85em;">
+						<li class="fragment"><strong>Modele open-source</strong> można pobrać i uruchomić na własnym komputerze</li>
+						<li class="fragment">Llama 4 (Meta), DeepSeek V4, Mistral, Phi-4 (Microsoft), Gemma 3 (Google)</li>
+						<li class="fragment">Dziś model 8B parametrów na laptopie daje jakość porównywalną z GPT-3.5</li>
+					</ul>
+					<div class="fragment" style="margin-top: 1em; font-size: 3em; text-align: center;">💻 → 🧠</div>
+					<aside class="notes"><!-- slide-27 --></aside>
+				</section>
+
+				<section style="font-size: 0.75em;">
+					<h2>🔒 Dlaczego modele lokalne?</h2>
+					<div style="display: flex; gap: 2em; justify-content: center; flex-wrap: wrap;">
+						<div style="flex: 1; min-width: 250px;">
+							<h3>✅ Zalety</h3>
+							<ul>
+								<li class="fragment"><strong>Prywatność danych</strong> – dane nie opuszczają firmy</li>
+								<li class="fragment"><strong>Brak kosztów API</strong> – płacisz raz za sprzęt</li>
+								<li class="fragment"><strong>Brak vendor lock-in</strong> – zmiana modelu = zmiana pliku</li>
+								<li class="fragment"><strong>Offline</strong> – działa bez internetu</li>
+								<li class="fragment"><strong>Customizacja</strong> – fine-tuning na własnych danych</li>
+							</ul>
+						</div>
+						<div style="flex: 1; min-width: 250px;">
+							<h3>⚠️ Wyzwania</h3>
+							<ul>
+								<li class="fragment">Mniejsze modele = niższa jakość niż GPT-5 / Claude Opus</li>
+								<li class="fragment">Wymaga GPU (min. 8GB VRAM) lub Apple Silicon</li>
+								<li class="fragment">Brak multimodalności w wielu lokalnych modelach</li>
+								<li class="fragment">Trzeba samemu zarządzać aktualizacjami</li>
+							</ul>
+						</div>
+					</div>
+					<p class="fragment" style="margin-top: 0.5em; text-align: center;">
+						👉 <strong>Idealny scenariusz:</strong> cloud AI do eksploracji + lokalne modele do produkcji z wrażliwymi danymi
+					</p>
+					<aside class="notes"><!-- slide-28 --></aside>
+				</section>
+
+				<section style="font-size: 0.7em;">
+					<h2>⚙️ Jak uruchomić model lokalnie?</h2>
+					<table>
+						<tr>
+							<th>Narzędzie</th>
+							<th>Opis</th>
+							<th>Dla kogo</th>
+						</tr>
+						<tr class="fragment">
+							<td><strong>Ollama</strong></td>
+							<td>1 komenda: <code>ollama run llama4</code></td>
+							<td>Developerzy, CLI</td>
+						</tr>
+						<tr class="fragment">
+							<td><strong>LM Studio</strong></td>
+							<td>GUI – pobierz model, kliknij „Start"</td>
+							<td>Każdy, bez terminala</td>
+						</tr>
+						<tr class="fragment">
+							<td><strong>vLLM</strong></td>
+							<td>Serwer inference, API kompatybilne z OpenAI</td>
+							<td>Produkcja, DevOps</td>
+						</tr>
+					</table>
+
+					<div class="fragment" style="margin-top: 1em;">
+						<h3>📊 Popularne modele lokalne (luty 2026)</h3>
+						<table style="font-size: 0.85em;">
+							<tr>
+								<th>Model</th>
+								<th>Rozmiar</th>
+								<th>RAM / VRAM</th>
+								<th>Zastosowanie</th>
+							</tr>
+							<tr>
+								<td>Phi-4 Mini</td>
+								<td>3.8B</td>
+								<td>~4 GB</td>
+								<td>Szybki asystent, reasoning</td>
+							</tr>
+							<tr>
+								<td>Llama 4 Scout</td>
+								<td>17B (aktywne)</td>
+								<td>~12 GB</td>
+								<td>Uniwersalny, 10M kontekstu</td>
+							</tr>
+							<tr>
+								<td>Gemma 3</td>
+								<td>27B</td>
+								<td>~18 GB</td>
+								<td>Kod, analiza, 128K kontekstu</td>
+							</tr>
+							<tr>
+								<td>Qwen 3.5</td>
+								<td>72B</td>
+								<td>~48 GB</td>
+								<td>Najlepsza jakość lokalna</td>
+							</tr>
+						</table>
+					</div>
+
+					<p class="fragment" style="margin-top: 0.5em;">💡 <strong>Quantization (GGUF Q4_K_M)</strong> – kompresja modelu 2-4× mniejszy z minimalną utratą jakości</p>
+
+					<aside class="notes"><!-- slide-29 --></aside>
+				</section>
+			</section>
+
+			<!-- RAG Section (4 slides with animations) -->
+			<section>
+				<section>
+					<h2>📚 RAG – Retrieval-Augmented Generation</h2>
+					<p class="fragment" style="font-size: 0.9em;">Jak sprawić, by LLM odpowiadał na podstawie <strong>Twoich danych</strong>?</p>
+
+					<div style="margin-top: 1em; font-size: 0.85em;">
+						<div class="fragment" style="display: inline-block; background: #1a237e; padding: 0.4em 0.8em; border-radius: 8px; margin: 0.2em;">
+							📄 Twoje dokumenty
+						</div>
+						<span class="fragment" style="font-size: 1.5em;"> → </span>
+						<div class="fragment" style="display: inline-block; background: #b71c1c; padding: 0.4em 0.8em; border-radius: 8px; margin: 0.2em;">
+							✂️ Chunking
+						</div>
+						<span class="fragment" style="font-size: 1.5em;"> → </span>
+						<div class="fragment" style="display: inline-block; background: #e65100; padding: 0.4em 0.8em; border-radius: 8px; margin: 0.2em;">
+							🔢 Embeddings
+						</div>
+						<span class="fragment" style="font-size: 1.5em;"> → </span>
+						<div class="fragment" style="display: inline-block; background: #1b5e20; padding: 0.4em 0.8em; border-radius: 8px; margin: 0.2em;">
+							🗄️ Vector DB
+						</div>
+					</div>
+
+					<div style="margin-top: 1em; font-size: 0.85em;">
+						<div class="fragment" style="display: inline-block; background: #4a148c; padding: 0.4em 0.8em; border-radius: 8px; margin: 0.2em;">
+							❓ Pytanie użytkownika
+						</div>
+						<span class="fragment" style="font-size: 1.5em;"> → </span>
+						<div class="fragment" style="display: inline-block; background: #1b5e20; padding: 0.4em 0.8em; border-radius: 8px; margin: 0.2em;">
+							🔍 Wyszukanie
+						</div>
+						<span class="fragment" style="font-size: 1.5em;"> → </span>
+						<div class="fragment" style="display: inline-block; background: #ff6f00; padding: 0.4em 0.8em; border-radius: 8px; margin: 0.2em;">
+							🧠 LLM + kontekst
+						</div>
+						<span class="fragment" style="font-size: 1.5em;"> → </span>
+						<div class="fragment" style="display: inline-block; background: #00695c; padding: 0.4em 0.8em; border-radius: 8px; margin: 0.2em;">
+							✅ Odpowiedź
+						</div>
+					</div>
+
+					<aside class="notes"><!-- slide-30 --></aside>
+				</section>
+
+				<section style="font-size: 0.7em;">
+					<h2>✂️ Chunking – dlaczego dzielimy dokumenty?</h2>
+
+					<div style="display: flex; gap: 1.5em; justify-content: center; margin-top: 0.5em; flex-wrap: wrap;">
+						<div style="flex: 1; min-width: 300px;">
+							<h3>Dokument (500 stron)</h3>
+							<div class="fragment" style="background: #333; padding: 1em; border-radius: 8px; font-size: 0.85em; line-height: 1.6;">
+								<div style="border-left: 3px solid #f44336; padding-left: 0.5em; margin-bottom: 0.5em;">
+									Chunk 1: „Procedura onboardingu nowego pracownika obejmuje 5 kroków..."
+								</div>
+								<div class="fragment" style="border-left: 3px solid #2196f3; padding-left: 0.5em; margin-bottom: 0.5em;">
+									Chunk 2: „Krok 3: Konfiguracja dostępu do systemów wymaga zgody managera..."
+								</div>
+								<div class="fragment" style="border-left: 3px solid #4caf50; padding-left: 0.5em; margin-bottom: 0.5em;">
+									Chunk 3: „Polityka urlopowa pozwala na 26 dni roboczych rocznie..."
+								</div>
+								<div class="fragment" style="border-left: 3px solid #ff9800; padding-left: 0.5em;">
+									Chunk 4: „Procedura offboardingu obejmuje zwrot sprzętu w ciągu 3 dni..."
+								</div>
+							</div>
+						</div>
+
+						<div style="flex: 1; min-width: 280px;">
+							<h3>Strategie chunkingu</h3>
+							<ul>
+								<li class="fragment"><strong>Recursive</strong> – dzieli po akapitach, potem zdaniach (domyślny)</li>
+								<li class="fragment"><strong>Semantic</strong> – dzieli tam, gdzie zmienia się temat</li>
+								<li class="fragment"><strong>By headers</strong> – dzieli po nagłówkach H1/H2/H3</li>
+								<li class="fragment"><strong>Overlap</strong> – chunki zachodzą na siebie (kontekst nie ginie)</li>
+							</ul>
+							<p class="fragment" style="margin-top: 0.5em;">Typowy chunk: <strong>500–1000 tokenów</strong> z ~10% overlap</p>
+						</div>
+					</div>
+
+					<aside class="notes"><!-- slide-31 --></aside>
+				</section>
+
+				<section style="font-size: 0.75em;">
+					<h2>🎯 Jak RAG redukuje halucynacje?</h2>
+					<div style="display: flex; gap: 2em; justify-content: center; flex-wrap: wrap;">
+						<div style="flex: 1; min-width: 280px;">
+							<h3 style="color: #f44336;">❌ Bez RAG</h3>
+							<div style="background: #2d1010; padding: 0.8em; border-radius: 8px; border: 1px solid #f44336;">
+								<p><strong>Pytanie:</strong> „Ile dni urlopu mam w firmie?"</p>
+								<p class="fragment"><strong>LLM:</strong> „Standardowo w Polsce przysługuje 20 lub 26 dni..."</p>
+								<p class="fragment" style="color: #f44336;">⚠️ Odpowiedź ogólna – nie zna regulaminu Twojej firmy</p>
+							</div>
+						</div>
+						<div style="flex: 1; min-width: 280px;">
+							<h3 style="color: #4caf50;">✅ Z RAG</h3>
+							<div style="background: #0d2d10; padding: 0.8em; border-radius: 8px; border: 1px solid #4caf50;">
+								<p><strong>Pytanie:</strong> „Ile dni urlopu mam w firmie?"</p>
+								<p class="fragment"><strong>Znaleziony chunk:</strong> <em>„Polityka urlopowa: 26 dni + 3 dni wellness..."</em></p>
+								<p class="fragment"><strong>LLM:</strong> „W naszej firmie masz 26 dni urlopu + 3 dni wellness. Źródło: Regulamin HR, §12"</p>
+								<p class="fragment" style="color: #4caf50;">✅ Precyzyjna odpowiedź + źródło</p>
+							</div>
+						</div>
+					</div>
+					<p class="fragment" style="margin-top: 0.8em; text-align: center; font-size: 0.95em;">
+						RAG nie eliminuje halucynacji w 100%, ale <strong>redukuje je o 70-90%</strong> dając modelowi fakty zamiast domysłów
+					</p>
+					<aside class="notes"><!-- slide-32 --></aside>
+				</section>
+
+				<section style="font-size: 0.7em;">
+					<h2>🏢 RAG w praktyce – zastosowania enterprise</h2>
+					<div style="display: flex; gap: 1.5em; justify-content: center; flex-wrap: wrap;">
+						<div style="flex: 1; min-width: 250px;">
+							<h3>Popularne zastosowania</h3>
+							<ul>
+								<li class="fragment">📋 <strong>Baza wiedzy HR</strong> – pytania o regulaminy, procedury</li>
+								<li class="fragment">🔧 <strong>Dokumentacja techniczna</strong> – wewnętrzne API, runbooki</li>
+								<li class="fragment">📞 <strong>Support klienta</strong> – odpowiedzi z bazy FAQ + dokumentów</li>
+								<li class="fragment">⚖️ <strong>Compliance</strong> – szukanie w regulacjach prawnych</li>
+							</ul>
+						</div>
+						<div style="flex: 1; min-width: 250px;">
+							<h3>Narzędzia RAG (2026)</h3>
+							<ul>
+								<li class="fragment"><strong>LangChain / LlamaIndex</strong> – frameworki Python</li>
+								<li class="fragment"><strong>n8n + AI Agent</strong> – RAG bez kodu (workflow)</li>
+								<li class="fragment"><strong>Vector DB:</strong> Qdrant, Pinecone, Weaviate, pgvector</li>
+								<li class="fragment"><strong>Embeddings:</strong> Qwen3-Embedding (#1 MTEB), Cohere embed-v4</li>
+							</ul>
+						</div>
+					</div>
+					<div class="fragment" style="margin-top: 1em; padding: 0.5em; background: rgba(33,150,243,0.15); border-radius: 8px; text-align: center;">
+						<strong>🔮 Trendy 2026:</strong> Agentic RAG (agent sam decyduje kiedy i co szukać), Graph RAG (relacje między dokumentami), Self-RAG (model ocenia czy potrzebuje więcej kontekstu)
+					</div>
+					<aside class="notes"><!-- slide-33 --></aside>
+				</section>
+			</section>
+
+			<section>
+				<h2>AI vs człowiek</h2>
+				<table>
+					<tr>
+						<th>Cecha</th>
+						<th>Człowiek</th>
+						<th>AI</th>
+					</tr>
+					<tr>
+						<td>Myślenie</td>
+						<td>Rozumie kontekst</td>
+						<td>Przewiduje token</td>
+					</tr>
+					<tr>
+						<td>Uczenie</td>
+						<td>Mało danych</td>
+						<td>Dużo danych</td>
+					</tr>
+					<tr>
+						<td>Intuicja</td>
+						<td>Tak</td>
+						<td>Nie</td>
+					</tr>
+					<tr>
+						<td>Wyjaśnialność</td>
+						<td>Tak</td>
+						<td>Różnie bywa</td>
+					</tr>
+				</table>
+				<aside class="notes"><!-- slide-34 --></aside>
+			</section>
+
+			<section>
+				<h2>🍽️ Przerwa obiadowa – 45 minut</h2>
+				<p class="fragment">Wracamy 14:15</p>
+				<aside class="notes"><!-- slide-35 --></aside>
+			</section>
+
+			<section>
+				<h2>Ćwiczenie</h2>
+				<p><strong>👉 Zapisz na czacie / opowiedz</strong></p>
+				<ul>
+					<li class="fragment">Gdzie ostatnio zauważyłeś AI w codziennym życiu lub pracy?</li>
+					<li class="fragment">Czy używałeś ChatGPT / Midjourney / Copilota? Jak?</li>
+				</ul>
+				<p class="fragment">➡️ 2 minuty + dyskusja</p>
+				<aside class="notes"><!-- slide-36 --></aside>
+			</section>
+
+			<section>
+				<h2>🧐 Dyskusja: Gdzie AI nie powinno decydować?</h2>
+				<p class="fragment">Czy są obszary, gdzie decyzje powinny <strong>zawsze</strong> należeć do człowieka?
+				</p>
+				<ul>
+					<li class="fragment">Medycyna (diagnozy, leczenie)</li>
+					<li class="fragment">Prawo i sądownictwo</li>
+					<li class="fragment">Bezpieczeństwo publiczne</li>
+					<li class="fragment">Edukacja i wychowanie</li>
+				</ul>
+				<p class="fragment" style="margin-top: 1em;">👉 Podziel się swoją opinią!</p>
+				<aside class="notes"><!-- slide-37 --></aside>
+			</section>
+
+			<section style="font-size: 0.75em;">
+				<h2>⚖️ EU AI Act – co musisz wiedzieć</h2>
+				<div style="display: flex; gap: 2em; justify-content: center; flex-wrap: wrap;">
+					<div style="flex: 1; min-width: 280px;">
+						<h3>Oś czasu</h3>
+						<ul>
+							<li class="fragment"><strong>Sierpień 2024</strong> – AI Act wchodzi w życie</li>
+							<li class="fragment"><strong>Luty 2025</strong> – zakazane praktyki AI + obowiązek AI literacy</li>
+							<li class="fragment"><strong>Sierpień 2025</strong> – zasady dla modeli GPAI (general-purpose)</li>
+							<li class="fragment"><strong>Sierpień 2026</strong> – pełne zasady dla systemów wysokiego ryzyka</li>
+						</ul>
+					</div>
+					<div style="flex: 1; min-width: 280px;">
+						<h3>Kategorie ryzyka</h3>
+						<ul>
+							<li class="fragment">🚫 <strong>Zakazane</strong> – social scoring, manipulacja podprogowa</li>
+							<li class="fragment">🔴 <strong>Wysokie ryzyko</strong> – rekrutacja, kredyty, medycyna, prawo</li>
+							<li class="fragment">🟡 <strong>Ograniczone</strong> – chatboty (obowiązek informowania)</li>
+							<li class="fragment">🟢 <strong>Minimalne</strong> – filtry antyspamowe, gry</li>
+						</ul>
+					</div>
+				</div>
+				<p class="fragment" style="margin-top: 0.5em;">👉 <strong>AI Literacy</strong> – od lutego 2025 każda firma używająca AI musi szkolić pracowników</p>
+				<aside class="notes"><!-- slide-38 --></aside>
+			</section>
+
+
+			<!-- #endregion -->
+
+			<section>
+				<h2>☕ Przerwa kawowa – 15 minut</h2>
+				<p class="fragment">Czas na kawę!<br> Wracamy o ...</p>
+				<aside class="notes"><!-- slide-39 --></aside>
+			</section>
+
+			<section>
+				<h2>Przejdź do Części 2</h2>
+				<p><a href="part2.html" style="font-size: 1.2em; padding: 0.5em 1em; background: #42affa; color: white; border-radius: 8px; text-decoration: none;">➡️ Część 2: Proces uczenia maszynowego</a></p>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="../../dist/reveal.js"></script>
+	<script src="../../plugin/notes/notes.js"></script>
+	<script src="../../plugin/markdown/markdown.js"></script>
+	<script src="../../plugin/highlight/highlight.js"></script>
+	<script>
+		Reveal.initialize({
+			hash: true,
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+			pdfSeparateFragments: false
+		});
+	</script>
+</body>
+
+</html>

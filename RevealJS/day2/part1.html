@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <title>Dzień 2 – Część 1: LLM – Jak działają modele językowe</title>
+    <link rel="stylesheet" href="../../dist/reset.css">
+    <link rel="stylesheet" href="../../dist/reveal.css">
+    <link rel="stylesheet" href="../../dist/theme/black.css">
+    <link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+    <style>
+        .reveal:focus {
+            outline: none;
+        }
+
+        .reveal *:focus {
+            outline: none;
+        }
+
+        .reveal * {
+            caret-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- #region - Slajdy powitalne i agenda -->
+            <section style="font-size: 0.9em;">
+                <h2>🚀 Witaj w Dniu 2!</h2>
+
+                <ul>
+                    <li class="fragment">🤖 Zanurzymy się w świat LLM (Large Language Models)</li>
+                    <li class="fragment">🧠 Od promptów do Context Engineering – jak naprawdę sterować AI w 2026</li>
+                    <li class="fragment">🔧 Zbudujemy własnego agenta AI w Pythonie</li>
+                    <li class="fragment">🔗 Orkiestracja agentów z LangGraph</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em;">🌟 Dziś 75% czasu to praktyka – pisanie kodu, eksperymenty, budowanie</p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Wczoraj poznaliśmy fundamenty — supervised, unsupervised learning, klasyfikację zgłoszeń IT.
+                    Dziś idziemy dalej — zobaczymy, jak duże modele językowe działają pod spodem,
+                    jak nimi sterować, i jak budować z nich inteligentne systemy."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Wyobraźcie sobie, że wczoraj nauczyliśmy się prowadzić samochód. Dziś zajrzymy pod maskę — zobaczymy
+                    silnik, skrzynię biegów, układ hamulcowy. A potem zbudujemy własny pojazd."<br>
+                    🔹 Podkreśl: 75% dnia to praktyka — nie będziemy siedzieć i słuchać.</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 „Co pamiętacie z wczoraj? Jedno zdanie na czacie."<br>
+                    🔹 „Kto z Was już dziś rano użył jakiegoś narzędzia AI?"</p>
+
+                    <p><strong>Wskazówki do moderowania:</strong><br>
+                    🔹 Zacznij energicznie: „Dziś nie tylko zrozumiemy AI — dziś je zbudujemy!"<br>
+                    🔹 Zachęć: „Zapisujcie pytania — będziemy mieć krótkie sesje Q&amp;A po każdym bloku."<br>
+                    🔹 Jeśli ktoś był nieobecny na Dniu 1 — krótko podsumuj: supervised = dane z etykietami,
+                    unsupervised = szukanie wzorców bez etykiet.</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.8em;">
+                <h2>📅 Agenda – Dzień 2</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 3em; font-size: 0.58em;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <ul>
+                            <li class="fragment"><strong>09:00–10:30</strong> – Jak działają LLM-y
+                                <ul>
+                                    <li>Tokenizacja – wyścig + quiz</li>
+                                    <li>Attention i Transformer</li>
+                                    <li>Ćwiczenie: LLM + RAG w praktyce</li>
+                                </ul>
+                            </li>
+                            <li class="fragment"><strong>10:30–10:45</strong> – ☕ Przerwa kawowa</li>
+                            <li class="fragment"><strong>10:45–12:15</strong> – Context Engineering
+                                <ul>
+                                    <li>Od promptów do kontekstu – podejście 2026</li>
+                                    <li>Tool calling i structured outputs</li>
+                                    <li>Ćwiczenie: Chatbot Arena + Ollama Modelfile</li>
+                                </ul>
+                            </li>
+                            <li class="fragment"><strong>12:15–12:45</strong> – Architektura agentów AI
+                                <ul>
+                                    <li>Krótka teoria + ćwiczenie: whiteboard design</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div style="flex: 1; min-width: 300px;">
+                        <ul>
+                            <li class="fragment"><strong>12:45–13:45</strong> – 🍽️ Przerwa obiadowa</li>
+                            <li class="fragment"><strong>13:45–14:45</strong> – Warsztat: Python Agent
+                                <ul>
+                                    <li>Budujemy agenta IT krok po kroku</li>
+                                    <li>Tools, memory, structured output</li>
+                                </ul>
+                            </li>
+                            <li class="fragment"><strong>14:45–15:00</strong> – ☕ Przerwa kawowa</li>
+                            <li class="fragment"><strong>15:00–16:15</strong> – Orkiestracja z LangGraph
+                                <ul>
+                                    <li>Grafy, węzły, krawędzie warunkowe</li>
+                                    <li>Ćwiczenie: inteligentny router zgłoszeń</li>
+                                </ul>
+                            </li>
+                            <li class="fragment"><strong>16:15–16:45</strong> – Ryzyka AI + podsumowanie
+                                <ul>
+                                    <li>Prompt injection attack, bezpieczeństwo AI</li>
+                                    <li>Refleksja i dalsze kroki</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - LLM – jak działają -->
+
+            <section>
+                <h2>🤖 Co to są LLM-y?</h2>
+                <ul>
+                    <li class="fragment">LLM = Large Language Model</li>
+                    <li class="fragment">Trenowany na miliardach tokenów</li>
+                    <li class="fragment">Przewiduje kolejne słowa/tokeny – nie rozumie, ale zgaduje (i to świetnie)</li>
+                </ul>
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Wczoraj widzieliśmy, jak klasyczne ML uczy się z danych — supervised, unsupervised.
+                    Teraz przyjrzymy się modelom, które zrewolucjonizowały AI — dużym modelom językowym."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „To trochę tak, jakbyśmy czytali zdanie i próbowali zgadnąć, co będzie dalej — na podstawie
+                    wcześniejszego kontekstu. LLM nie rozumie treści w ludzkim sensie, ale statystycznie wie, co
+                    najczęściej pojawia się po danym ciągu słów."<br>
+                    🔹 „Jeśli zaczniemy zdanie od 'Dziś w Warszawie będzie...' — model z dużym prawdopodobieństwem
+                    dopowie 'deszczowo' albo 'słonecznie'. Bo tak wynika z miliardów tekstów, na których się uczył."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 Zapytaj: „Z jakich narzędzi opartych na LLM korzystacie w pracy? ChatGPT, Copilot, Claude, Gemini?"<br>
+                    🔹 Zbierz 3-4 odpowiedzi — to pomoże dopasować poziom reszty bloku.</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Zaraz zobaczymy, jak model zamienia tekst na coś, co potrafi przetworzyć — pierwszy krok to tokenizacja."</p>
+                </aside>
+            </section>
+
+            <section>
+                <h2>🔧 Jak działa LLM?</h2>
+                <ul>
+                    <li class="fragment">W środku: architektura Transformer</li>
+                    <li class="fragment">Tekst zamieniany na tokeny</li>
+                    <li class="fragment">Model uczy się zależności i „zgaduje" następny token</li>
+                </ul>
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Zanim powiemy 'jak' — zapamiętajmy trzy słowa: Transformer, tokeny, attention. To trzy trybiki,
+                    które napędzają każdy nowoczesny model językowy."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Wyobraźcie sobie geniusza językowego, który przeczytał cały Internet. Każde słowo,
+                    które dodaje, jest wynikiem analizy miliardów przykładów."<br>
+                    🔹 Pokaż na przykładzie: „Kot siedzi na..." — zapytaj grupę, co model podpowie.
+                    Model zgaduje najczęstsze kontynuacje.</p>
+
+                    <p><strong>Wskazówki do moderowania:</strong><br>
+                    🔹 Nie wchodź w matematykę — uczestnicy potrzebują intuicji, nie wzorów.<br>
+                    🔹 Jeśli ktoś pyta „czy model rozumie?" — powiedz: „Nie w ludzkim sensie. Ale przewiduje
+                    tak dobrze, że wygląda jakby rozumiał."</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Ale jak model 'widzi' tekst? Przecież nie czyta liter jak my. Tu wchodzi tokenizacja."</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.95em;">
+                <h2>🔤 Jak tekst zamienia się w tokeny?</h2>
+
+                <p style="text-align: center;" class="fragment fade-in">
+                    <strong>Wejście:</strong> <code>I love machine learning!</code>
+                </p>
+
+                <p style="text-align: center;" class="fragment fade-in">
+                    <strong>Tokeny:</strong>
+                    <span
+                        style="display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; color: #191919; background: #e0e0e0; margin: 0.2em;">I</span>
+                    <span
+                        style="display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; color: #191919; background: #d0f0ff; margin: 0.2em;">
+                        love</span>
+                    <span
+                        style="display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; color: #191919; background: #ffd0e0; margin: 0.2em;">
+                        machine</span>
+                    <span
+                        style="display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; color: #191919; background: #c0ffd0; margin: 0.2em;">
+                        learning</span>
+                    <span
+                        style="display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; color: #191919; background: #ffe0b0; margin: 0.2em;">!</span>
+                </p>
+
+                <p class="fragment fade-in" style="text-align: center; margin-top: 1em; font-size: 0.85em;">
+                    ⚠️ Czasem token to <strong>całe słowo</strong>, czasem tylko <strong>kawałek słowa</strong> (np.
+                    „learn" i „ing")
+                </p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Zanim model cokolwiek przewidzi, musi 'zobaczyć' tekst. Ale tekst dla niego to nie litery —
+                    tylko liczby. Pierwszy krok to tokenizacja — rozbicie tekstu na kawałki."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Tokeny to jak klocki LEGO. Całe zdanie to gotowa budowla, ale model widzi tylko pojedyncze klocki —
+                    i z nich próbuje odbudować sens. Czasem jeden klocek to całe słowo. Czasem to kawałek słowa.
+                    A emoji? To osobny, kolorowy klocek."<br>
+                    🔹 „Albo inaczej: dostajecie SMS-a, ale każde słowo jest osobną wiadomością. Musicie sami złożyć sens."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 Otwórz tokenizer.openai.com na projektorze.<br>
+                    🔹 Zapytaj: „Kto zgadnie, ile tokenów ma 'Hello 🌟 World!'?"<br>
+                    🔹 Pozwól uczestnikom zgadywać — dopiero potem pokaż wynik.</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Zobaczmy teraz konkretne przykłady — i sprawdźmy, czy wasze intuicje będą trafne!"</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.95em;">
+                <h2>🔢 Od tekstu do tokenów</h2>
+                <ul>
+                    <li class="fragment">„AI is powerful" → <code>[7412, 318, 5939]</code> – tokeny</li>
+                    <li class="fragment">Tokeny = liczby całkowite reprezentujące fragmenty tekstu</li>
+                    <li class="fragment">Te liczby trafiają do warstwy <strong>embedding</strong>, która przypisuje
+                        im znaczenie w przestrzeni</li>
+                </ul>
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Każdy token to numer w słowniku modelu. Embedding to 'znaczenie' tego numeru — punkt w przestrzeni,
+                    gdzie podobne słowa są blisko siebie."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Tokeny to jak numerki na magazynowych paczkach. LLM nie widzi słów — widzi numery i uczy
+                    się, które numery pojawiają się razem."<br>
+                    🔹 „Embedding to jakby mapa miasta: 'król' i 'królowa' są w tej samej dzielnicy, ale 'banan' jest
+                    na drugim końcu miasta."</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 Zatrzymaj się przy znanym słowie i zapytaj: „Ile tokenów zajmuje to słowo?" — spróbujcie zgadnąć.<br>
+                    🔹 Ciekawostka: polskie słowa mają więcej tokenów niż angielskie (tokenizer trenowany głównie na angielskim).</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Teraz wyścig — kto lepiej zgadnie tokenizację!"</p>
+                </aside>
+            </section>
+
+            <section>
+                <h2>🎯 Wyścig tokenizacji!</h2>
+                <p class="fragment">👉 Teraz zobaczymy, jak modele AI naprawdę "widzą" tekst.</p>
+                <p class="fragment">🔍 Ile tokenów ma słowo? Emoji? Liczba?</p>
+                <p class="fragment" style="margin-top: 1em;">💻 Otwieramy notebook Colab!</p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Czas na zabawę! Zaraz zobaczymy, jak modele AI naprawdę 'widzą' tekst.
+                    Będziecie zgadywać — a wyniki mogą Was zaskoczyć."</p>
+
+                    <p><strong>Jak poprowadzić:</strong><br>
+                    🔹 Otwórz quiz w kolejnych slajdach — uczestnicy reagują emoji na Zoomie.<br>
+                    🔹 😲 = 1 token, 👍 = 2-3 tokeny, 🎉 = 4+ tokenów.<br>
+                    🔹 Po każdym pytaniu: 10 sekund na reakcje, potem ujawnij odpowiedź.<br>
+                    🔹 Czas: ~10 minut na cały quiz.</p>
+
+                    <p><strong>Wskazówki do moderowania:</strong><br>
+                    🔹 Kluczowe momenty zaskoczenia: „Dziękuję!" = 5 tokenów (polskie znaki!),
+                    「今日は」 = 1 token (zaskoczenie!).<br>
+                    🔹 Jeśli ktoś pyta „dlaczego polskie słowa mają więcej tokenów?" — tokenizer trenowany
+                    głównie na angielskim, polskie znaki diakrytyczne rozbijają na mniejsze jednostki.<br>
+                    🔹 Tip: otwórz tokenizer.openai.com na żywo i pozwól uczestnikom eksperymentować.</p>
+                </aside>
+            </section>
+
+            <section>
+                <section style="font-size: 0.95em;">
+                    <h2>🧠 Tokenizacja nie zawsze jest oczywista</h2>
+
+                    <p style="text-align: center;" class="fragment fade-in">
+                        <strong>Wejście:</strong> <code>unbelievable 😱🔥</code>
+                    </p>
+
+                    <p style="text-align: center;" class="fragment fade-in">
+                        <strong>Tokeny:</strong>
+                        <span
+                            style="display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; color: #191919; background: #e0d4f7; margin: 0.2em;">un</span>
+                        <span
+                            style="display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; color: #191919; background: #d0e0ff; margin: 0.2em;">believ</span>
+                        <span
+                            style="display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; color: #191919; background: #c0ffd0; margin: 0.2em;">able</span>
+                        <span
+                            style="display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; color: #191919; background: #f7d7d7; margin: 0.2em;">😱</span>
+                        <span
+                            style="display: inline-block; padding: 0.3em 0.6em; border-radius: 4px; color: #191919; background: #ffd7ae; margin: 0.2em;">🔥</span>
+                    </p>
+
+                    <p class="fragment fade-in" style="text-align: center; margin-top: 1em; font-size: 0.85em;">
+                        🧩 Nawet jedno słowo może rozbić się na 3 tokeny, a emoji mogą być tokenami osobno!
+                    </p>
+
+                    <aside class="notes">
+                        <p><strong>Wyjaśnienie:</strong><br>
+                        🔹 „Unbelievable" = 3 tokeny (un + believ + able) — model rozbija długie słowa na znane fragmenty.<br>
+                        🔹 Emoji = osobne tokeny — to jak specjalne piktogramy w słowniku modelu.</p>
+
+                        <p><strong>Aktywizacja:</strong><br>
+                        🔹 Zapytaj: „Ile tokenów ma 😅? A 🇵🇱?"<br>
+                        🔹 Wklej do tokenizer.openai.com i pokaż wynik na żywo.</p>
+
+                        <p><strong>Przejście:</strong><br>
+                        „OK, wiemy jak model rozbija tekst na kawałki. Ale jak z tych kawałków wyciąga sens?
+                        Tu pojawia się mechanizm Attention."</p>
+                    </aside>
+                </section>
+
+                <!-- Quiz tokenizacja -->
+                <section>
+                    <h2>Quiz: Tokenizacja</h2>
+                    <p>Reaguj na Zoomie:<br>
+                        😲 = 1 token | 👍 = 2-3 tokeny | 🎉 = 4+ tokenów</p>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 1/6</h2>
+                    <p>"Hello world!"</p>
+                    <small>😲 1 | 👍 2-3 | 🎉 4+</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 1/6 - Odpowiedź</h2>
+                    <p>"Hello world!"</p>
+                    <p style="margin-top: 1em;">➡️ <strong>3 tokeny</strong> (👍)</p>
+                    <aside class="notes">
+                        <strong>Rozbicie:</strong> "Hello" + " world" + "!"<br>
+                        <strong>Uwaga:</strong> Spacja przed "world" jest częścią tokenu!
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 2/6</h2>
+                    <p>"Dziękuję!"</p>
+                    <small>😲 1 | 👍 2-3 | 🎉 4+</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 2/6 - Odpowiedź</h2>
+                    <p>"Dziękuję!"</p>
+                    <p style="margin-top: 1em;">➡️ <strong>5 tokenów</strong> (🎉)</p>
+                    <aside class="notes">
+                        <strong>Analiza:</strong> "D" + "zię" + "kuj" + "ę" + "!"<br>
+                        <strong>Wskazówka:</strong> Polskie znaki diakrytyczne znacząco zwiększają liczbę tokenów.
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 3/6</h2>
+                    <p>"ChatGPT is amazing 🤯"</p>
+                    <small>😲 1 | 👍 2-3 | 🎉 4+</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 3/6 - Odpowiedź</h2>
+                    <p>"ChatGPT is amazing 🤯"</p>
+                    <p style="margin-top: 1em;">➡️ <strong>6 tokenów</strong> (🎉)</p>
+                    <aside class="notes">
+                        <strong>Tokenizacja:</strong> "Chat" + "G" + "PT" + " is" + " amazing" + " 🤯"<br>
+                        <strong>Ciekawostka:</strong> Skróty i emoji zawsze są osobnymi tokenami.
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 4/6</h2>
+                    <p>"unbelievable"</p>
+                    <small>😲 1 | 👍 2-3 | 🎉 4+</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 4/6 - Odpowiedź</h2>
+                    <p>"unbelievable"</p>
+                    <p style="margin-top: 1em;">➡️ <strong>3 tokeny</strong> (👍)</p>
+                    <aside class="notes">
+                        <strong>Podział:</strong> "un" + "believ" + "able"<br>
+                        <strong>Wnioski:</strong> Długie angielskie słowa często dzielą się na części.
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 5/6</h2>
+                    <p>"123-456-7890"</p>
+                    <small>😲 1 | 👍 2-3 | 🎉 4+</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 5/6 - Odpowiedź</h2>
+                    <p>"123-456-7890"</p>
+                    <p style="margin-top: 1em;">➡️ <strong>6 tokenów</strong> (🎉)</p>
+                    <aside class="notes">
+                        <strong>Dlaczego?:</strong> Cyfry dzielą się na segmenty (123 - 456 - 789 0)<br>
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 6/6</h2>
+                    <p>"今日は" (japońskie "Dzień dobry")</p>
+                    <small>😲 1 | 👍 2-3 | 🎉 4+</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 6/6 - Odpowiedź</h2>
+                    <p>"今日は"</p>
+                    <p style="margin-top: 1em;">➡️ <strong>1 token</strong> (😲)</p>
+                    <aside class="notes">
+                        <strong>Wyjaśnienie:</strong> Znaki CJK często są pojedynczymi tokenami.<br>
+                        <strong>Zaskoczenie:</strong> To pokazuje jak różna może być tokenizacja w różnych językach!
+                    </aside>
+                </section>
+            </section>
+
+            <!-- Attention -->
+
+            <section style="font-size: 0.95em;">
+                <h2>👂 Attention – jak to działa?</h2>
+
+                <p class="fragment">Wyobraź sobie, że jesteś na zatłoczonej konferencji.</p>
+                <p class="fragment">Wokół ciebie dziesiątki rozmów – ale Twój mózg automatycznie skupia się na jednym
+                    głosie.</p>
+                <p class="fragment">Właśnie to robi <strong>attention</strong>: waży, które informacje są ważne, a które
+                    może zignorować.</p>
+
+                <div class="fragment" style="text-align: center; margin-top: 1.5em;">
+                    <span
+                        style="display: inline-block; padding: 0.4em 1em; background: #ccc; margin: 0.2em; border-radius: 5px;">I</span>
+                    <span
+                        style="display: inline-block; padding: 0.4em 1em; background: #aaa; margin: 0.2em; border-radius: 5px;">love</span>
+                    <span
+                        style="display: inline-block; padding: 0.4em 1em; background: #f77; margin: 0.2em; border-radius: 5px;"><strong>ML</strong></span>
+                </div>
+
+                <p class="fragment" style="text-align: center; font-size: 0.85em; color: #666;">
+                    Model „słyszy" wszystko, ale skupia się najbardziej na słowie <strong>ML</strong> jako
+                    najważniejszym w kontekście.
+                </p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Attention to serce nowoczesnych modeli. To mechanizm, który pozwala modelowi skupić się
+                    na najważniejszych fragmentach tekstu — tak jak Wy skupiacie się na jednej rozmowie
+                    w hałaśliwym pomieszczeniu."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „Wyobraźcie sobie przyjęcie firmowe. 50 osób, muzyka, rozmowy. Nagle ktoś wypowiada Wasze imię —
+                    i natychmiast się odwracacie. Wasz mózg cały czas 'słyszał' wszystko, ale dopiero teraz skupił uwagę
+                    na jednym sygnale. Tak działa Attention — każdy token analizuje wszystkie inne i przypisuje im wagę."<br>
+                    🔹 Dodaj przykład: „Janek dał prezent Tomkowi, bo miał urodziny." — kto miał urodziny?
+                    My wiemy intuicyjnie. Model uczy się to wyłapać dzięki Attention.</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 Zapytaj: „Na którym słowie model skupiłby się najbardziej w zdaniu 'I love ML'?"<br>
+                    🔹 Pokaż wizualizację na slajdzie — czerwone podkreślenie = wysoka waga Attention.</p>
+                </aside>
+            </section>
+
+            <section style="font-size: 0.95em;">
+                <h2>🧠 Jak działa LLM?</h2>
+
+                <div style="text-align: center; margin-bottom: 2em;">
+                    <p class="fragment fade-in">
+                        <strong>Wejście:</strong> <code>I love ML</code>
+                    </p>
+
+                    <p class="fragment fade-in" style="margin-top: 1em;">
+                        <strong>Tokenizacja:</strong>
+                        <span
+                            style="display: inline-block; padding: 0.4em 0.8em; background: #8ecae6; color: #000; border-radius: 5px; margin: 0.2em;">I</span>
+                        <span
+                            style="display: inline-block; padding: 0.4em 0.8em; background: #219ebc; color: #fff; border-radius: 5px; margin: 0.2em;">love</span>
+                        <span
+                            style="display: inline-block; padding: 0.4em 0.8em; background: #ffb703; color: #000; border-radius: 5px; margin: 0.2em;">ML</span>
+                    </p>
+
+                    <p class="fragment fade-in" style="margin-top: 1em;">
+                        <strong>Attention:</strong> model analizuje zależności między tokenami
+                        <br />
+                        <span style="font-size: 0.85em; color: #999;">(np. „love" → silny związek z „ML")</span>
+                    </p>
+
+                    <p class="fragment fade-in" style="margin-top: 1em;">
+                        <strong>Predykcja:</strong>
+                        <span
+                            style="background: #fb8500; color: #fff; padding: 0.4em 0.8em; border-radius: 5px;">because</span>
+                        <span style="font-size: 0.8em; color: #999;">(albo „so much", „since", itd.)</span>
+                    </p>
+                </div>
+
+                <aside class="notes">
+                    <p><strong>Wyjaśnienie:</strong><br>
+                    🔹 Ten slajd pokazuje cały pipeline: tekst → tokeny → attention → predykcja.<br>
+                    🔹 Kluczowy punkt: LLM-y nie wiedzą „co", ale zgadują „co dalej" na bazie ogromnych wzorców.</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „To jak autokorekta w telefonie — ale na sterydach. Autokorekta podpowiada jedno słowo.
+                    LLM pisze całe akapity, bo widzi kontekst na wiele słów wstecz."</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „OK, wiemy jak poszczególne elementy działają. Ale jak się łączą w jedną całość?
+                    Zobaczmy architekturę Transformer."</p>
+                </aside>
+            </section>
+
+            <!-- Transformer architecture -->
+            <section>
+                <section>
+                    <h2>🔗 Jak to wszystko się łączy?</h2>
+
+                    <p class="fragment">Tokeny ➡️ Wektory ➡️ Attention ➡️ Predykcja ➡️ Nowe tokeny</p>
+
+                    <ul style="margin-top: 1em;">
+                        <li class="fragment">Z małych kroków budujemy potężny model tekstowy 📚</li>
+                        <li class="fragment">Każdy element (embedding, attention, predykcja) to trybik w wielkiej
+                            maszynie</li>
+                    </ul>
+
+                    <p class="fragment" style="margin-top: 1em;">
+                        🛠️ Zobaczmy, jak wygląda cała konstrukcja – Transformer!
+                    </p>
+
+                    <aside class="notes">
+                        <p><strong>Intro:</strong><br>
+                        „Teraz złóżmy to wszystko w jedną całość. Zobaczmy pełny przepływ: od tekstu do odpowiedzi."</p>
+
+                        <p><strong>Storytelling:</strong><br>
+                        🔹 „Wyobraźcie sobie budowę zegarka: pojedyncze kółka niewiele robią. Ale razem — odmierzają
+                        czas co do sekundy. Tak samo działa LLM — tokenizacja, embedding, attention, predykcja
+                        to osobne trybiki, ale razem tworzą potężną maszynę."</p>
+
+                        <p><strong>Przejście:</strong><br>
+                        „Zaraz zobaczymy oficjalny schemat tej maszyny — Transformer. Nie bójcie się schematu —
+                        wyjaśnimy go krok po kroku."</p>
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>📊 Schemat Transformer</h2>
+                    <div style="background-color: white; display: inline-block; padding: 10px; border-radius: 8px;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Transformer%2C_full_architecture.png/960px-Transformer%2C_full_architecture.png?20240806034211"
+                            alt="Transformer architecture" style="max-height: 500px; border-radius: 8px;" />
+                    </div>
+                    <aside class="notes">
+                        <p><strong>Jak poprowadzić:</strong><br>
+                        🔹 Pokaż schemat i przejdź od lewej do prawej — nie wchodź w matematykę!<br>
+                        🔹 1️⃣ Input Embedding + Positional Encoding — tekst → tokeny → wektory z informacją o pozycji<br>
+                        🔹 2️⃣ Encoder (lewa kolumna, Nx) — Multi-head Attention → Feed Forward, powtarzane wiele razy<br>
+                        🔹 3️⃣ Attention — kilka „głów" analizuje różne relacje równolegle<br>
+                        🔹 4️⃣ Decoder (prawa kolumna) — Masked Attention + kolejny Attention + Feed Forward<br>
+                        🔹 5️⃣ Output — Linear + Softmax → najbardziej prawdopodobny kolejny token</p>
+
+                        <p><strong>Storytelling:</strong><br>
+                        🔹 „Pomyślcie o tym jak o fabryce. Surowiec (tekst) wchodzi, przechodzi przez kolejne stacje
+                        (warstwy), i na końcu wychodzi gotowy produkt (następne słowo)."</p>
+
+                        <p><strong>Aktywizacja:</strong><br>
+                        🔹 Zapytaj: „Czy ten schemat bardziej przypomina sieć neuronową, czy fabrykę tekstu?"<br>
+                        🔹 Zapytaj: „Jakie inne zastosowania Transformerów znacie poza językiem?"
+                        (wizja komputerowa, muzyka, biologia)</p>
+
+                        <p><strong>Wskazówki do moderowania:</strong><br>
+                        🔹 Nie tłumacz każdego elementu — pokaż flow.<br>
+                        🔹 Jeśli ktoś pyta o szczegóły: „Świetne pytanie! Polecam 3Blue1Brown na YouTube — tam
+                        tłumaczą to wizualnie."</p>
+                    </aside>
+                </section>
+
+                <section style="font-size: 0.9em;">
+                    <h2>🔬 Transformer Explainer – Demo</h2>
+
+                    <p class="fragment">Zobaczymy działanie Transformera na żywo w przeglądarce!</p>
+                    <p class="fragment" style="margin-top: 1em;">
+                        👉 <a href="https://poloclub.github.io/transformer-explainer/" target="_blank"
+                            style="color: #42affa;">poloclub.github.io/transformer-explainer</a>
+                    </p>
+
+                    <ul style="margin-top: 1em;">
+                        <li class="fragment">Wpiszcie zdanie i zobaczcie, jak przepływa przez model</li>
+                        <li class="fragment">Kliknijcie na attention heads – zobaczcie, na co model zwraca uwagę</li>
+                        <li class="fragment">Każdy krok wizualizowany: embedding → attention → output</li>
+                    </ul>
+
+                    <aside class="notes">
+                        <p><strong>Intro:</strong><br>
+                        „Teraz zobaczymy to na żywo — w przeglądarce! Ta wizualizacja uruchamia prawdziwy model
+                        GPT-2 i pokazuje, jak przetwarza tekst krok po kroku."</p>
+
+                        <p><strong>Jak poprowadzić:</strong><br>
+                        🔹 Otwórz stronę na projektorze: poloclub.github.io/transformer-explainer<br>
+                        🔹 Wpisz: „The cat sat on the" — pokaż, jak model przetwarza to warstwa po warstwie.<br>
+                        🔹 Kliknij na attention heads — pokaż, że różne głowy patrzą na różne relacje.<br>
+                        🔹 Zmień zdanie i pokaż, jak zmienia się attention.<br>
+                        🔹 Czas: ~5 minut.</p>
+
+                        <p><strong>Aktywizacja:</strong><br>
+                        🔹 Poproś uczestników, żeby zaproponowali zdanie do wpisania.<br>
+                        🔹 „Co model podpowie po waszym zdaniu? Kto zgadnie?"</p>
+
+                        <p><strong>Wskazówki do moderowania:</strong><br>
+                        🔹 Jeśli strona nie ładuje się — użyj bbycroft.net/llm jako alternatywę (3D wizualizacja).<br>
+                        🔹 To najlepszy moment na „aha!" — „Więc tak działa attention w praktyce!"</p>
+
+                        <p><strong>Przejście:</strong><br>
+                        „Teraz wiemy, jak model działa od środka. Czas go uruchomić na naszych zgłoszeniach IT!"</p>
+                    </aside>
+                </section>
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - Ćwiczenie: LLM + RAG -->
+
+            <section style="font-size: 0.9em;">
+                <h2>🧪 Ćwiczenie: LLM vs RAG w klasyfikacji</h2>
+
+                <ul>
+                    <li class="fragment">🤖 Użyjemy prawdziwego LLM do klasyfikacji zgłoszeń IT</li>
+                    <li class="fragment">📋 Te same 10 zgłoszeń, które klasyfikowaliśmy ręcznie i z ML wczoraj</li>
+                    <li class="fragment">🔍 Zobaczymy, jak RAG (dodanie kontekstu) zmienia wyniki</li>
+                    <li class="fragment">📊 Porównamy: człowiek vs ML vs LLM vs RAG</li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em;">💻 Otwieramy <strong>combined_exercise.ipynb</strong> – Część 4 i 5!</p>
+
+                <aside class="notes">
+                    <p><strong>Intro:</strong><br>
+                    „Pamiętacie wczorajsze ćwiczenie? Klasyfikowaliśmy zgłoszenia ręcznie (Część 1), z ML (Część 2),
+                    z KMeans (Część 3). Teraz porównamy te same 10 zgłoszeń z LLM (zero-shot) i z RAG (LLM + baza wiedzy)."</p>
+
+                    <p><strong>Storytelling:</strong><br>
+                    🔹 „To jak różnica między pytaniem kogoś z ulicy ('Jak sklasyfikować to zgłoszenie?')
+                    a pytaniem eksperta, który ma przed sobą dokumentację firmy. Obie osoby mogą być inteligentne,
+                    ale ta z dokumentacją da lepszą odpowiedź."</p>
+
+                    <p><strong>Jak poprowadzić:</strong><br>
+                    🔹 Otwórz combined_exercise.ipynb w Colab — przejdź do Części 4.<br>
+                    🔹 API klasyfikuje 10 zgłoszeń w jednym wywołaniu (~2 sekundy).<br>
+                    🔹 Zwróć uwagę na „Drukarka sieciowa nie odpowiada" — LLM powie Sprzęt.<br>
+                    🔹 Przejdź do Części 5: RAG — teraz model MA kontekst i zmienia na Sieć.<br>
+                    🔹 Pokaż podsumowanie — wykres porównawczy 5 podejść.<br>
+                    🔹 Czas: ~25 minut.</p>
+
+                    <p><strong>Aktywizacja:</strong><br>
+                    🔹 „Które podejście wygrało? Dlaczego?"<br>
+                    🔹 „W waszej firmie — kto miałby czas przygotować bazę wiedzy dla RAG?"</p>
+
+                    <p><strong>Wskazówki do moderowania:</strong><br>
+                    🔹 Jeśli brak klucza API: notebook ma fallback_llm_results — użyj ich.<br>
+                    🔹 Typowy wynik: ML ~80-85%, LLM ~70-80%, RAG ~85-100%.<br>
+                    🔹 Jeśli ML > LLM — to doskonały moment na lekcję: „dane > model!"</p>
+
+                    <p><strong>Przejście:</strong><br>
+                    „Zobaczyliśmy 5 podejść do tego samego problemu. Po przerwie pójdziemy dalej — od prostych
+                    promptów do Context Engineering, czyli nowoczesnego podejścia do sterowania modelami AI."</p>
+                </aside>
+            </section>
+
+            <!-- #endregion -->
+
+            <section>
+                <h2>☕ Przerwa kawowa – 15 minut</h2>
+                <p class="fragment">Czas na kawę!<br> Wracamy o 10:45</p>
+                <aside class="notes">
+                    <p><strong>Wskazówki:</strong><br>
+                    🔹 Przerwa po intensywnym bloku LLM — uczestnicy mogli mieć dużo do przetworzenia.<br>
+                    🔹 Po przerwie wchodzimy w Context Engineering — bardziej praktyczny i interaktywny blok.<br>
+                    🔹 Upewnij się, że Chatbot Arena (lmarena.ai) i Ollama działają na laptopie trenera.<br>
+                    🔹 Jeśli ktoś ma pytania z pierwszego bloku — teraz jest dobry moment na szybkie wyjaśnienia.</p>
+                </aside>
+            </section>
+
+            <section>
+                <h2>Przejdź do Części 2</h2>
+                <p><a href="part2.html" style="font-size: 1.2em; padding: 0.5em 1em; background: #42affa; color: white; border-radius: 8px; text-decoration: none;">➡️ Część 2: Context Engineering i Agenci AI</a></p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="../../dist/reveal.js"></script>
+    <script src="../../plugin/notes/notes.js"></script>
+    <script src="../../plugin/markdown/markdown.js"></script>
+    <script src="../../plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+            pdfSeparateFragments: false
+        });
+    </script>
+
+</body>
+</html>

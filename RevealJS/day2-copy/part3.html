@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8">
+    <title>Dzień 2 – Część 3: Prompt engineering i podsumowanie</title>
+    <link rel="stylesheet" href="../../dist/reset.css">
+    <link rel="stylesheet" href="../../dist/reveal.css">
+    <link rel="stylesheet" href="../../dist/theme/black.css">
+    <link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+    <style>
+        .reveal:focus {
+            outline: none;
+        }
+
+        .reveal *:focus {
+            outline: none;
+        }
+
+        .reveal * {
+            caret-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- #region - Prompt engineering  -->
+
+            <section style="font-size: 0.9em;">
+                <h2>✍️ Dlaczego prompt engineering ma znaczenie?</h2>
+                <ul>
+                    <li class="fragment">🧠 AI działa jak bardzo ambitny, ale dosłowny pracownik</li>
+                    <li class="fragment">🎯 Jeśli podasz nieprecyzyjną instrukcję – model odpowie poprawnie... ale nie
+                        to, czego chciałeś</li>
+                    <li class="fragment">💬 Dobry prompt = dokładne wskazówki → trafna odpowiedź</li>
+                    <li class="fragment">🚀 Teraz nauczymy się, jak tworzyć skuteczne prompty</li>
+                </ul>
+            </section>
+
+            <aside class="notes">
+                <p><strong>Storytelling do wprowadzenia:</strong></p>
+                <p>Wyobraźcie sobie, że nowemu pracownikowi mówicie tylko: "Ogarnij temat."</p>
+                <p>On wraca z raportem… ale kompletnie nie o tym, czego potrzebowaliście.</p>
+                <p>Modele AI są podobne: ambitne, szybkie, ale dosłowne. Bez precyzyjnego promptu robią coś, co tylko
+                    *brzmi* dobrze.</p>
+
+                <p><strong>Przejście:</strong> "Dlatego dziś nauczymy się, jak zadawać pytania i budować prompty tak,
+                    żeby modele naprawdę robiły to, czego oczekujemy."</p>
+            </aside>
+
+            <section style="font-size: 0.95em;">
+                <h2>💬 Co to jest prompt?</h2>
+                <p class="fragment">To <strong>polecenie, które dajesz AI</strong> – pytanie, zadanie, kontekst.</p>
+                <p class="fragment">AI nie wie, co masz na myśli – wie tylko, co napisałeś.</p>
+                <p class="fragment">Dobry prompt = precyzja, jasność, ograniczenie niejednoznaczności</p>
+                <aside class="notes">
+                    Prompt to jak komunikat do bardzo mądrego, ale bardzo dosłownego kolegi.
+                    Jeśli powiesz „napisz raport", zrobi to. Ale jeśli nie powiesz JAKI i DLA KOGO – może się
+                    pogubić.
+                </aside>
+            </section>
+
+            <section style="font-size: 0.7em;">
+                <h2>❌ Zły prompt vs ✅ Dobry prompt</h2>
+
+                <div class="fragment" style="margin-bottom: 2em;">
+                    <strong>❌ Zły prompt:</strong> <code>Wygeneruj testy do aplikacji</code><br />
+                    🔍 Brak kontekstu, nie wiadomo jakie testy, jakiej aplikacji
+                </div>
+
+                <div class="fragment">
+                    <strong>✅ Dobry prompt:</strong> <br />
+                    <code>
+                    Napisz 3 przypadki testowe dla aplikacji webowej logowania.<br />
+                    Aplikacja ma 2 pola (email, hasło), walidację po stronie klienta i obsługuje błędy HTTP.
+                  </code>
+                </div>
+
+                <aside class="notes">
+                    Pokaż różnicę między „ogólnym pytaniem" a dokładnym zadaniem.
+                    AI działa świetnie, jeśli wie dokładnie, o co prosisz. Brzmi banalnie – ale to robi różnicę.
+                </aside>
+            </section>
+
+            <section>
+
+                <section style="font-size: 0.95em;">
+                    <h2>📏 5 zasad skutecznego promptowania</h2>
+                    <ul>
+                        <li class="fragment">🎯 1. Bądź konkretny – co dokładnie chcesz uzyskać?</li>
+                        <li class="fragment">🔢 2. Określ format (lista? tabelka? JSON?)</li>
+                        <li class="fragment">📄 3. Dodaj kontekst – kto, co, gdzie, po co?</li>
+                        <li class="fragment">🧱 4. Ogranicz zakres – np. „maks. 100 słów", „3 przykłady"</li>
+                        <li class="fragment">♻️ 5. Testuj i iteruj – prompt to proces, nie jeden strzał</li>
+                    </ul>
+                    <aside class="notes">
+                        Opowiedz o metodzie prób i błędów. Nawet najlepsi inżynierowie promptów zaczynają od brzydkiego
+                        szkicu – potem poprawiają.
+                        Warto to pokazać – nawet jeśli uczysz AI, to Ty jesteś twórcą interakcji.
+                    </aside>
+                </section>
+                <!-- ========== QUIZ PROMPT ENGINEERING ========== -->
+                <section>
+                    <h2>Quiz: Jakość promptów</h2>
+                    <p>Reaguj na Zoomie:<br>
+                        😲 = Zły prompt | 👍 = Poprawny | 🎉 = Idealny</p>
+                </section>
+
+                <!-- Pytanie 1 -->
+                <section data-auto-animate>
+                    <h2>Quiz 1/6</h2>
+                    <p>"Napisz coś o AI"</p>
+                    <small>😲 Zły | 👍 Poprawny | 🎉 Idealny</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 1/6 - Odpowiedź</h2>
+                    <p>"Napisz coś o AI"</p>
+                    <p style="margin-top: 1em;">➡️ <strong>😲 Zły prompt</strong></p>
+                    <aside class="notes">
+                        <strong>Problem:</strong> Zbyt ogólne, brak kontekstu i wymagań<br>
+                        <strong>Poprawa:</strong> "Napisz 3 akapity o zastosowaniach AI w finansach dla dyrektorów
+                        banków"
+                    </aside>
+                </section>
+
+                <!-- Pytanie 2 -->
+                <section data-auto-animate>
+                    <h2>Quiz 2/6</h2>
+                    <p>"Stwórz 5 testów do funkcji walidującej email w Pythonie"</p>
+                    <small>😲 Zły | 👍 Poprawny | 🎉 Idealny</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 2/6 - Odpowiedź</h2>
+                    <p>"Stwórz 5 testów do funkcji walidującej email w Pythonie"</p>
+                    <p style="margin-top: 1em;">➡️ <strong>👍 Poprawny</strong></p>
+                    <aside class="notes">
+                        <strong>Dlaczego?:</strong> Konkretne zadanie, określona liczba przypadków<br>
+                        <strong>Ulepszenie:</strong> Dodać format wyjściowy (np. unittest) i przykładowe maile do
+                        testowania
+                    </aside>
+                </section>
+
+                <!-- Pytanie 3 -->
+                <section data-auto-animate>
+                    <h2>Quiz 3/6</h2>
+                    <p>"Jesteś ekspertem SEO. Napisz meta description (max 160 znaków) dla strony o kursie AI,
+                        uwzględniając słowa kluczowe: 'szkolenie', 'sztuczna inteligencja', 'praktyczne'"</p>
+                    <small>😲 Zły | 👍 Poprawny | 🎉 Idealny</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 3/6 - Odpowiedź</h2>
+                    <p>Prompt z rolą i wymaganiami</p>
+                    <p style="margin-top: 1em;">➡️ <strong>🎉 Idealny</strong></p>
+                    <aside class="notes">
+                        <strong>Elementy wzorcowe:</strong><br>
+                        - Określona rola (ekspert SEO)<br>
+                        - Konkretny format wyjściowy<br>
+                        - Limit znaków<br>
+                        - Wymagane słowa kluczowe<br>
+                        <strong>Bonus:</strong> Można dodać ton (profesjonalny, przyjazny)
+                    </aside>
+                </section>
+
+                <!-- Pytanie 4 -->
+                <section data-auto-animate>
+                    <h2>Quiz 4/6</h2>
+                    <p>"Przetłumacz ten tekst"</p>
+                    <small>😲 Zły | 👍 Poprawny | 🎉 Idealny</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 4/6 - Odpowiedź</h2>
+                    <p>"Przetłumacz ten tekst"</p>
+                    <p style="margin-top: 1em;">➡️ <strong>😲 Zły prompt</strong></p>
+                    <aside class="notes">
+                        <strong>Błędy:</strong><br>
+                        - Nie określono tekstu do tłumaczenia<br>
+                        - Brak języka docelowego<br>
+                        - Brak wymagań co do stylu<br>
+                        <strong>Poprawka:</strong> "Przetłumacz poniższy tekst na język niemiecki, zachowując formalny
+                        styl biznesowy: [wklej tekst]"
+                    </aside>
+                </section>
+
+                <!-- Pytanie 5 -->
+                <section data-auto-animate>
+                    <h2>Quiz 5/6</h2>
+                    <p>"Wygeneruj 3 pomysły na prezentację o AI dla zarządu. Każdy pomysł powinien zawierać: tytuł, 3
+                        kluczowe punkty, przewidywany czas trwania. Format: lista numerowana."</p>
+                    <small>😲 Zły | 👍 Poprawny | 🎉 Idealny</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 5/6 - Odpowiedź</h2>
+                    <p>Prompt ze strukturą wyniku</p>
+                    <p style="margin-top: 1em;">➡️ <strong>🎉 Idealny</strong></p>
+                    <aside class="notes">
+                        <strong>Dlaczego idealny?:</strong><br>
+                        - Określona liczba pomysłów<br>
+                        - Struktura każdego pomysłu<br>
+                        - Wymagany format wyjściowy<br>
+                        - Kontekst (dla zarządu)<br>
+                        <strong>Ćwiczenie:</strong> Zapytaj uczestników co jeszcze można dodać
+                    </aside>
+                </section>
+
+                <!-- Pytanie 6 -->
+                <section data-auto-animate>
+                    <h2>Quiz 6/6</h2>
+                    <p>"Opisz Machine Learning"</p>
+                    <small>😲 Zły | 👍 Poprawny | 🎉 Idealny</small>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Quiz 6/6 - Odpowiedź</h2>
+                    <p>"Opisz Machine Learning"</p>
+                    <p style="margin-top: 1em;">➡️ <strong>👍 Poprawny (ale podstawowy)</strong></p>
+                    <aside class="notes">
+                        <strong>Dlaczego tylko 'poprawny'?:</strong><br>
+                        - Zadanie jest jasne, ale brakuje:<br>
+                        - Poziomu szczegółowości<br>
+                        - Grupy docelowej<br>
+                        - Formatowania wyniku<br>
+                        <strong>Rozwinięcie:</strong> "Opisz ML w 3 akapitach dla licealistów, z przykładami z życia
+                        codziennego"
+                    </aside>
+                </section>
+                <!-- ========== KONIEC QUIZU ========== -->
+            </section>
+
+            <section style="font-size: 0.9em;">
+                <h2>✍️ Budowanie promptu krok po kroku</h2>
+
+                <pre style="padding-bottom: 1em;">
+                  <code class="language-python" data-id="prompt-example" data-trim data-fragment-index="1">
+              prompt = "Napisz testy"
+                  </code>
+                  <code style="overflow: hidden;" class="language-python fragment" data-id="prompt-example" data-trim data-fragment-index="2">
+              prompt = "Napisz testy jednostkowe dla formularza logowania (email i hasło)"
+                  </code>
+                  <code class="language-python fragment" data-id="prompt-example" data-trim data-fragment-index="3">
+              prompt = (
+                "Wygeneruj 3 testy jednostkowe dla formularza logowania.\n"
+                "Formularz zawiera pola email i hasło, z walidacją klienta.\n"
+                "Odpowiedź: lista wypunktowana."
+              )
+                  </code>
+                </pre>
+
+                <pre class="fragment" style="padding-top: 3em;"><code class="language-python" data-trim>
+              # Oczekiwana odpowiedź (symulowana)
+              [
+                "✅ Walidacja poprawnego logowania z prawidłowymi danymi.",
+                "❌ Błąd przy pustym polu email.",
+                "❌ Błąd przy za krótkim haśle."
+              ]
+                </code></pre>
+
+                <aside class="notes">
+                    Ten slajd pokazuje ewolucję promptu i jego wpływ na jakość odpowiedzi.
+                    Zadaj pytanie: „Jak często podajecie taki kontekst modelowi? Czy AI zawsze wie, co mamy na
+                    myśli?"
+                </aside>
+            </section>
+
+
+            <section style="font-size: 0.95em;">
+                <h2>✍️ Warsztat: napisz własny prompt</h2>
+
+                <p class="fragment">Zadanie: wymyśl własny prompt, który rozwiązuje realny problem z Twojej pracy.
+                </p>
+                <p class="fragment">👉 Możesz zacząć od formy: <code>Napisz X dla Y w kontekście Z</code></p>
+                <p class="fragment">✉️ Wpisz go na czacie lub w dokumencie – omówimy kilka na głos!</p>
+
+                <aside class="notes">
+                    Poproś uczestników o stworzenie promptu do czegoś, co naprawdę robią – testy, analiza danych,
+                    raport, porada dla klienta.
+                    Komentuj przykłady, pokazuj jak można je udoskonalić. To najbardziej praktyczna część!
+                </aside>
+            </section>
+
+            <section style="font-size: 0.9em;">
+                <h2>🌟 Wersja zaawansowana: prompt warunkowy</h2>
+
+                <p class="fragment">🎯 Zadanie: stwórz prompt, który zawiera instrukcje warunkowe lub strukturalne.
+                </p>
+
+                <p class="fragment">➡️ np. "jeśli wejście dotyczy A – zrób X, jeśli B – zrób Y"</p>
+
+                <p class="fragment" style="margin-top: 1.2em;"><strong>Przykład:</strong></p>
+                <blockquote class="fragment"
+                    style="font-size: 0.85em; padding: 0.5em; border-radius: 6px; text-align: left; line-height: 1.4;">
+                    Jesteś AI-asystentem klienta. Jeśli pytanie dotyczy logowania – wyjaśnij reset hasła.<br />
+                    Jeśli dotyczy płatności – podaj link do FAQ.<br />
+                    Odpowiedź powinna być zwięzła, uprzejma i w języku polskim.
+                </blockquote>
+
+                <p class="fragment" style="margin-top: 1em; font-size: 0.85em;">
+                    💡 Chcesz więcej? Dodaj wymagany <strong>format odpowiedzi</strong>, np. tabela, JSON lub lista.
+                </p>
+
+                <aside class="notes">
+                    To prompt „z logiką" – pozwala zbudować agentów reagujących na kontekst. Świetne np. do
+                    chatbotów,
+                    helpdesków, analizy zgłoszeń.
+                </aside>
+            </section>
+
+            <section style="font-size: 0.7em;">
+                <h2>🌌 Zadanie ✨✨: zaprojektuj użycie AI</h2>
+
+                <p class="fragment">🎯 Wybierz realny problem z Twojej pracy i zaprojektuj jego rozwiązanie z AI.
+                </p>
+
+                <ul style="margin-top: 1em;">
+                    <li class="fragment">🔍 Co chcesz osiągnąć?</li>
+                    <li class="fragment">🤖 Jaki typ modelu? (Foundation / Fine-tuned / RAG)</li>
+                    <li class="fragment">💬 Jak ma wyglądać prompt (logika, warunki, role)?</li>
+                    <li class="fragment">📄 Jakiego formatu odpowiedzi oczekujesz (tekst, lista, JSON)?</li>
+                </ul>
+
+                <div class="fragment" style="margin-top: 1.5em;">
+                    <p><strong>📘 Przykład – asystent HR:</strong></p>
+                    <blockquote
+                        style="font-size: 0.85em; padding: 1em; border-radius: 6px; max-width: 800px; margin: auto; line-height: 1.4;">
+                        Przeczytaj CV i oceń dopasowanie do roli Frontend Developera.<br />
+                        Jeśli kandydat ma ponad 3 lata doświadczenia – dodaj: „gotowy do rozmowy".<br />
+                        Jeśli nie – wypisz braki. Format: lista + komentarz.
+                    </blockquote>
+                </div>
+
+                <aside class="notes">
+                    To zadanie pozwala uczestnikom wykorzystać wszystko, czego się nauczyli: promptowanie, logika,
+                    typy
+                    modeli, cel i format.
+                    Komentuj odpowiedzi uczestników – pokaż, co działa, a co warto jeszcze doprecyzować.
+                </aside>
+            </section>
+
+            <!-- #endregion -->
+
+            <!-- #region - Podsumowanie  -->
+            <section style="font-size: 0.95em;">
+                <h2>🧠 Co dziś wyniosłeś z tego dnia?</h2>
+                <ul>
+                    <li class="fragment">💡 Co zapamiętasz najbardziej?</li>
+                    <li class="fragment">🔧 Co chciałbyś spróbować w swojej pracy?</li>
+                    <li class="fragment">🤔 Co Cię zaskoczyło albo zaciekawiło?</li>
+                </ul>
+                <p class="fragment" style="margin-top: 1em;">📝 Napisz jedno zdanie na czacie lub zapisz je dla
+                    siebie!
+                </p>
+                <aside class="notes">
+                    Zachęć do autorefleksji – nie muszą pisać, ale wielu uczestników lubi podsumować coś krótko.
+                    Możesz też poprosić o reakcję emoji: 👍 jeśli szkolenie było przydatne, 🔁 jeśli coś zastosują,
+                    ❓
+                    jeśli coś chcą pogłębić.
+                </aside>
+            </section>
+
+
+            <section style="font-size: 0.4em;">
+                <h2>🚀 Gdzie możesz się rozwijać dalej?</h2>
+                <p class="fragment">🔍 Wybierz coś dla siebie – praktyka, teoria, projekty!</p>
+
+                <ul>
+                    <li class="fragment">📚 <strong>Książki i materiały polecane przez społeczność AI:</strong>
+                        <ul style="margin-top: 0.5em;">
+                            <li class="fragment">• <em>Introduction to Statistical Learning (ISLR)</em> – darmowa,
+                                świetna książka na start (są polskie wydania!)</li>
+                            <li class="fragment">• <em>Hands-On Machine Learning with Scikit-Learn, Keras, and
+                                    TensorFlow</em> – Olivier Grus – praktyczny przewodnik budowania modeli (łatwo
+                                dostępny w Polsce)</li>
+                            <li class="fragment">• <em>Dive into Deep Learning (d2l.ai)</em> – darmowy kurs online z
+                                kodem i teorią</li>
+                            <li class="fragment">• <em>Understanding Deep Learning (udlbook.github.io)</em> – nowoczesne
+                                wprowadzenie do sieci neuronowych</li>
+                            <li class="fragment">• <em>Machine Learning with PyTorch and Scikit-Learn</em> – Sebastian
+                                Raschka – praktyczne ML + DL w Pythonie</li>
+                        </ul>
+                    </li>
+
+                    <li class="fragment">🎥 <strong>Video learning:</strong>
+                        <ul style="margin-top: 0.5em;">
+                            <li class="fragment">• StatQuest (YouTube) – świetne wytłumaczenie matematyki i statystyki
+                                pod ML</li>
+                            <li class="fragment">• Andrew Ng – Deep Learning Specialization (Coursera, bardzo
+                                rekomendowane)</li>
+                            <li class="fragment">• Krish Naik – darmowe filmy na YouTube o praktycznym ML i projektach
+                            </li>
+                            <li class="fragment">• Sentdex – praktyczne kursy Pythona i AI: programowanie, machine
+                                learning, analiza danych, finanse, web development, robotyka, tworzenie gier</li>
+                            <li class="fragment">• Green Code – praktyczne projekty AI i machine learningu: budowa sieci
+                                neuronowych, predykcje, analiza danych, kodowanie kreatywnych rozwiązań</li>
+
+                        </ul>
+                    </li>
+
+                    <li class="fragment">🛠️ <strong>Platformy do eksperymentowania:</strong>
+                        <ul style="margin-top: 0.5em;">
+                            <li class="fragment">• Hugging Face Hub – gotowe modele, playgroundy, własne projekty</li>
+                            <li class="fragment">• Kaggle – konkursy, dataset'y, praktyka kodowania na realnych danych
+                            </li>
+                            <li class="fragment">• Replicate, Ollama, LLaMA.cpp – uruchamianie modeli lokalnie</li>
+                        </ul>
+                    </li>
+
+                    <li class="fragment">🧠 <strong>Najlepsza strategia nauki:</strong>
+                        <ul style="margin-top: 0.5em;">
+                            <li class="fragment">• 1–2 wysokiej jakości źródła → własne notatki → własne mini-projekty
+                            </li>
+                            <li class="fragment">• Samo czytanie lub kopiowanie kodu nie wystarcza – pisz kod sam!</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <p class="fragment" style="margin-top: 1em;">💬 Zrób zrzut ekranu albo poproś mnie później o PDF z
+                    linkami!</p>
+            </section>
+
+            <aside class="notes">
+                <p><strong>Jak poprowadzić tę sekcję:</strong></p>
+
+                <ul>
+                    <li>💬 Powiedz: "Na naukę AI składa się trochę teorii, ale jeszcze więcej własnych eksperymentów."
+                    </li>
+                    <li>📚 Poleć 1–2 książki (np. ISLR lub Hands-On ML) oraz 1–2 darmowe źródła (np. d2l.ai + StatQuest
+                        na YouTube).</li>
+                    <li>🛠️ Podkreśl: "Najwięcej nauczycie się wtedy, gdy sami coś zbudujecie, nawet jeśli na początku
+                        będzie proste."</li>
+                    <li>🎯 Zapytaj: "Czy macie swoje ulubione źródła, które Wam pomogły? Możemy dodać je do listy."
+                        (aktywizacja grupy)</li>
+                </ul>
+
+                <p><strong>Tip:</strong> Jeśli grupa będzie bardzo techniczna – krótko wspomnij o Kaggle albo Replicate
+                    jako świetnych miejscach na projekty!</p>
+            </aside>
+
+            <section style="font-size: 0.95em;">
+                <h2>🙋‍♀️ Masz pytania? Coś było niejasne?</h2>
+                <p class="fragment">🧵 Teraz czas na otwartą dyskusję</p>
+                <p class="fragment" style="margin-top: 1em;">🎤 Jeśli chcesz – możesz też po prostu powiedzieć, co
+                    Ci
+                    się podobało (lub nie)</p>
+                <aside class="notes">
+                    Zrób bezpieczną przestrzeń – podziękuj za aktywność, pochwal konkretne osoby.
+                    Daj im poczuć, że to był wartościowy czas – i że mogą wrócić z pytaniem nawet później.
+                </aside>
+            </section>
+
+            <!-- #endregion -->
+
+        </div>
+    </div>
+
+    <script src="../../dist/reveal.js"></script>
+    <script src="../../plugin/notes/notes.js"></script>
+    <script src="../../plugin/markdown/markdown.js"></script>
+    <script src="../../plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+            pdfSeparateFragments: false
+        });
+    </script>
+
+</body>
+
+</html>

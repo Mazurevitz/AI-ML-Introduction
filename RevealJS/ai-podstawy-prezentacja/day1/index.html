@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+	<meta charset="utf-8">
+	<title>Wprowadzenie do AI i ML</title>
+	<link rel="stylesheet" href="../../dist/reset.css">
+	<link rel="stylesheet" href="../../dist/reveal.css">
+	<link rel="stylesheet" href="../../dist/theme/black.css">
+	<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+	<style>
+		.reveal:focus {
+			outline: none;
+		}
+
+		.reveal *:focus {
+			outline: none;
+		}
+
+		.reveal * {
+			caret-color: transparent;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- #region Temat - Wprowadzenie -->
+
+			<section>
+				<h1>Wprowadzenie do AI i ML</h1>
+				<p>Podstawowe pojęcia i różnice</p>
+				<aside class="notes">
+					Powitanie uczestników, przedstawienie agendy dnia. Zachęć do aktywności.
+					Przypomnij, że to szkolenie jest dla wszystkich, niezależnie od poziomu zaawansowania.
+					Dziś porozmawiamy o AI i ML. Nie będzie wzorów, będzie zdrowy rozsądek, przykłady z życia i trochę
+					zabawy. Będziemy mówić o robotach, które może nie gotują, ale są coraz lepsze w pisaniu maili i kodu
+				</aside>
+			</section>
+
+			<section>
+				<h2>Czym jest AI?</h2>
+				<ul>
+					<li class="fragment">Sztuczna inteligencja (AI) – maszyny naśladujące inteligencję człowieka</li>
+					<li class="fragment">Decyzje, rozumowanie, rozpoznawanie wzorców</li>
+					<li class="fragment">Używana w: grach, robotyce, analizie danych</li>
+				</ul>
+				<aside class="notes">
+					Podaj przykłady AI z życia codziennego. Zapytaj uczestników, gdzie ostatnio spotkali AI.
+					Wyobraźcie sobie maszynę, która potrafi rozpoznać kota na zdjęciu, rozmawiać z wami na czacie albo
+					grać w szachy jak mistrz. AI to nie konkretna technologia – to parasol pojęciowy dla różnych
+					‘sprytnych’ algorytmów.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Czym jest ML?</h2>
+				<ul>
+					<li class="fragment">Uczenie maszynowe (ML) – poddziedzina AI</li>
+					<li class="fragment">Maszyny uczą się na podstawie danych (bez reguł)</li>
+					<li class="fragment">Model budowany automatycznie na podstawie przykładów</li>
+				</ul>
+				<aside class="notes">
+					Uczenie maszynowe to jak nauczenie psa nowej sztuczki – tylko zamiast smakołyków mamy dane, a
+					zamiast psa – model. Im więcej prób, tym lepiej zgaduje, co powinien zrobić. No, może mniej śliny,
+					więcej matematyki.
+					Przykład: klasyfikacja spamu – zamiast pisać reguły, uczymy model na przykładach.
+				</aside>
+			</section>
+
+			<section>
+				<h2>AI vs ML – porównanie</h2>
+				<table>
+					<tr>
+						<th>AI</th>
+						<th>ML</th>
+					</tr>
+					<tr class="fragment">
+						<td>Szerokie pojęcie</td>
+						<td>Poddziedzina AI</td>
+					</tr>
+					<tr class="fragment">
+						<td>Może być z regułami</td>
+						<td>Opiera się na danych</td>
+					</tr>
+					<tr class="fragment">
+						<td>Symuluje myślenie</td>
+						<td>Uczy się wzorców</td>
+					</tr>
+				</table>
+				<aside class="notes">
+					Zachęć do reakcji emoji na Zoomie: kto znał tę różnicę wcześniej?
+				</aside>
+			</section>
+			<section>
+				<h2>Uczenie głębokie (DL)</h2>
+				<ul>
+					<li class="fragment">Deep Learning = ML oparty na sieciach neuronowych</li>
+					<li class="fragment">Struktury inspirowane ludzkim mózgiem</li>
+					<li class="fragment">Używane w rozpoznawaniu obrazów, mowy, tekstu</li>
+				</ul>
+				<aside class="notes">
+					Wprowadzenie do tematu sieci neuronowych. Pokaż schemat, jeśli masz.
+
+					Deep Learning to ten moment, kiedy AI przestaje być ‘sprytnym regułkowym’ botem, a zaczyna robić
+					rzeczy, których my do końca nie rozumiemy. Trochę jak dziecko, które nagle zaczyna ci odpowiadać
+					pytaniami.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Sieci neuronowe – co to?</h2>
+				<ul>
+					<li class="fragment">Warstwy neuronów (wejściowa → ukryte → wyjściowa)</li>
+					<li class="fragment">Każdy neuron to „mała funkcja decyzyjna”</li>
+					<li class="fragment">Uczą się poprzez wzmocnienie lub osłabienie połączeń</li>
+				</ul>
+				<aside class="notes">
+					Sieć neuronowa to jak cebula – warstwa po warstwie, z każdą próbą uczy się lepiej. Każdy neuron to
+					taki mikro-mózg, który mówi ‘aha, coś w tym jest’. Razem tworzą siatkę skojarzeń, które my
+					nazwalibyśmy intuicją.
+					Na przykład: rozpoznawanie kota na zdjęciu. Pierwsza warstwa widzi krawędzie, druga – kształty, a
+					trzecia – całego kota. To jakbyśmy uczyli dziecko, co to jest kot, pokazując mu najpierw ogon, potem
+					uszy, a na końcu całego zwierzaka. Każda warstwa dodaje coś nowego do obrazu.
+					Na końcu mamy sieć neuronową, która potrafi powiedzieć: „Tak, to jest kot”. Ale jak to
+					działa? To trochę jak gra w głuchy telefon – każdy neuron przekazuje informację dalej, ale nie wie,
+					co się dzieje
+					na końcu. I tu pojawia się magia: sieci neuronowe uczą się na podstawie błędów. Jeśli pomylą kota z
+					psem, to zmieniają
+					się tak, żeby następnym razem lepiej rozpoznać kota. To jakby każdy neuron miał swoją pamięć i uczył
+					się na podstawie
+
+					Pokaż rysunek lub analogię z synapsami. Zachęć do zadawania pytań.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Generatywna AI</h2>
+				<ul>
+					<li class="fragment">Modele, które tworzą nowe treści: tekst, obraz, dźwięk, kod</li>
+					<li class="fragment">ChatGPT, Midjourney, GitHub Copilot</li>
+					<li class="fragment">Trenowane na ogromnych zbiorach danych</li>
+				</ul>
+				<aside class="notes">
+					To jest ten moment, gdy AI nie tylko rozpoznaje, ale tworzy. Pisze wiersze, kod, generuje obrazy.
+					Pamiętajcie: jeśli obrazek z internetu wygląda zbyt dobrze, żeby był prawdziwy – to może właśnie
+					dlatego, że został wygenerowany przez AI.
+
+					Generatywna AI to jak artysta, który nie tylko maluje, ale też wymyśla nowe style. To jakbyśmy
+					dali komputerowi paletę kolorów i powiedzieli: „Stwórz coś, co nigdy nie istniało”. I on to robi.
+
+					Zapytaj uczestników, czy używają narzędzi generatywnych. Pokaż przykład.
+				</aside>
+			</section>
+
+			<section data-auto-animate>
+				<h2>1956 – powstaje pojęcie „AI”</h2>
+				<img src="https://engineering.stanford.edu/sites/default/files/styles/card_1192x596/public/images/news/john_mccarthy.jpeg.webp?h=3751da6c&itok=B8abNXFd"
+					alt="John McCarthy" />
+				<aside class="notes">
+					Kim jest ten przystojny mężczyzna? To John McCarthy – tata chrzestny sztucznej inteligencji. W 1956
+					roku zebrał kilku geniuszy w Dartmouth i powiedział: „Ej, a może zrobimy maszynę, która myśli?”. To
+					wtedy padło po raz pierwszy: Artificial Intelligence. Nikt nie przypuszczał, że 70 lat później
+					będziemy rozmawiać z ChatGPT o przepisie na pomidorową.
+				</aside>
+
+			</section>
+
+			<section data-auto-animate>
+				<h2>1980s – eksplozja sieci neuronowych</h2>
+				<img src="https://commons.wikimedia.org/wiki/Special:FilePath/Perceptron.png?width=200"
+					alt="Perceptron" />
+				<aside class="notes">
+					Zrobiliśmy duży skok w czasie. Wyobraźcie sobie: fryzury z lakierem, kasety magnetofonowe... i sieci
+					neuronowe! Choć brzmi poważnie, to dopiero wtedy zaczęto na poważnie kombinować z uczeniem
+					wielowarstwowym. Po dekadzie ciszy, AI wróciło na uczelnie i do laboratoriów. A perceptron? Taki
+					dziadek współczesnych sieci – trochę uparty, ale miał potencjał.
+				</aside>
+
+			</section>
+
+			<section data-auto-animate>
+				<h2>2012 – przełom ImageNet + DL</h2>
+				<img src="https://www.researchgate.net/profile/Krishna-Kandarpa-2/publication/333424321/figure/fig1/AS:11431281213673965@1703118256662/Error-rates-on-the-ImageNet-Large-Scale-Visual-Recognition-Challenge-Accuracy.ppm"
+					alt="ImageNet accuracy over years" />
+				<aside class="notes">
+					Teraz zaczyna się grubo. Rok 2012, zawody w rozpoznawaniu obrazków – coś jak Olimpiada AI. Wchodzi
+					AlexNet, oparty na deep learningu, i rozwala konkurencję. Błąd klasyfikacji spada o 10 punktów. To
+					jakby ktoś wbił gola przewrotką z połowy boiska. Świat zrozumiał, że AI to nie bajka – to działa. I
+					zaczęło się szaleństwo.
+				</aside>
+
+			</section>
+
+			<section data-auto-animate>
+				<h2>2018 – architektura Transformer</h2>
+				<img src="https://www.mygreatlearning.com/blog/wp-content/uploads/2025/04/transformer-architecture.jpg"
+					alt="Transformer architecture" />
+				<aside class="notes">
+					Pojawia się Transformer. Tak, brzmi jak robot z Hollywood, ale nie – to model, który zmienił
+					wszystko. Szybszy, mądrzejszy, bardziej skupiony. Dosłownie: attention is all you need. Dzięki temu
+					dziś możemy pisać prompty do ChatGPT, a nie klikać jak szaleni w regułki IF. Transformer to
+					fundament wszystkiego, co generuje tekst lepiej niż niejedna praca licencjacka.
+				</aside>
+
+			</section>
+
+			<section data-auto-animate>
+				<h2>2022 – ChatGPT i boom generatywnej AI</h2>
+				<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/120px-ChatGPT_logo.svg.png"
+					alt="ChatGPT logo" width="120" />
+				<aside class="notes">
+					W końcu – ChatGPT. Model, który trafił do mainstreamu szybciej niż nowe iPhone'y. Nagle wszyscy – od
+					ucznia po prawnika – rozmawiają z AI. Niektórym pisze wypracowania, innym kod. A są i tacy, co
+					pytają, czy warto rzucić wszystko i wyjechać w Bieszczady. Zapytaj uczestników o ich pierwszy
+					kontakt z ChatGPT – może będzie śmiesznie, może inspirująco. To świetny punkt startowy do dalszego
+					dnia.
+				</aside>
+
+			</section>
+
+			<section>
+				<h2>Dlaczego AI działa dopiero teraz?</h2>
+				<ul>
+					<li class="fragment">Ogromne zbiory danych</li>
+					<li class="fragment">Dostępność GPU / cloud</li>
+					<li class="fragment">Open-source (TensorFlow, PyTorch)</li>
+					<li class="fragment">Inwestycje Big Tech: Google, OpenAI, Meta</li>
+				</ul>
+				<aside class="notes">
+					AI to jak pomysł na przepis sprzed lat – wszyscy wiedzieli, że warto, ale nie było składników. Teraz
+					mamy dane jak spaghetti, GPU jak garnki ciśnieniowe i open-source jak darmowy przepis online. No to
+					gotujemy!
+					Wyjaśnij, że technologia dogoniła ambicje – teraz to realne i skalowalne.
+				</aside>
+			</section>
+
+			<section>
+				<h2>AI vs człowiek</h2>
+				<table>
+					<tr>
+						<th>Cecha</th>
+						<th>Człowiek</th>
+						<th>AI</th>
+					</tr>
+					<tr>
+						<td>Myślenie</td>
+						<td>Rozumie kontekst</td>
+						<td>Przewiduje token</td>
+					</tr>
+					<tr>
+						<td>Uczenie</td>
+						<td>Mało danych</td>
+						<td>Dużo danych</td>
+					</tr>
+					<tr>
+						<td>Intuicja</td>
+						<td>Tak</td>
+						<td>Nie</td>
+					</tr>
+					<tr>
+						<td>Wyjaśnialność</td>
+						<td>Tak</td>
+						<td>Różnie bywa</td>
+					</tr>
+				</table>
+				<aside class="notes">
+					AI nie śpi, nie pije kawy, ale też nie wie, że ironia to nie nowa funkcja JavaScriptu. Człowiek
+					rozumie kontekst, AI przewiduje token. Dlatego najlepiej, gdy działają razem – jak dobrze dobrany
+					duet.
+
+					Zrób quiz: co AI robi dobrze, a co wymaga jeszcze ludzi? Niech zgadują na czacie.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Ćwiczenie</h2>
+				<p><strong>👉 Zapisz na czacie</strong></p>
+				<ul>
+					<li class="fragment">Gdzie ostatnio zauważyłeś AI w codziennym życiu lub pracy?</li>
+					<li class="fragment">Czy używałeś ChatGPT / Midjourney / Copilota? Jak?</li>
+				</ul>
+				<p class="fragment">➡️ 2 minuty + dyskusja</p>
+				<aside class="notes">
+					Zapisuj odpowiedzi uczestników, dopytaj o szczegóły. Przejdź płynnie do kolejnego slajdu.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Pytania i refleksja</h2>
+				<p><strong>Gdzie już używasz AI? A może nieświadomie?</strong></p>
+				<p>👉 Zapisz na czacie</p>
+				<aside class="notes">
+					Otwórz grupową dyskusję – podsumuj i przejdź do bloku „Proces ML”.
+				</aside>
+			</section>
+			<!-- #endregion -->
+
+			<!-- #region Temat - Proces uczenia maszynowego -->
+
+			<section>
+				<h1>Proces uczenia maszynowego</h1>
+				<p>Od pomysłu do modelu w praktyce</p>
+				<aside class="notes">
+					Przedstawimy proces ML krok po kroku – od problemu biznesowego po działający model. Zachowujemy luz,
+					ale pokazujemy konkret.
+				</aside>
+			</section>
+
+			<section>
+				<section>
+					<h2>Co to znaczy <em>„proces ML”</em>?</h2>
+
+					<p style="font-size: 1.2em;" class="fragment fade-in-then-semi-out">
+						To nie tylko algorytm – to <strong>cykl uczenia</strong>, który obejmuje wiele etapów:
+					</p>
+
+					<div
+						style="display: flex; justify-content: center; gap: 1em; align-items: center; flex-wrap: wrap; font-size: 1.1em;">
+
+						<div class="fragment fade-in" style="text-align: center;">
+							<span style="font-size: 2em;">📥</span><br />
+							<small>Dane wejściowe</small>
+						</div>
+
+						<div class="fragment fade-in" style="font-size: 2em;">→</div>
+
+						<div class="fragment fade-in" style="text-align: center;">
+							<span style="font-size: 2em;">⚙️</span><br />
+							<small>Trenowanie modelu</small>
+						</div>
+
+						<div class="fragment fade-in" style="font-size: 2em;">→</div>
+
+						<div class="fragment fade-in" style="text-align: center;">
+							<span style="font-size: 2em;">📊</span><br />
+							<small>Ocena skuteczności</small>
+						</div>
+
+						<div class="fragment fade-in" style="font-size: 2em;">→</div>
+
+						<div class="fragment fade-in" style="text-align: center;">
+							<span style="font-size: 2em;">🚀</span><br />
+							<small>Wdrożenie modelu</small>
+						</div>
+
+					</div>
+
+					<aside class="notes">
+						ML to nie pojedynczy kod, tylko proces – jak zbudowanie aplikacji: najpierw rozumiesz problem,
+						potem
+						szukasz danych, dopiero potem tworzysz i wdrażasz rozwiązanie.
+						Porównaj to do kuchni – najpierw przepis, potem składniki, potem gotowanie i degustacja 😉
+					</aside>
+				</section>
+
+				<section>
+					<h2>👨‍🍳 Jak AI się uczy? (wersja kulinarna)</h2>
+					<ul>
+						<li class="fragment">Dane = składniki</li>
+						<li class="fragment">Model = kucharz z przepisem</li>
+						<li class="fragment">Funkcja kosztu = czy danie smakuje?</li>
+						<li class="fragment">Optymalizacja = próbuję inaczej, aż będzie lepiej</li>
+					</ul>
+					<p class="fragment" style="margin-top: 1em;">📌 AI nie uczy się faktów. Uczy się wzorców z danych,
+						które widziało.</p>
+				</section>
+
+			</section>
+
+			<section>
+				<h2>1. Określenie celu – przykład biznesowy</h2>
+				<p>Chcemy automatycznie tagować zgłoszenia IT</p>
+				<aside class="notes">
+					Wyobraźcie sobie support IT w dużej firmie, który dostaje 1000 zgłoszeń miesięcznie. Ktoś musi je
+					ręcznie tagować jako ‘bug’, ‘pytanie’, ‘zmiana środowiska’ itd. Zajmuje to czas. A co gdyby model ML
+					robił to za nas – i to w kilka sekund?
+					To jest nasz cel: automatyzacja tagowania zgłoszeń. Ale nie tylko – to też oszczędność czasu i
+					lepsza organizacja pracy. Dzięki temu zespół może skupić się na tym, co naprawdę ważne –
+					rozwiązywaniu problemów.
+
+					Zapytaj uczestników, czy spotkali się z podobnym scenariuszem.
+				</aside>
+			</section>
+
+			<section>
+				<h2>2. Dane – skąd je wziąć i co z nimi zrobić?</h2>
+				<ul>
+					<li class="fragment">Dane bywają brudne, niepełne, niejednolite</li>
+					<li class="fragment">Czyszczenie, uzupełnianie, standaryzacja</li>
+					<li class="fragment">Kodowanie tekstu / liczb / kategorii</li>
+				</ul>
+				<aside class="notes">
+					Dane to nie Excel, który ktoś da nam gotowy. Często to bałagan: pisane ręcznie maile, niepełne
+					formularze, błędy w nazwach. Zanim ML cokolwiek zrobi, musimy to wszystko uprasować.
+
+					Przykład: dane z formularzy vs. wpisy z maila. Przypomnij, że dane to 80% sukcesu w ML. Daj
+					przykład, jak „brudne dane” rozwaliły projekt.
+
+					Kiedy ostatnio dane, z którymi pracowaliście, były naprawdę czyste?
+				</aside>
+			</section>
+
+			<section>
+				<h2>3. Trenowanie modelu</h2>
+				<ul>
+					<li class="fragment">Uczymy na danych z etykietami (np. ‘bug’ vs ‘feature’)</li>
+					<li class="fragment">Wybór modelu (np. regresja, drzewa decyzyjne)</li>
+					<li class="fragment">Dzielimy dane na treningowe/testowe</li>
+				</ul>
+				<aside class="notes">
+					To moment, kiedy uczymy model na naszych danych. Trochę jak trener z zawodnikiem – pokazujemy dobre
+					i złe przykłady, model ćwiczy i z czasem robi mniej błędów. Tylko tutaj nie ma stadionu – są tablice
+					macierzy i wykresy.
+
+					Porównaj model do ucznia – uczy się z przykładów, robi mniej błędów z czasem. Wspomnij o
+					`train_test_split` i uprość: „testujemy na tym, czego model jeszcze nie widział”.
+				</aside>
+			</section>
+
+			<section>
+				<h2>4. Ocena i tuning</h2>
+				<ul>
+					<li class="fragment">Metryki: accuracy, precision, recall, F1</li>
+					<li class="fragment">Analiza błędów (confusion matrix)</li>
+					<li class="fragment">Tuning hiperparametrów</li>
+				</ul>
+				<aside class="notes">
+					Czas sprawdzić, jak nasz uczeń sobie radzi. Ale nie tylko z kartkówki, na której się uczył – dajemy
+					mu nowe dane i sprawdzamy, czy naprawdę zrozumiał. A jak coś nie działa? To wracamy i poprawiamy,
+					np. hiperparametry.
+
+					„Czy ktoś z was kiedyś trafił model, który był za dobry, żeby był prawdziwy?” → porozmawiaj chwilę o
+					przeuczeniu (overfittingu)
+					Przykład: model, który zawsze zgaduje ‘bug’ – bo tak było w 90% danych. Ale co z ‘feature’?
+
+					Opowiedz jak sprawdzamy „czy model rozumie, a nie zgaduje”. Wprowadź metryki bez straszenia –
+					podkreśl, że nie chodzi o liczby, tylko o trafność w kontekście zadania.
+				</aside>
+			</section>
+
+			<section>
+				<h2>5. Wdrożenie i monitoring</h2>
+				<ul>
+					<li class="fragment">Model jako API / mikrousługa</li>
+					<li class="fragment">Wersjonowanie danych i modeli</li>
+					<li class="fragment">Monitorowanie jakości predykcji</li>
+				</ul>
+				<aside class="notes">
+					Model to nie plik `.pkl` wrzucony na dysk i zapomniany. To część systemu – musi działać w środowisku
+					produkcyjnym, obsługiwać rzeczywiste przypadki, być monitorowany i reagować na zmiany.
+
+					🔧 Wyobraźcie sobie, że model to nowy pracownik w firmie. Świetnie przeszedł onboarding (czyli
+					trening na danych), ale jeśli nikt go nie aktualizuje, przestaje rozumieć, co się dzieje. Firma
+					zmieniła procesy, formularze – a model wciąż żyje w przeszłości.
+
+					🤖 Przykład: chatbot, który polecał stary formularz zamówienia – mimo że już nie istniał. Klienci
+					byli sfrustrowani, firma traciła zaufanie, a zespół techniczny dowiedział się... przypadkiem.
+
+					✅ Co możemy zrobić?
+					- Monitorujemy jakość predykcji (czy odpowiedzi nadal trafiają)
+					- Zbieramy feedback i trenujemy model ponownie
+					- Automatyzujemy testy jakości (np. czy nadal dobrze klasyfikuje topowe przypadki)
+
+					🚗 To jak z samochodem: jeśli działa, nie znaczy, że nie trzeba sprawdzać ciśnienia w oponach. Model
+					też musi mieć „przegląd”.
+
+					➡️ Zakończ pytaniem do grupy: „Czy ktoś miał w pracy sytuację, gdzie model lub reguły się
+					‘zestarzały’ i trzeba było to zauważyć dopiero po awarii?”
+				</aside>
+			</section>
+
+			<section>
+				<h2>Ćwiczenie: zdefiniuj własny projekt ML</h2>
+				<p>Napisz krótko w czacie:</p>
+				<ul>
+					<li>Problem: co AI miałoby rozwiązać?</li>
+					<li>Dane: skąd je masz?</li>
+					<li>Cel: co ma przewidywać?</li>
+				</ul>
+				<aside class="notes">
+					Poproś o 2–3 przykłady na żywo. Przeróbcie je razem jako mini-sesję projektowania modelu ML. Świetna
+					okazja do angażowania.
+				</aside>
+			</section>
+
+			<!-- #endregion -->
+
+			<!-- #region Temat - DEMO - COLAB - GROUPOWE -->
+			<section>
+				<h2>DEMO – klasyfikator zgłoszeń</h2>
+				<p>Mini-projekt: klasyfikacja zgłoszeń do IT (bug / feature / info)</p>
+				<ul>
+					<li class="fragment">Dane: opis zgłoszenia</li>
+					<li class="fragment">Model: LogisticRegression</li>
+					<li class="fragment">Wynik: przewidywana kategoria</li>
+				</ul>
+				<aside class="notes">
+					Pokaż prosty kod w Colabie. Pokaż dane, jak wyglądają zgłoszenia (tekst + etykieta). Pokaż, że model
+					działa – ale też, że nie zawsze trafia. Zapytaj: co możemy zmienić, żeby był lepszy?
+				</aside>
+			</section>
+
+			<section>
+				<h2>Ćwiczenie: zmień coś w modelu</h2>
+				<p>Colab: spróbuj samodzielnie</p>
+				<ul>
+					<li class="fragment">Zmień dane wejściowe (tekst zgłoszenia)</li>
+					<li class="fragment">Zmień parametry modelu lub vectorizera</li>
+					<li class="fragment">Zobacz, co się zmienia w predykcjach</li>
+				</ul>
+				<aside class="notes">
+					Uczestnicy mają 10–15 minut, żeby sami spróbowali coś zmienić w kodzie lub danych. To nie konkurs,
+					tylko eksperyment. Powiedz: „sprawdźcie, co się stanie, jeśli...”
+				</aside>
+			</section>
+
+			<section>
+				<h2>Ćwiczenie grupowe – wymyśl swój projekt ML</h2>
+				<p>W małych grupach / czacie zastanów się:</p>
+				<ul>
+					<li class="fragment">Jaki problem możesz rozwiązać AI?</li>
+					<li class="fragment">Skąd masz dane?</li>
+					<li class="fragment">Jaki typ uczenia pasuje?</li>
+				</ul>
+				<aside class="notes">
+					Poproś uczestników, by zapisali swój pomysł. Komentuj 2–3 na forum. Pokaż, że to ćwiczenie ma sens –
+					można pomysł przekształcić w MVP modelu.
+				</aside>
+			</section>
+
+			<!-- #endregion -->
+
+			<!-- #region Temat - Typy uczenia -->
+
+			<section>
+				<h1>Typy uczenia maszynowego</h1>
+				<p>Supervised, Unsupervised, Semi-supervised, Reinforcement</p>
+				<aside class="notes">
+					Przedstawimy cztery główne typy uczenia: z nauczycielem, bez, po trochu i przez doświadczenie. Każdy
+					ma inne zastosowania i wymagania. Zacznijmy od analogii do uczenia ludzi.
+				</aside>
+			</section>
+
+			<section style="font-size: 0.9em;">
+				<h2>📘 Supervised learning – uczenie nadzorowane</h2>
+
+				<div
+					style="display: flex; gap: 2em; align-items: flex-start; justify-content: center; flex-wrap: wrap;">
+
+					<div style="flex: 1; min-width: 300px;">
+						<div class="fragment"
+							style="border: 1px solid #888; padding: 1em; border-radius: 5px; margin-bottom: 1em;">
+							<strong>Dane + etykiety:</strong> model zna odpowiedzi, uczy się je odtwarzać
+						</div>
+						<div class="fragment" style="border: 1px solid #888; padding: 1em; border-radius: 5px;">
+							<strong>Przykłady:</strong> klasyfikacja maili, rozpoznawanie twarzy, predykcja cen
+						</div>
+					</div>
+
+					<div class="fragment" style="flex: 1; min-width: 300px; text-align: center;">
+						<img class="fragment" src="https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg"
+							alt="Nauczyciel z uczniem" />
+					</div>
+
+				</div>
+
+				<aside class="notes">
+					Dajemy modelowi dane + odpowiedź. Mówimy: ‘to mail ze spamem, to nie’. Po 1000 takich przykładów
+					model potrafi zgadywać sam. Jak dziecko, które uczy się, że zielone światło = można iść.
+
+					To jak nauka z fiszek – model uczy się z przykładów z odpowiedziami. Wizualnie przypomina ucznia i
+					nauczyciela w sali – obrazek pomaga to zapamiętać.
+				</aside>
+			</section>
+
+			<section style="font-size: 0.9em;">
+				<h2>🧩 Unsupervised learning – uczenie nienadzorowane</h2>
+
+				<div style="display: flex; gap: 2em; align-items: center; justify-content: center; flex-wrap: wrap;">
+
+					<div style="flex: 1; min-width: 300px;">
+						<div class="fragment"
+							style="border: 1px solid #888; padding: 1em; font-size: 0.95em; border-radius: 5px; margin-bottom: 1em;">
+							<strong>Brak etykiet:</strong> tylko dane – model sam szuka wzorców i zależności
+						</div>
+						<div class="fragment"
+							style="border: 1px solid #888; padding: 1em; font-size: 0.95em; border-radius: 5px;">
+							<strong>Przykłady:</strong> segmentacja klientów, analiza koszyków zakupowych, clustering
+						</div>
+					</div>
+
+					<div class="fragment" style="flex: 1; min-width: 300px; text-align: center;">
+						<img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/K-means_convergence.gif"
+							alt="Cluster analysis" />
+						<p style="font-size: 0.3em; color: #555; margin-top: 0.5em;">
+							Źródło: <a href="https://commons.wikimedia.org/wiki/File:K-means_convergence.gif"
+								target="_blank">Xargex</a>,
+							<a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank">CC BY-SA 3.0</a>,
+							via Wikimedia Commons
+						</p>
+					</div>
+
+				</div>
+
+				<aside class="notes">
+					„Tutaj nie mówimy, co jest czym – tylko wrzucamy dane i mówimy ‘sam sobie poradzisz’. To jakby
+					rzucić ludzi na imprezę i zobaczyć, kto pogada z kim. Tak działa np. grupowanie klientów. w
+					ecommerce”
+				</aside>
+			</section>
+
+			<section style="font-size: 0.9em;">
+				<h2>🌓 Semi-supervised learning – częściowo nadzorowane</h2>
+
+				<div
+					style="display: flex; gap: 2em; align-items: flex-start; justify-content: center; flex-wrap: wrap;">
+
+					<div style="flex: 1; min-width: 300px;">
+						<div class="fragment"
+							style="border: 1px solid #888; padding: 0.5em; border-radius: 5px; margin-bottom: 0.5em;">
+							<strong>Część danych opisana:</strong> model uczy się z oznaczonych przykładów i
+							generalizuje na pozostałe
+						</div>
+						<div class="fragment" style="border: 1px solid #888; padding: 0.5em; border-radius: 5px;">
+							<strong>Przykłady:</strong> klasyfikacja dokumentów, analiza maili z częściowym opisem
+						</div>
+					</div>
+
+					<div class="fragment" style="flex: 1; min-width: 300px; text-align: center;">
+						<img src="https://c.pxhere.com/images/bd/33/c08df26c4b45d7bb71bff6235fb4-1600621.jpg!d"
+							alt="Częściowe nauczanie" style="max-height: 300px; max-width: 100%; border-radius: 5px;" />
+					</div>
+
+				</div>
+
+				<aside class="notes">
+					„Wyobraźcie sobie, że mamy 10 tysięcy maili, ale tylko 300 z nich ktoś opisał. Reszty nie chcemy
+					opisywać ręcznie – model sam spróbuje uczyć się z tych, które ma. Takie ‘trochę wiem, trochę
+					zgaduję’.”
+
+					Notatka:
+					Powiedz, że to często spotykana opcja w firmach: dużo danych, mało czasu na etykietowanie.
+					Praktyczne i często skuteczne.
+				</aside>
+			</section>
+
+			<section>
+
+				<section style="font-size: 0.9em;">
+					<h2>🕹️ Reinforcement learning – uczenie przez wzmocnienie</h2>
+
+					<div
+						style="display: flex; gap: 2em; align-items: flex-start; justify-content: center; flex-wrap: wrap;">
+
+						<div style="flex: 1; min-width: 300px;">
+							<div class="fragment"
+								style="border: 1px solid #888; padding: 0.5em; border-radius: 5px; margin-bottom: 0.5em;">
+								<strong>Agent uczy się poprzez działanie:</strong> próbuje, popełnia błędy, dostaje
+								nagrody
+							</div>
+							<div class="fragment" style="border: 1px solid #888; padding: 0.5em; border-radius: 5px;">
+								<strong>Przykłady:</strong> AI w grach, robotyka, samouczące się systemy sterujące
+							</div>
+						</div>
+
+						<div class="fragment" style="flex: 1; min-width: 300px; text-align: center;">
+							<img src="https://live.staticflickr.com/1522/25717574115_a13441f167_b.jpg"
+								alt="Breakout Atari DQN"
+								style="max-height: 300px; max-width: 100%; border-radius: 5px;" />
+						</div>
+
+					</div>
+
+					<aside class="notes">
+						„AI dostaje świat, kilka zasad i nagrodę. Reszta to próby i błędy. Tak uczymy roboty chodzić
+						albo AI
+						grać w szachy. Jak pies, który uczy się, że ‘siad’ = smakołyk.”
+
+						Notatka:
+						Pokaż przykład: AI, która sama nauczyła się grać w Atari.
+						Podkreśl: to najbardziej ‘życiowe’ uczenie, ale też najtrudniejsze w realnych projektach.
+
+					</aside>
+				</section>
+
+				<section>
+					<h2>🕹️ Reinforcement learning – nie tylko dla graczy</h2>
+					<p class="fragment">🔁 Uczysz agenta działać w środowisku przez nagrody i kary</p>
+					<p class="fragment">📦 Przykłady realne:</p>
+					<ul>
+						<li class="fragment">➡️ Optymalizacja cen biletów lotniczych</li>
+						<li class="fragment">➡️ Zarządzanie energią w budynkach</li>
+						<li class="fragment">➡️ Automatyzacja ruchu w magazynach</li>
+					</ul>
+				</section>
+
+			</section>
+
+
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (1/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🔍 System analizujący rentgeny i uczący się diagnozować nowotwory na podstawie opisanych przypadków
+				</p>
+				<p class="fragment"><small>Poprawna: <strong>Supervised</strong></small></p>
+				<aside class="notes">
+					To przykład supervised learning. Mamy dane i etykiety (diagnozy). Zapytaj uczestników o odpowiedź na
+					czacie.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (2/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>📊 System analizujący historię zakupów i tworzący segmenty klientów bez wcześniejszych kategorii</p>
+				<p class="fragment"><small>Poprawna: <strong>Unsupervised</strong></small></p>
+				<aside class="notes">
+					To unsupervised learning – brak etykiet, model grupuje dane samodzielnie. Zapytaj grupę, co jeszcze
+					można by tak analizować.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (3/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🧾 Model uczący się rozpoznawać rodzaj dokumentu (np. faktura, zamówienie) z 500 opisanych i 10 000
+					nieopisanych przykładów</p>
+				<p class="fragment"><small>Poprawna: <strong>Semi-supervised</strong></small></p>
+				<aside class="notes">
+					To semi-supervised learning. Wiele firm ma takie dane, ale mało zasobów do ich ręcznego opisu.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (4/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🎮 Agent uczący się grać w grę, zbierając punkty i ucząc się, co prowadzi do zwycięstwa</p>
+				<p class="fragment"><small>Poprawna: <strong>Reinforcement</strong></small></p>
+				<aside class="notes">
+					Typowy przykład reinforcement learning. Działa na zasadzie „akcja → nagroda”. Zapytaj, czy ktoś
+					testował OpenAI Gym.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (5/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🎓 System rekomendujący kursy online na podstawie kliknięć użytkownika, ocen oraz danych z kursów,
+					które użytkownik obejrzał tylko częściowo</p>
+				<p class="fragment"><small>Poprawna: <strong>Semi-supervised</strong></small></p>
+				<aside class="notes">
+					Mamy zarówno dane etykietowane (np. oceny), jak i niepełne dane (obejrzane fragmenty kursów). Model
+					może korzystać z obu typów informacji.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (6/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🚗 Samojezdny samochód uczący się zachowań kierowców na podstawie nagrań wideo i danych z czujników,
+					ale bez informacji o tym, czy wykonali manewry poprawnie</p>
+				<p class="fragment"><small>Poprawna: <strong>Unsupervised</strong></small></p>
+				<aside class="notes">
+					Brak etykiet (brak oceny "dobre/złe manewry"), więc model sam szuka wzorców w zachowaniach. Może to
+					być część systemu do późniejszej klasyfikacji lub generowania etykiet.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (7/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🤖 Robot w magazynie uczący się jak najefektywniej przenosić paczki, zbierając punkty za szybkość i
+					unikanie kolizji</p>
+				<p class="fragment"><small>Poprawna: <strong>Reinforcement</strong></small></p>
+				<aside class="notes">
+					Klasyczny przykład reinforcement learning: robot uczy się na podstawie nagród (punkty) i kar (np.
+					kolizje). Zapytaj uczestników, jak takie środowiska można zasymulować.
+				</aside>
+			</section>
+
+			<!-- #endregion -->
+
+			<!-- #region Temat - Case study: AI w firmach i retrospekcja -->
+			<section>
+				<h2>Case study: AI w firmach (mniej oczywiste)</h2>
+				<p>Jak firmy używają AI w codziennych operacjach?</p>
+				<ul>
+					<li class="fragment">🏥 Szpital – klasyfikacja priorytetów zgłoszeń z systemu ratunkowego
+						(supervised)</li>
+					<li class="fragment">🏦 Bank – wykrywanie podejrzanych operacji bez wcześniejszych wzorców
+						(unsupervised)</li>
+					<li class="fragment">🎧 Serwis muzyczny – model, który sam testuje nowe playlisty i uczy się, które
+						generują zaangażowanie (reinforcement)</li>
+				</ul>
+				<aside class="notes">
+					Zamiast klasycznych przykładów z BigTechu – pokażmy mniej oczywiste zastosowania AI, które mają sens
+					także w dużych organizacjach IT. Zachęć uczestników do refleksji: czy widzą podobne potrzeby u
+					klientów, z którymi współpracują? Albo w projektach, w których brali udział?
+				</aside>
+			</section>
+
+			<section>
+				<h2>Retrospekcja dnia 1</h2>
+				<ul>
+					<li class="fragment">Co zapamiętałeś?</li>
+					<li class="fragment">Co Cię zaskoczyło?</li>
+					<li class="fragment">Na co czekasz jutro?</li>
+				</ul>
+				<aside class="notes">
+					Luźna rozmowa na zakończenie. Pozwól uczestnikom się wypowiedzieć. Zachęć do zostawienia 1 zdania na
+					czacie jako refleksję na koniec dnia.
+				</aside>
+			</section>
+
+			<!-- #endregion -->
+		</div>
+	</div>
+
+	<script src="../../dist/reveal.js"></script>
+	<script src="../../plugin/notes/notes.js"></script>
+	<script src="../../plugin/markdown/markdown.js"></script>
+	<script src="../../plugin/highlight/highlight.js"></script>
+	<script>
+		Reveal.initialize({
+			hash: true,
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
+</body>
+
+</html>

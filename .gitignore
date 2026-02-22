@@ -6,7 +6,6 @@ __pycache__/
 .env
 .claude/
 
-RevealJS/
 *.zip
 Exercises/.venv*/
 Exercises/vibe-coding/
@@ -15,4 +14,3 @@ Exports/
 Materials/
 Notebooks/
 Recordings/
-Slides/

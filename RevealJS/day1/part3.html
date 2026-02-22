@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+	<meta charset="utf-8">
+	<title>Dzień 1 – Część 3: Typy uczenia maszynowego</title>
+	<link rel="stylesheet" href="../../dist/reset.css">
+	<link rel="stylesheet" href="../../dist/reveal.css">
+	<link rel="stylesheet" href="../../dist/theme/black.css">
+	<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+	<style>
+		.reveal:focus {
+			outline: none;
+		}
+
+		.reveal *:focus {
+			outline: none;
+		}
+
+		.reveal * {
+			caret-color: transparent;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- #region Temat - Typy uczenia -->
+
+			<section>
+
+				<section>
+					<h1>Typy uczenia maszynowego</h1>
+					<p>Supervised, Unsupervised, Semi-supervised, Reinforcement</p>
+					<aside class="notes">
+						Przedstawimy cztery główne typy uczenia: z nauczycielem, bez, po trochu i przez doświadczenie.
+						Każdy
+						ma inne zastosowania i wymagania. Zacznijmy od analogii do uczenia ludzi.
+					</aside>
+				</section>
+
+				<!-- #region QUIZ SUPERVISED / UNSUPERVISED -->
+
+				<section>
+					<h2>Quiz: Supervised czy Unsupervised?</h2>
+					<p>👍 Supervised = uczymy na odpowiedziach<br>🎉 Unsupervised = model sam szuka wzorców</p>
+					<p style="font-size: 0.8em; margin-top: 1em;">Reaguj emoji na Zoomie: 👍 = Supervised | 🎉 =
+						Unsupervised</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Quiz 1/6</h2>
+					<p>📄 Model rozpoznający rodzaj dokumentu (np. faktura, zamówienie)</p>
+					<small>👍 Supervised = uczymy na odpowiedziach | 🎉 Unsupervised = model sam szuka</small>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Quiz 1/6</h2>
+					<p>📄 Model rozpoznający rodzaj dokumentu (np. faktura, zamówienie)</p>
+					<p style="margin-top: 2em;">➡️ <strong>👍 Supervised</strong></p>
+					<p style="font-size: 0.8em; color: #ccc; margin-top: 1em;">
+						Model dostaje przykład + etykietę („to jest faktura"), więc uczy się od wskazówek.
+					</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Quiz 2/6</h2>
+					<p>🛒 Algorytm grupujący klientów według zachowań zakupowych</p>
+					<small>👍 Supervised = uczymy na odpowiedziach | 🎉 Unsupervised = model sam szuka</small>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Quiz 2/6</h2>
+					<p>🛒 Algorytm grupujący klientów według zachowań zakupowych</p>
+					<p style="margin-top: 2em;">➡️ <strong>🎉 Unsupervised</strong></p>
+					<p style="font-size: 0.8em; color: #ccc; margin-top: 1em;">
+						Brak etykiet – model sam szuka grup i podobieństw między klientami.
+					</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Quiz 3/6</h2>
+					<p>🖼️ Model uczący się rozpoznawać gatunki roślin z podpisanych zdjęć</p>
+					<small>👍 Supervised = uczymy na odpowiedziach | 🎉 Unsupervised = model sam szuka</small>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Quiz 3/6</h2>
+					<p>🖼️ Model uczący się rozpoznawać gatunki roślin z podpisanych zdjęć</p>
+					<p style="margin-top: 2em;">➡️ <strong>👍 Supervised</strong></p>
+					<p style="font-size: 0.8em; color: #ccc; margin-top: 1em;">
+						Dane są opisane (gatunki roślin), więc uczymy model na przykładach z odpowiedziami.
+					</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Quiz 4/6</h2>
+					<p>📦 System grupujący zamówienia według cech klienta</p>
+					<small>👍 Supervised = uczymy na odpowiedziach | 🎉 Unsupervised = model sam szuka</small>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Quiz 4/6</h2>
+					<p>📦 System grupujący zamówienia według cech klienta</p>
+					<p style="margin-top: 2em;">➡️ <strong>🎉 Unsupervised</strong></p>
+					<p style="font-size: 0.8em; color: #ccc; margin-top: 1em;">
+						Klientów grupujemy bez wcześniejszych kategorii – model sam szuka wzorców.
+					</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Bonus Quiz 5/6</h2>
+					<p>🚑 Model klasyfikujący zgłoszenia na pogotowiu według pilności</p>
+					<small>👍 Supervised = uczymy na odpowiedziach | 🎉 Unsupervised = model sam szuka</small>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Bonus Quiz 5/6</h2>
+					<p>🚑 Model klasyfikujący zgłoszenia na pogotowiu według pilności</p>
+					<p style="margin-top: 2em;">➡️ <strong>👍 Supervised</strong></p>
+					<p style="font-size: 0.8em; color: #ccc; margin-top: 1em;">
+						Każde zgłoszenie ma przypisaną kategorię pilności – uczymy na gotowych odpowiedziach.
+					</p>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Bonus Quiz 6/6</h2>
+					<p>🖼️ Algorytm grupujący obrazy według podobieństwa wizualnego</p>
+					<small>👍 Supervised = uczymy na odpowiedziach | 🎉 Unsupervised = model sam szuka</small>
+				</section>
+
+				<section data-auto-animate>
+					<h2>Bonus Quiz 6/6</h2>
+					<p>🖼️ Algorytm grupujący obrazy według podobieństwa wizualnego</p>
+					<p style="margin-top: 2em;">➡️ <strong>🎉 Unsupervised</strong></p>
+					<p style="font-size: 0.8em; color: #ccc; margin-top: 1em;">
+						Brak etykiet dla obrazów – model sam szuka podobieństw i grupuje.
+					</p>
+				</section>
+
+				<section>
+					<h2>🎉 Brawo!</h2>
+					<p>Dzięki za udział w szybkim quizie! 🚀</p>
+				</section>
+				<!-- #endregion -->
+
+			</section>
+
+			<section style="font-size: 0.9em;">
+				<h2>📘 Supervised learning – uczenie nadzorowane</h2>
+
+				<div
+					style="display: flex; gap: 2em; align-items: flex-start; justify-content: center; flex-wrap: wrap;">
+
+					<div style="flex: 1; min-width: 300px;">
+						<div class="fragment"
+							style="border: 1px solid #888; padding: 1em; border-radius: 5px; margin-bottom: 1em;">
+							<strong>Dane + etykiety:</strong> model zna odpowiedzi, uczy się je odtwarzać
+						</div>
+						<div class="fragment" style="border: 1px solid #888; padding: 1em; border-radius: 5px;">
+							<strong>Przykłady:</strong> klasyfikacja maili, rozpoznawanie twarzy, predykcja cen
+						</div>
+					</div>
+
+					<div class="fragment" style="flex: 1; min-width: 300px; text-align: center;">
+						<img class="fragment" src="https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg"
+							alt="Nauczyciel z uczniem" />
+					</div>
+
+				</div>
+
+				<aside class="notes">
+					<p>
+						Dajemy modelowi dane + odpowiedź. Mówimy: 'to mail ze spamem, to nie'. Po 1000 takich przykładów
+						model potrafi zgadywać sam. Jak dziecko, które uczy się, że zielone światło = można iść.<br>
+					</p>
+					<p>
+						To jak nauka z fiszek – model uczy się z przykładów z odpowiedziami. Wizualnie przypomina ucznia
+						i
+						nauczyciela w sali – obrazek pomaga to zapamiętać.
+					</p>
+				</aside>
+			</section>
+
+			<section style="font-size: 0.9em;">
+				<h2>🧩 Unsupervised learning – uczenie nienadzorowane</h2>
+
+				<div style="display: flex; gap: 2em; align-items: center; justify-content: center; flex-wrap: wrap;">
+
+					<div style="flex: 1; min-width: 300px;">
+						<div class="fragment"
+							style="border: 1px solid #888; padding: 1em; font-size: 0.95em; border-radius: 5px; margin-bottom: 1em;">
+							<strong>Brak etykiet:</strong> tylko dane – model sam szuka wzorców i zależności
+						</div>
+						<div class="fragment"
+							style="border: 1px solid #888; padding: 1em; font-size: 0.95em; border-radius: 5px;">
+							<strong>Przykłady:</strong> segmentacja klientów, analiza koszyków zakupowych, clustering
+						</div>
+					</div>
+
+					<div class="fragment" style="flex: 1; min-width: 300px; text-align: center;">
+						<img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/K-means_convergence.gif"
+							alt="Cluster analysis" />
+						<p style="font-size: 0.3em; color: #555; margin-top: 0.5em;">
+							Źródło: <a href="https://commons.wikimedia.org/wiki/File:K-means_convergence.gif"
+								target="_blank">Xargex</a>,
+							<a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank">CC BY-SA 3.0</a>,
+							via Wikimedia Commons
+						</p>
+					</div>
+
+				</div>
+
+				<aside class="notes">
+					„Tutaj nie mówimy, co jest czym – tylko wrzucamy dane i mówimy 'sam sobie poradzisz'. To jakby
+					rzucić ludzi na imprezę i zobaczyć, kto pogada z kim. Tak działa np. grupowanie klientów. w
+					ecommerce"
+				</aside>
+			</section>
+
+			<section style="font-size: 0.9em;">
+				<h2>🌓 Semi-supervised learning – częściowo nadzorowane</h2>
+
+				<div
+					style="display: flex; gap: 2em; align-items: flex-start; justify-content: center; flex-wrap: wrap;">
+
+					<div style="flex: 1; min-width: 300px;">
+						<div class="fragment"
+							style="border: 1px solid #888; padding: 0.5em; border-radius: 5px; margin-bottom: 0.5em;">
+							<strong>Część danych opisana:</strong> model uczy się z oznaczonych przykładów i
+							generalizuje na pozostałe
+						</div>
+						<div class="fragment" style="border: 1px solid #888; padding: 0.5em; border-radius: 5px;">
+							<strong>Przykłady:</strong> klasyfikacja dokumentów, analiza maili z częściowym opisem
+						</div>
+					</div>
+
+					<div class="fragment" style="flex: 1; min-width: 300px; text-align: center;">
+						<img src="https://c.pxhere.com/images/bd/33/c08df26c4b45d7bb71bff6235fb4-1600621.jpg!d"
+							alt="Częściowe nauczanie" style="max-height: 300px; max-width: 100%; border-radius: 5px;" />
+					</div>
+
+				</div>
+
+				<aside class="notes">
+					„Wyobraźcie sobie, że mamy 10 tysięcy maili, ale tylko 300 z nich ktoś opisał. Reszty nie chcemy
+					opisywać ręcznie – model sam spróbuje uczyć się z tych, które ma. Takie 'trochę wiem, trochę
+					zgaduję'."
+
+					Notatka:
+					Powiedz, że to często spotykana opcja w firmach: dużo danych, mało czasu na etykietowanie.
+					Praktyczne i często skuteczne.
+				</aside>
+			</section>
+
+			<section>
+
+				<section style="font-size: 0.9em;">
+					<h2>🕹️ Reinforcement learning – uczenie przez wzmocnienie</h2>
+
+					<div
+						style="display: flex; gap: 2em; align-items: flex-start; justify-content: center; flex-wrap: wrap;">
+
+						<div style="flex: 1; min-width: 300px;">
+							<div class="fragment"
+								style="border: 1px solid #888; padding: 0.5em; border-radius: 5px; margin-bottom: 0.5em;">
+								<strong>Agent uczy się poprzez działanie:</strong> próbuje, popełnia błędy, dostaje
+								nagrody
+							</div>
+							<div class="fragment" style="border: 1px solid #888; padding: 0.5em; border-radius: 5px;">
+								<strong>Przykłady:</strong> AI w grach, robotyka, samouczące się systemy sterujące
+							</div>
+						</div>
+
+						<div class="fragment" style="flex: 1; min-width: 300px; text-align: center;">
+							<img src="https://live.staticflickr.com/1522/25717574115_a13441f167_b.jpg"
+								alt="Breakout Atari DQN"
+								style="max-height: 300px; max-width: 100%; border-radius: 5px;" />
+						</div>
+
+					</div>
+
+					<aside class="notes">
+						Reinforcement learning to jak nauka przez doświadczenie – agent nie dostaje gotowych odpowiedzi,
+						tylko próbuje i widzi, co działa.<br><br>
+
+						🔄 Zasada: agent podejmuje akcje → środowisko reaguje → agent dostaje nagrodę lub karę.<br><br>
+
+						🎮 Pokaż przykład z obrazka – AI, która sama nauczyła się grać w grę Atari (Breakout). Nikt jej
+						nie powiedział, jak wygrać – sama się nauczyła przez tysiące prób.<br><br>
+
+						🐶 Można porównać do psa uczącego się komendy "siad" – nie wie, co to znaczy, ale jeśli po
+						komendzie i akcji dostaje smakołyk, zaczyna rozumieć „aha, to się opłaca".<br><br>
+
+						⚠️ W realnych projektach RL jest trudne – bo trzeba mieć symulowane środowisko, dobre definicje
+						nagród i sporo mocy obliczeniowej. Ale działa świetnie w grach, robotyce, sterowaniu ruchem.
+					</aside>
+				</section>
+
+				<section>
+					<h2>🕹️ Reinforcement learning – nie tylko dla graczy</h2>
+					<p class="fragment">🔁 Uczysz agenta działać w środowisku przez nagrody i kary</p>
+					<p class="fragment">📦 Przykłady realne:</p>
+					<ul>
+						<li class="fragment">➡️ Optymalizacja cen biletów lotniczych</li>
+						<li class="fragment">➡️ Zarządzanie energią w budynkach</li>
+						<li class="fragment">➡️ Automatyzacja ruchu w magazynach</li>
+					</ul>
+					<aside class="notes">
+						Reinforcement learning wychodzi poza gry – jest używany tam, gdzie system uczy się optymalnych
+						decyzji w zmieniającym się środowisku.<br><br>
+
+						✈️ Linie lotnicze: agent testuje różne strategie cenowe i „uczy się", jakie ceny maksymalizują
+						zysk przy różnych warunkach (np. dzień tygodnia, sezon).<br><br>
+
+						🏢 Budynki: RL może sterować klimatyzacją lub ogrzewaniem – nagroda to np. oszczędność energii +
+						komfort użytkowników.<br><br>
+
+						📦 Magazyny: roboty uczą się efektywnej nawigacji i współpracy, tak by uniknąć korków i
+						zoptymalizować trasy.<br><br>
+
+						🔑 Podkreśl: to uczenie przez konsekwencje – jak podejmowanie decyzji w dynamicznym świecie, bez
+						mapy. W praktyce często łączy się je z symulacją lub cyfrowym bliźniakiem (digital twin).
+					</aside>
+				</section>
+
+			</section>
+
+
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (1/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🔍 System analizujący rentgeny i uczący się diagnozować nowotwory na podstawie opisanych przypadków
+				</p>
+				<p class="fragment"><small>Poprawna: <strong>Supervised</strong></small></p>
+				<aside class="notes">
+					To przykład supervised learning. Mamy dane i etykiety (diagnozy). Zapytaj uczestników o odpowiedź na
+					czacie.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (2/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>📊 System analizujący historię zakupów i tworzący segmenty klientów bez wcześniejszych kategorii</p>
+				<p class="fragment"><small>Poprawna: <strong>Unsupervised</strong></small></p>
+				<aside class="notes">
+					To unsupervised learning – brak etykiet, model grupuje dane samodzielnie. Zapytaj grupę, co jeszcze
+					można by tak analizować.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (3/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🧾 Model uczący się rozpoznawać rodzaj dokumentu (np. faktura, zamówienie) z 500 opisanych i 10 000
+					nieopisanych przykładów</p>
+				<p class="fragment"><small>Poprawna: <strong>Semi-supervised</strong></small></p>
+				<aside class="notes">
+					To semi-supervised learning. Wiele firm ma takie dane, ale mało zasobów do ich ręcznego opisu.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (4/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🎮 Agent uczący się grać w grę, zbierając punkty i ucząc się, co prowadzi do zwycięstwa</p>
+				<p class="fragment"><small>Poprawna: <strong>Reinforcement</strong></small></p>
+				<aside class="notes">
+					Typowy przykład reinforcement learning. Działa na zasadzie „akcja → nagroda". Zapytaj, czy ktoś
+					testował OpenAI Gym.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (5/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🎓 System rekomendujący kursy online na podstawie kliknięć użytkownika, ocen oraz danych z kursów,
+					które użytkownik obejrzał tylko częściowo</p>
+				<p class="fragment"><small>Poprawna: <strong>Semi-supervised</strong></small></p>
+				<aside class="notes">
+					Mamy zarówno dane etykietowane (np. oceny), jak i niepełne dane (obejrzane fragmenty kursów). Model
+					może korzystać z obu typów informacji.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (6/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🚗 Samojezdny samochód uczący się zachowań kierowców na podstawie nagrań wideo i danych z czujników,
+					ale bez informacji o tym, czy wykonali manewry poprawnie</p>
+				<p class="fragment"><small>Poprawna: <strong>Unsupervised</strong></small></p>
+				<aside class="notes">
+					Brak etykiet (brak oceny "dobre/złe manewry"), więc model sam szuka wzorców w zachowaniach. Może to
+					być część systemu do późniejszej klasyfikacji lub generowania etykiet.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Quiz: rozpoznaj typ uczenia (7/7)</h2>
+				<small>Wybierz spośród: <strong>Supervised / Unsupervised / Semi-supervised /
+						Reinforcement</strong></small>
+				<p>🤖 Robot w magazynie uczący się jak najefektywniej przenosić paczki, zbierając punkty za szybkość i
+					unikanie kolizji</p>
+				<p class="fragment"><small>Poprawna: <strong>Reinforcement</strong></small></p>
+				<aside class="notes">
+					Klasyczny przykład reinforcement learning: robot uczy się na podstawie nagród (punkty) i kar (np.
+					kolizje). Zapytaj uczestników, jak takie środowiska można zasymulować.
+				</aside>
+			</section>
+
+			<section style="font-size: 0.6em;">
+				<h2>📚 Podsumowanie: typy uczenia maszynowego</h2>
+				<table style="margin-top: 1em; width: 100%; border-collapse: collapse;">
+					<thead>
+						<tr style="background-color: #444; color: white;">
+							<th style="padding: 0.6em; border: 1px solid #666;">🧠 Typ</th>
+							<th style="padding: 0.6em; border: 1px solid #666;">📝 Opis</th>
+							<th style="padding: 0.6em; border: 1px solid #666;">💼 Przykłady</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="fragment">
+							<td style="padding: 0.6em; border: 1px solid #666;">🎯 Supervised</td>
+							<td style="padding: 0.6em; border: 1px solid #666;">Dane z etykietami – uczymy na
+								przykładach</td>
+							<td style="padding: 0.6em; border: 1px solid #666;">SPAM/NIE-SPAM, ceny mieszkań</td>
+						</tr>
+						<tr class="fragment">
+							<td style="padding: 0.6em; border: 1px solid #666;">🧩 Unsupervised</td>
+							<td style="padding: 0.6em; border: 1px solid #666;">Brak etykiet – model sam szuka wzorców
+							</td>
+							<td style="padding: 0.6em; border: 1px solid #666;">Segmentacja klientów, analiza zachowań
+							</td>
+						</tr>
+						<tr class="fragment">
+							<td style="padding: 0.6em; border: 1px solid #666;">⚖️ Semi-supervised</td>
+							<td style="padding: 0.6em; border: 1px solid #666;">Część danych opisana – reszta bez</td>
+							<td style="padding: 0.6em; border: 1px solid #666;">Systemy rekomendacyjne, dokumenty</td>
+						</tr>
+						<tr class="fragment">
+							<td style="padding: 0.6em; border: 1px solid #666;">🎮 Reinforcement</td>
+							<td style="padding: 0.6em; border: 1px solid #666;">Agent uczy się przez nagrody/kary</td>
+							<td style="padding: 0.6em; border: 1px solid #666;">Gry, roboty, optymalizacja cen</td>
+						</tr>
+					</tbody>
+				</table>
+				<p class="fragment" style="margin-top: 1em; text-align: center;">👉 Każdy typ ma swoje zastosowanie.
+					Klucz: dopasować do problemu!</p>
+
+				<aside class="notes">
+					<p><strong>🎯 Supervised:</strong> "Wyobraźcie sobie ucznia z zeszytem ćwiczeń. Ma przykład +
+						odpowiedź. Tak właśnie działa supervised learning – uczymy na gotowych etykietach, np. mail =
+						SPAM."</p>
+
+					<p><strong>🧩 Unsupervised:</strong> "Tym razem – brak etykiet. To jakby wrzucić ludzi na imprezę i
+						sprawdzić, kto gada z kim. Model sam grupuje dane, np. według podobieństw zakupowych."</p>
+
+					<p><strong>⚖️ Semi-supervised:</strong> "Pół na pół – mamy kilka etykiet, reszta to wolna
+						amerykanka. To jakby dać uczniowi 5 odpowiedzi, a resztę ma sobie wywnioskować. Bardzo
+						praktyczne w firmach."</p>
+
+					<p><strong>🎮 Reinforcement:</strong> "Tu uczeń nie dostaje odpowiedzi, tylko punkt za dobre
+						zachowanie. Przypomina naukę psa: 'siad' → smaczek. Agent próbuje, dostaje nagrodę i poprawia
+						się."</p>
+
+					<p><strong>👉 Puenta:</strong> "W ML najpierw pytanie: co chcemy osiągnąć – i dopiero potem: jaki
+						typ uczenia dobrać?"</p>
+				</aside>
+			</section>
+
+
+			<!-- #endregion -->
+
+			<!-- #region Temat - Case study: AI w firmach i retrospekcja -->
+			<section>
+				<h2>Case study: AI w firmach (mniej oczywiste)</h2>
+				<p>Jak firmy używają AI w codziennych operacjach?</p>
+				<ul>
+					<li class="fragment">🏥 Szpital – klasyfikacja priorytetów zgłoszeń z systemu ratunkowego
+						(supervised)</li>
+					<li class="fragment">🏦 Bank – wykrywanie podejrzanych operacji bez wcześniejszych wzorców
+						(unsupervised)</li>
+					<li class="fragment">🎧 Serwis muzyczny – model, który sam testuje nowe playlisty i uczy się, które
+						generują zaangażowanie (reinforcement)</li>
+				</ul>
+				<aside class="notes">
+					Zamiast klasycznych przykładów z BigTechu – pokażmy mniej oczywiste zastosowania AI, które mają sens
+					także w dużych organizacjach IT. Zachęć uczestników do refleksji: czy widzą podobne potrzeby u
+					klientów, z którymi współpracują? Albo w projektach, w których brali udział?
+				</aside>
+			</section>
+
+			<section>
+				<h2>Retrospekcja dnia 1</h2>
+				<ul>
+					<li class="fragment">Co zapamiętałeś?</li>
+					<li class="fragment">Co Cię zaskoczyło?</li>
+					<li class="fragment">Na co czekasz jutro?</li>
+				</ul>
+				<aside class="notes">
+					Luźna rozmowa na zakończenie. Pozwól uczestnikom się wypowiedzieć. Zachęć do zostawienia 1 zdania na
+					czacie jako refleksję na koniec dnia.
+				</aside>
+			</section>
+
+			<section style="font-size: 0.7em;">
+				<h2>🧠 Co dalej?</h2>
+				<p class="fragment" style="font-size: 1.2em;">Dziś zbudowaliśmy fundamenty: czym jest AI, jak działa ML
+					i jak tworzy się modele.</p>
+
+				<p class="fragment" style="margin-top: 2em; font-size: 1.1em;">A jutro…</p>
+
+				<ul class="fragment" style="font-size: 0.8em; margin-top: 1.2em;">
+					<li class="fragment">🤯 Zajrzymy do wnętrza <strong>modeli językowych</strong> – skąd LLM „wie", co
+						powiedzieć?</li>
+					<li class="fragment">🔤 Zobaczysz, co naprawdę oznacza „token" – i jak wpływa na koszt i sens
+						wypowiedzi</li>
+					<li class="fragment">💬 Napiszesz <strong>swój własny prompt</strong> – i poprawisz go jak zawodowy
+						AI whisperer</li>
+					<li class="fragment">📦 Dowiesz się, <strong>które modele kiedy wybrać</strong> – i dlaczego
+						"większy" nie zawsze
+						znaczy "lepszy"</li>
+					<li class="fragment">🎭 Zmierzymy się z pytaniem: <strong>co AI potrafi naprawdę, a gdzie tylko
+							udaje?</strong></li>
+				</ul>
+
+				<p class="fragment" style="margin-top: 2em; font-size: 1em; color: #ccc;">Czy AI rozumie? Czy tylko
+					zgaduje? I… czy można jej zaufać w ważnych decyzjach?</p>
+
+				<p class="fragment" style="margin-top: 1em; font-size: 1em;">➡️ Do zobaczenia!</p>
+
+				<aside class="notes">
+					Możesz zakończyć pytaniem do grupy: „Z czym dziś wychodzicie? Co was najbardziej zaskoczyło?"
+					Zapowiedz, że jutro:
+					<ul>
+						<li>Porozmawiacie o granicach zaufania do AI</li>
+						<li>Pokażesz, gdzie AI faktycznie robi różnicę – a gdzie trzeba uważać</li>
+					</ul>
+				</aside>
+			</section>
+
+
+			<!-- #endregion -->
+		</div>
+	</div>
+
+	<script src="../../dist/reveal.js"></script>
+	<script src="../../plugin/notes/notes.js"></script>
+	<script src="../../plugin/markdown/markdown.js"></script>
+	<script src="../../plugin/highlight/highlight.js"></script>
+	<script>
+		Reveal.initialize({
+			hash: true,
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+			pdfSeparateFragments: false
+		});
+	</script>
+</body>
+
+</html>

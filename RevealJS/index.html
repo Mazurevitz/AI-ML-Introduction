@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Szkolenie AI/ML – Spis treści</title>
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
+	<style>
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+			background: #111;
+			color: #eee;
+			margin: 0;
+			padding: 2em;
+		}
+
+		h1 {
+			text-align: center;
+			font-size: 2em;
+			margin-bottom: 0.2em;
+		}
+
+		.subtitle {
+			text-align: center;
+			color: #888;
+			margin-bottom: 2em;
+		}
+
+		.day {
+			max-width: 900px;
+			margin: 0 auto 3em;
+		}
+
+		.day h2 {
+			border-bottom: 2px solid #42affa;
+			padding-bottom: 0.3em;
+			margin-bottom: 1em;
+		}
+
+		.part {
+			background: #1a1a2e;
+			border-radius: 12px;
+			padding: 1.5em;
+			margin-bottom: 1.5em;
+			border-left: 4px solid #42affa;
+		}
+
+		.part h3 {
+			margin: 0 0 0.3em;
+		}
+
+		.part h3 a {
+			color: #42affa;
+			text-decoration: none;
+		}
+
+		.part h3 a:hover {
+			text-decoration: underline;
+		}
+
+		.part .desc {
+			color: #aaa;
+			margin-bottom: 1em;
+			font-size: 0.95em;
+		}
+
+		.prep-section {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 1em;
+			font-size: 0.85em;
+		}
+
+		.prep-section div {
+			background: #16213e;
+			border-radius: 8px;
+			padding: 0.8em 1em;
+		}
+
+		.prep-section h4 {
+			margin: 0 0 0.4em;
+			color: #42affa;
+			font-size: 0.95em;
+		}
+
+		.prep-section ul {
+			margin: 0;
+			padding-left: 1.2em;
+		}
+
+		.prep-section li {
+			margin-bottom: 0.3em;
+		}
+
+		.full-link {
+			display: block;
+			text-align: center;
+			margin-top: 0.5em;
+			color: #666;
+			font-size: 0.85em;
+		}
+
+		.full-link a {
+			color: #666;
+			text-decoration: none;
+		}
+
+		.full-link a:hover {
+			color: #42affa;
+		}
+
+		@media (max-width: 600px) {
+			.prep-section {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<h1>Wprowadzenie do AI i ML</h1>
+	<p class="subtitle">Szkolenie 2-dniowe – spis treści i przygotowanie</p>
+
+	<!-- ==================== DAY 1 ==================== -->
+	<div class="day">
+		<h2>Dzień 1</h2>
+
+		<div class="part">
+			<h3><a href="day1/part1.html">Część 1: Wprowadzenie do AI i ML</a></h3>
+			<p class="desc">Czym jest AI, ML, Deep Learning i Generatywna AI. Historia AI, TensorFlow Playground, AI vs człowiek, dyskusja etyczna.</p>
+			<div class="prep-section">
+				<div>
+					<h4>Narzędzia do przygotowania</h4>
+					<ul>
+						<li><a href="https://playground.tensorflow.org" target="_blank">TensorFlow Playground</a> – demo sieci neuronowych</li>
+						<li><a href="https://poe.com" target="_blank">Poe.com</a> – porównanie modeli AI</li>
+						<li>Zoom – reakcje emoji do quizów</li>
+					</ul>
+				</div>
+				<div>
+					<h4>Ćwiczenia i aktywności</h4>
+					<ul>
+						<li>Symulacja decyzji AI (3 scenariusze)</li>
+						<li>Quiz: Supervised vs Unsupervised (reakcje emoji)</li>
+						<li>Dyskusja: Gdzie AI nie powinno decydować?</li>
+						<li>Zabawa z modelami na Poe.com</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="part">
+			<h3><a href="day1/part2.html">Część 2: Proces uczenia maszynowego</a></h3>
+			<p class="desc">5 kroków ML: problem, dane, trening, ocena, wdrożenie. Demo klasyfikatora SPAM w Colabie, confusion matrix, tuning.</p>
+			<div class="prep-section">
+				<div>
+					<h4>Narzędzia do przygotowania</h4>
+					<ul>
+						<li><a href="https://colab.research.google.com" target="_blank">Google Colab</a> – notebook z kodem SPAM</li>
+						<li>Python: scikit-learn, pandas, CountVectorizer</li>
+						<li>Zestaw danych SPAM/NIE-SPAM</li>
+					</ul>
+				</div>
+				<div>
+					<h4>Ćwiczenia i aktywności</h4>
+					<ul>
+						<li>DEMO: klasyfikator SPAM vs NIE-SPAM (live coding)</li>
+						<li>Uczestnicy testują własne wiadomości</li>
+						<li>Rozszerzenie: dodaj dane, zmień parametry</li>
+						<li>Zdefiniuj własny projekt ML</li>
+						<li>Kreatywne myślenie: AI w nietypowym miejscu</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="part">
+			<h3><a href="day1/part3.html">Część 3: Typy uczenia maszynowego</a></h3>
+			<p class="desc">Supervised, Unsupervised, Semi-supervised, Reinforcement Learning. Quizy, case study, retrospekcja dnia.</p>
+			<div class="prep-section">
+				<div>
+					<h4>Narzędzia do przygotowania</h4>
+					<ul>
+						<li>Zoom – reakcje emoji do quizów</li>
+						<li>Przygotowane przykłady RL (Atari, magazyny, linie lotnicze)</li>
+					</ul>
+				</div>
+				<div>
+					<h4>Ćwiczenia i aktywności</h4>
+					<ul>
+						<li>Quiz: Supervised vs Unsupervised (6 pytań)</li>
+						<li>Quiz: Rozpoznaj typ uczenia (7 scenariuszy)</li>
+						<li>Case study: AI w szpitalu, banku, serwisie muzycznym</li>
+						<li>Retrospekcja dnia 1</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<p class="full-link"><a href="day1/index.html">Pełna wersja dnia 1 (jeden plik)</a></p>
+	</div>
+
+	<!-- ==================== DAY 2 ==================== -->
+	<div class="day">
+		<h2>Dzień 2</h2>
+
+		<div class="part">
+			<h3><a href="day2/part1.html">Część 1: LLM – Jak działają modele językowe</a></h3>
+			<p class="desc">Tokenizacja + quiz, mechanizm Attention, architektura Transformer, Transformer Explainer demo, ćwiczenie LLM zero-shot + RAG.</p>
+			<div class="prep-section">
+				<div>
+					<h4>Narzędzia do przygotowania</h4>
+					<ul>
+						<li><a href="https://colab.research.google.com" target="_blank">Google Colab</a> – day2_01_ml_vs_llm_comparison.ipynb</li>
+						<li><a href="https://platform.openai.com/tokenizer" target="_blank">OpenAI Tokenizer</a> – demo tokenów</li>
+						<li><a href="https://poloclub.github.io/transformer-explainer/" target="_blank">Transformer Explainer</a> – interaktywna wizualizacja</li>
+						<li><a href="https://openrouter.ai/keys" target="_blank">OpenRouter API</a> – klucz API do LLM</li>
+					</ul>
+				</div>
+				<div>
+					<h4>Ćwiczenia i aktywności</h4>
+					<ul>
+						<li>Quiz: Tokenizacja (6 pytań, emoji na Zoomie)</li>
+						<li>Demo: Transformer Explainer na żywo</li>
+						<li>Ćwiczenie: LLM zero-shot + RAG klasyfikacja (Colab)</li>
+						<li>Porównanie 5 podejść: człowiek vs ML vs LLM vs RAG</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="part">
+			<h3><a href="day2/part2.html">Część 2: Context Engineering i Agenci AI</a></h3>
+			<p class="desc">Od promptów do Context Engineering (2026). Tool calling, structured outputs, typy modeli + quiz. Vibe coding (AI pisze kod, uczestnicy głosują). Architektura i orkiestracja agentów, whiteboard design.</p>
+			<div class="prep-section">
+				<div>
+					<h4>Narzędzia do przygotowania</h4>
+					<ul>
+						<li><a href="https://lmarena.ai" target="_blank">Chatbot Arena</a> – blind test modeli</li>
+						<li><a href="https://ollama.com" target="_blank">Ollama</a> – modele lokalne + Modelfile</li>
+						<li>Claude Code lub Cursor – do demo vibe coding</li>
+						<li>Modele Ollama: gemma3:4b (ollama pull)</li>
+					</ul>
+				</div>
+				<div>
+					<h4>Ćwiczenia i aktywności</h4>
+					<ul>
+						<li>Quiz: Typy modeli LLM (4 pytania, emoji)</li>
+						<li>Ćwiczenie: Chatbot Arena – porównanie modeli blind</li>
+						<li>Vibe Coding – 4 rundy, uczestnicy głosują reakcjami Zoom</li>
+						<li>Ćwiczenie: Ollama Modelfile – budowa specjalisty IT</li>
+						<li>Wzorce orkiestracji agentów (Router, Plan-Execute, Reflect, HITL)</li>
+						<li>Whiteboard: Zaprojektuj swojego agenta AI</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="part">
+			<h3><a href="day2/part3.html">Część 3: Warsztaty praktyczne i Podsumowanie</a></h3>
+			<p class="desc">Python Agent od zera (OpenRouter API), orkiestracja z LangGraph, budowa serwera MCP (FastMCP), prompt injection attack, n8n visual AI agent demo, mity i dalsze zasoby.</p>
+			<div class="prep-section">
+				<div>
+					<h4>Narzędzia do przygotowania</h4>
+					<ul>
+						<li><a href="https://colab.research.google.com" target="_blank">Google Colab</a> – day2_02_python_agent.ipynb</li>
+						<li><a href="https://colab.research.google.com" target="_blank">Google Colab</a> – day2_03_langgraph_orchestration.ipynb</li>
+						<li><a href="https://colab.research.google.com" target="_blank">Google Colab</a> – day2_04_mcp_server.ipynb</li>
+						<li><a href="https://openrouter.ai/keys" target="_blank">OpenRouter API</a> – klucz API (wspólny dla 3 notebooków)</li>
+						<li>n8n (cloud lub self-hosted) + Telegram Bot Token</li>
+					</ul>
+				</div>
+				<div>
+					<h4>Ćwiczenia i aktywności</h4>
+					<ul>
+						<li>Warsztat: Python Agent od zera (5 kroków, native tool calling)</li>
+						<li>Warsztat: LangGraph – inteligentny router zgłoszeń</li>
+						<li>Warsztat: MCP Server z FastMCP – budowa własnych narzędzi AI</li>
+						<li>Ćwiczenie: Prompt Injection Attack – zaatakuj własnego agenta</li>
+						<li>Demo: n8n – visual AI agent (Telegram + Calendar)</li>
+						<li>Refleksja i Q&A</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

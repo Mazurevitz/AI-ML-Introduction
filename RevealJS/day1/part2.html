@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+	<meta charset="utf-8">
+	<title>Dzień 1 – Część 2: Proces uczenia maszynowego</title>
+	<link rel="stylesheet" href="../../dist/reset.css">
+	<link rel="stylesheet" href="../../dist/reveal.css">
+	<link rel="stylesheet" href="../../dist/theme/black.css">
+	<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+	<style>
+		.reveal:focus {
+			outline: none;
+		}
+
+		.reveal *:focus {
+			outline: none;
+		}
+
+		.reveal * {
+			caret-color: transparent;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<!-- #region Temat - Proces uczenia maszynowego -->
+
+			<section>
+				<h1>Proces uczenia maszynowego</h1>
+				<p>Od pomysłu do modelu w praktyce</p>
+				<aside class="notes">
+					Przedstawimy proces ML krok po kroku – od problemu biznesowego po działający model. Zachowujemy luz,
+					ale pokazujemy konkret.
+				</aside>
+			</section>
+
+			<section>
+				<section>
+					<h2>Co to znaczy <em>„proces ML"</em>?</h2>
+
+					<p style="font-size: 1.2em;" class="fragment fade-in-then-semi-out">
+						To nie tylko algorytm – to <strong>cykl uczenia</strong>, który obejmuje wiele etapów:
+					</p>
+
+					<div
+						style="display: flex; justify-content: center; gap: 1em; align-items: center; flex-wrap: wrap; font-size: 1.1em;">
+
+						<div class="fragment fade-in" style="text-align: center;">
+							<span style="font-size: 2em;">📥</span><br />
+							<small>Dane wejściowe</small>
+						</div>
+
+						<div class="fragment fade-in" style="font-size: 2em;">→</div>
+
+						<div class="fragment fade-in" style="text-align: center;">
+							<span style="font-size: 2em;">⚙️</span><br />
+							<small>Trenowanie modelu</small>
+						</div>
+
+						<div class="fragment fade-in" style="font-size: 2em;">→</div>
+
+						<div class="fragment fade-in" style="text-align: center;">
+							<span style="font-size: 2em;">📊</span><br />
+							<small>Ocena skuteczności</small>
+						</div>
+
+						<div class="fragment fade-in" style="font-size: 2em;">→</div>
+
+						<div class="fragment fade-in" style="text-align: center;">
+							<span style="font-size: 2em;">🚀</span><br />
+							<small>Wdrożenie modelu</small>
+						</div>
+
+					</div>
+
+					<aside class="notes">
+						ML to nie pojedynczy kod, tylko proces – jak zbudowanie aplikacji: najpierw rozumiesz problem,
+						potem
+						szukasz danych, dopiero potem tworzysz i wdrażasz rozwiązanie.
+						Porównaj to do kuchni – najpierw przepis, potem składniki, potem gotowanie i degustacja 😉
+					</aside>
+				</section>
+
+				<section>
+					<h2>👨‍🍳 Jak AI się uczy? (wersja kulinarna)</h2>
+					<ul>
+						<li class="fragment">Dane = składniki</li>
+						<li class="fragment">Model = kucharz z przepisem</li>
+						<li class="fragment">Funkcja kosztu = czy danie smakuje?</li>
+						<li class="fragment">Optymalizacja = próbuję inaczej, aż będzie lepiej</li>
+					</ul>
+					<p class="fragment" style="margin-top: 1em;">📌 AI nie uczy się faktów. Uczy się wzorców z danych,
+						które widziało.</p>
+				</section>
+
+			</section>
+
+			<section>
+				<h2>1. Określenie celu – przykład biznesowy</h2>
+				<p>Chcemy automatycznie tagować zgłoszenia IT</p>
+				<aside class="notes">
+					Wyobraźcie sobie support IT w dużej firmie, który dostaje 1000 zgłoszeń miesięcznie. Ktoś musi je
+					ręcznie tagować jako 'bug', 'pytanie', 'zmiana środowiska' itd. Zajmuje to czas. A co gdyby model ML
+					robił to za nas – i to w kilka sekund? </br>
+					To jest nasz cel: automatyzacja tagowania zgłoszeń. Ale nie tylko – to też oszczędność czasu i
+					lepsza organizacja pracy. Dzięki temu zespół może skupić się na tym, co naprawdę ważne –
+					rozwiązywaniu problemów.
+					</br>
+					Zapytaj uczestników, czy spotkali się z podobnym scenariuszem.
+				</aside>
+			</section>
+
+			<section>
+
+				<section>
+					<h2>2. Dane – skąd je wziąć i co z nimi zrobić?</h2>
+					<ul>
+						<li class="fragment">Dane bywają brudne, niepełne, niejednolite</li>
+						<li class="fragment">Czyszczenie, uzupełnianie, standaryzacja</li>
+						<li class="fragment">Kodowanie tekstu / liczb / kategorii</li>
+					</ul>
+					<aside class="notes">
+						Dane to nie Excel, który ktoś da nam gotowy. Często to bałagan: pisane ręcznie maile, niepełne
+						formularze, błędy w nazwach.
+						Zanim ML cokolwiek zrobi, musimy to wszystko uprasować – to często 70–80% całej pracy.
+						</br>
+						💥 Przykład z życia:
+						Zespół pracował nad modelem do klasyfikowania zgłoszeń serwisowych w firmie logistycznej.
+						Model miał wykrywać awarie urządzeń na podstawie zgłoszeń opisanych przez techników.
+						</br>
+						Problem?
+						Dane pochodziły z trzech źródeł:
+						- formularze webowe (pół-strukturalne),
+						- zgłoszenia mailowe (chaotyczne, dużo skrótów),
+						- notatki z rozmów call center (wklejane bez korekty).
+						</br>
+						Technicy wpisywali różne formy: „drukarka HP L2", „druk. HP lvl2", „Druk HP II", „drukarka hp",
+						„HP
+						L-2".
+						Dla człowieka – to oczywiste. Dla modelu – zupełnie inne dane.
+						</br>
+						Efekt?
+						- Model miał 85% accuracy – ale nie na rzeczywistych danych.
+						- W produkcji spadło do 50% trafień, bo nie widział tych kombinacji w danych treningowych.
+						- Dopiero po standaryzacji nazw (np. przez mapę nazw urządzeń) udało się dojść do stabilnych
+						90%.
+						</br>
+						📌 Wniosek:
+						„Garbage in → garbage out" – najpierw dane muszą być czyste, żeby model miał szansę być mądry.
+						</br>
+						👉 Pytanie do uczestników:
+						Kiedy ostatnio dane, z którymi pracowaliście, były naprawdę czyste? Jakie wyzwania pamiętacie?
+					</aside>
+				</section>
+
+				<section>
+					<h2>🧹 Czy dane są kiedykolwiek czyste?</h2>
+					<p class="fragment">🧠 Pytanie do Ciebie:</p>
+					<ul>
+						<li class="fragment">Czy pracowałeś(-aś) kiedyś z "brudnymi" danymi?</li>
+						<li class="fragment">Skąd pochodziły? Co było największym wyzwaniem?</li>
+					</ul>
+					<p class="fragment">📩 Podziel się jednym wspomnieniem</p>
+					<aside class="notes">
+						Wzmocnij, że praca z danymi w realu to nie bajka – nawet najlepsze firmy mają z tym problem.
+						Ta wymiana pokazuje, że AI nie jest tylko o modelach – to także dużo "niewidzialnej" pracy.
+					</aside>
+				</section>
+
+
+				<section style="font-size: 0.5em;">
+					<h2>"Mówiące dane" – Jak uporządkować dane z życia codziennego?</h2>
+
+					<p><strong>👉 Sytuacja:</strong> Pracujesz w dziale IT dużej firmy. Każdego dnia spływają setki
+						zgłoszeń z różnych źródeł:</p>
+					<ul>
+						<li>📧 E-maile (długie, pisane swobodnie)</li>
+						<li>💬 Czat z klientem (krótkie, chaotyczne)</li>
+						<li>📝 Formularze (częściowo uporządkowane)</li>
+					</ul>
+
+					<p class="fragment">Twoim zadaniem jest uporządkowanie tych danych, by mogły posłużyć do trenowania
+						modelu AI, który
+						automatycznie przypisuje kategorię zgłoszenia (np. 'problem techniczny', 'reklamacja',
+						'pytanie').</p>
+
+					<p class="fragment"><strong>🧠 Jak się za to zabierzesz?</strong></p>
+
+					<div class="fragment"
+						style="border: 1px solid #ccc; padding: 10px; margin-top: 15px; background-color: #3a3a3a;">
+						<h3>📝 Krok po kroku:</h3>
+						<ul>
+							<li><strong>1. Zidentyfikuj źródła danych:</strong> czy wszystkie zgłoszenia mają podobną
+								strukturę?</li>
+							<li><strong>2. Rozpoznaj problemy:</strong> czy ludzie piszą bezbłędnie?</li>
+							<li><strong>3. Wyczyść dane:</strong> co zrobić z duplikatami, skrótami, synonimami?</li>
+							<li><strong>4. Przygotuj dane do modelu:</strong> jak sprawić, by dane były „zrozumiałe" dla
+								ML?</li>
+						</ul>
+					</div>
+
+					<p class="fragment"><strong>➡️ 10 minut na zastanowienie się + 5 minut dyskusji live / na
+							czacie</strong>
+					<p class="fragment"><strong>~14:35 wracamy z odpowiedziami</strong>
+					</p>
+
+					<aside class="notes">
+						<p><strong>Wprowadzenie do ćwiczenia:</strong></p>
+						<p>To ćwiczenie ma na celu umożliwienie uczestnikom przemyślenie, jak uporządkować dane, które
+							będą mogły być użyte do trenowania modelu ML. Możesz zacząć, przypominając uczestnikom, że
+							dane pochodzące z różnych źródeł (np. e-maile, formularze online, czat) mogą być
+							niejednolite i wymagać oczyszczenia. Uporządkowanie tych danych jest kluczowe, aby mogły
+							zostać wykorzystane w procesie trenowania modelu.</p>
+
+						<p><strong>Pomoc dla mniej zaawansowanych uczestników:</strong></p>
+						<p>Nie wszyscy uczestnicy muszą być ekspertami w pracy z danymi. Zachęcaj do wykorzystywania
+							prostych narzędzi, takich jak Excel, Google Sheets, czy Python z biblioteką pandas. Jeśli
+							ktoś nie jest zaznajomiony z programowaniem, wystarczy, że zaproponuje podstawowe metody
+							czyszczenia danych, takie jak standaryzacja nazw czy usuwanie duplikatów.</p>
+
+						<p><strong>Zasady ćwiczenia:</strong></p>
+						<p>Ćwiczenie nie ma na celu skomplikowanej analizy danych, lecz przemyślenie, jak w prosty
+							sposób przygotować dane do procesu ML. Pokaż, jak krok po kroku można uporządkować dane,
+							zaczynając od najprostszych działań, takich jak usuwanie duplikatów czy ujednolicanie
+							formatów. Zachęć do używania narzędzi, które są im znane lub łatwo dostępne, i które mogą
+							sprawić, że dane staną się łatwiejsze do analizy.</p>
+
+						<p><strong>Interakcja z uczestnikami:</strong></p>
+						<p>Zamiast dzielić grupę na mniejsze zespoły, pozwól uczestnikom dzielić się swoimi
+							przemyśleniami na czacie. Dzięki temu każdy z nich będzie mógł aktywnie uczestniczyć w
+							dyskusji i otrzymać wsparcie od innych, a Ty będziesz mógł śledzić odpowiedzi na bieżąco.
+							Zachęcaj do zadawania pytań i dzielenia się trudnościami, jakie napotykają podczas
+							rozwiązywania zadania.</p>
+
+						<p><strong>Podpowiedzi dla uczestników:</strong></p>
+						<p>Przypomnij uczestnikom, że nie muszą być ekspertami w czyszczeniu danych, aby rozwiązać to
+							ćwiczenie. Celem jest raczej zrozumienie, jak należy podejść do danych, które pochodzą z
+							różnych źródeł, i jak proste techniki czyszczenia mogą sprawić, że będą gotowe do użycia w
+							ML. Przykładowe podpowiedzi: <strong>standaryzacja nazw</strong>, <strong>usuwanie
+								duplikatów</strong>, <strong>poprawa błędów typograficznych</strong> oraz <strong>użycie
+								dostępnych narzędzi</strong> jak Excel, Google Sheets, czy Python z pandas.</p>
+					</aside>
+				</section>
+
+
+
+				<section style="font-size: 0.55em;">
+					<h2>✅ Przykładowe rozwiązanie – Jak uporządkować dane?</h2>
+					<p>Oto jak mógłby wyglądać przykładowy plan przygotowania danych:</p>
+
+					<div style="border: 1px solid #ccc; padding: 10px; margin-top: 15px; background-color: #3a3a3a;">
+						<h3>📦 Etapy:</h3>
+						<ul>
+							<li class="fragment"><strong>1. Źródła danych:</strong> E-mail (tekst/HTML – czasem rozbity
+								na nagłówki i
+								treść), czat (krótkie wiadomości, często niepełne zdania), formularze (zwykle lepsza
+								struktura, ale możliwe błędy w polach).</li>
+							<li class="fragment"><strong>2. Problemy:</strong> Różne sposoby opisywania tych samych
+								rzeczy ("drukarka nie
+								działa" vs "awaria drukarki"), literówki ("rekamacjia", "drukakra"), mieszanie języków
+								(np. PL + EN).</li>
+							<li class="fragment"><strong>3. Czyszczenie danych:</strong> Mapowanie synonimów (tworzenie
+								słownika
+								zamienników), standaryzacja wpisów (np. "drukarka" → "drukarka HP"), usuwanie
+								duplikatów, poprawa oczywistych literówek lub automatyczne sugestie.</li>
+							<li class="fragment"><strong>4. Przygotowanie do ML:</strong> Tworzenie kategorii zgłoszeń
+								("problem
+								techniczny", "pytanie", "reklamacja"), zamiana tekstu na liczby (tokenizacja, TF-IDF,
+								embeddings) — tak, by model mógł się uczyć na danych liczbowych, nie bezpośrednio na
+								tekście.</li>
+						</ul>
+					</div>
+
+					<p class="fragment"><strong>🎯 Cel:</strong> Dane muszą być spójne, zrozumiałe dla modelu i możliwe
+						do powtórzenia w przyszłości (reproducibility!).</p>
+
+					<aside class="notes">
+						<p><strong>Wprowadzenie:</strong></p>
+						<p>Na tym slajdzie pokazujemy uczestnikom jedną z możliwych ścieżek przygotowania danych do
+							uczenia maszynowego. Zaznacz, że nie jest to jedyna opcja – każde realne dane wymagają
+							indywidualnego podejścia.</p>
+
+						<p><strong>Omówienie punktów:</strong></p>
+						<p><strong>Źródła danych:</strong> Różne formaty danych to częsty problem. Pamiętaj, że nawet
+							formularze mogą mieć pola typu „inne" albo komentarze użytkownika, które wprowadzają chaos.
+						</p>
+						<p><strong>Problemy:</strong> Zapytaj uczestników, czy w swojej pracy spotkali się z sytuacjami,
+							gdzie musieli łączyć dane z różnych źródeł lub radzić sobie z błędami językowymi. Podkreśl,
+							że AI "widzi" różnice tam, gdzie człowiek rozumie kontekst bez problemu.</p>
+						<p><strong>Czyszczenie danych:</strong> To najczęściej najbardziej czasochłonny etap w ML (nawet
+							70–80% projektu). Użycie prostych narzędzi typu mapy zamian albo prostych reguł
+							porządkujących może bardzo poprawić jakość końcowego modelu.</p>
+						<p><strong>Przygotowanie do ML:</strong> Dane tekstowe musimy zamienić na liczby – bo modele
+							pracują na macierzach numerycznych. Możesz w skrócie wspomnieć o podstawowych technikach jak
+							tokenizacja (przekształcenie słów na indeksy) albo TF-IDF (ważenie ważności słów w zbiorze).
+						</p>
+
+						<p><strong>Wnioski:</strong></p>
+						<p>Najważniejsze przesłanie: dobrze przygotowane dane to podstawa sukcesu w ML. Model nie
+							naprawi błędów, które są już w danych.</p>
+
+						<p><strong>Propozycje pytań do grupy:</strong></p>
+						<ul>
+							<li>"Które z tych kroków wydają się Wam najbardziej czasochłonne?" - czyszczenie danych /
+								srand., rozpoznawanie problemow jak braki, roznice w danych</li>
+							<li>"Czy w swojej pracy spotkaliście się z podobnymi wyzwaniami, nawet jeśli nie
+								pracowaliście z ML?"</li>
+							<li>"Jakie narzędzia lub podejścia stosowaliście do uporządkowania 'brudnych' danych?"</li>
+						</ul>
+					</aside>
+				</section>
+
+			</section>
+			<section>
+				<h2>3. Trenowanie modelu</h2>
+				<ul>
+					<li class="fragment">Uczymy na danych z etykietami (np. 'bug' vs 'feature')</li>
+					<li class="fragment">Wybór modelu (np. regresja, drzewa decyzyjne)</li>
+					<li class="fragment">Dzielimy dane na treningowe/testowe</li>
+				</ul>
+				<aside class="notes">
+					To moment, kiedy uczymy model na naszych danych.
+					Trochę jak trener z zawodnikiem – pokazujemy dobre i złe przykłady, model ćwiczy i z czasem robi
+					mniej błędów.
+					</br>
+					⚽ Ale tu nie ma stadionu – są tablice macierzy i wykresy.
+					W ML "trening" to przekazanie danych wejściowych z odpowiedziami (etykietami) – np. opis zgłoszenia
+					+ tag „bug".
+					Model analizuje te pary, próbuje przewidzieć tag, porównuje z prawidłowym – i poprawia się.
+					</br>
+					🎓 Dobra analogia: model to uczeń przygotowujący się do testu z fiszek.
+					Uczy się na 100 fiszkach, potem sprawdzamy go z innymi – nowych nie widział.
+					Jeśli zna ogólne zasady, poradzi sobie. Jeśli tylko zapamiętał odpowiedzi – zawiedzie.
+					</br>
+					🧪 Tu wchodzi `train_test_split` – podział danych na część treningową i testową.
+					Dzięki temu nie sprawdzamy modelu na tym, czego się nauczył „na pamięć", tylko na czymś, co widzi po
+					raz pierwszy.
+					</br>
+					📌 Komentarz praktyczny:
+					Zdarza się, że model ma 98% accuracy... ale na danych treningowych.
+					Wtedy test na nieznanych danych obnaża przeuczenie. Warto to pokazać jako pułapkę z życia.
+					</br>
+					❓Pytanie aktywizujące:
+					Jakie macie skojarzenia z „dobrym uczniem"? Czym się różni „ogarnięcie tematu" od „zakucia na
+					blachę"?
+					(można wywołać metaforę: ML jako uczeń, który uczy się do matury – czy rozumie, czy tylko zapamiętał
+					odpowiedzi z testów próbnych?)
+				</aside>
+			</section>
+
+			<section>
+				<section>
+					<h2>😼 Confusion Matrix – jak ją zrozumieć?</h2>
+					<p>Załóżmy, że robimy model AI, który wykrywa 🐱 koty na kamerach monitoringu.</p>
+
+					<table style="margin-top: 1em; font-size: 0.5em;">
+						<thead>
+							<tr>
+								<th></th>
+								<th colspan="2">🔍 Model mówi</th>
+							</tr>
+							<tr>
+								<th>🎯 Rzeczywistość</th>
+								<th>To kot</th>
+								<th>To nie kot</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>To naprawdę był kot</td>
+								<td style="color: green;"><strong>✔️ True Positive</strong><br>model wykrył kota</td>
+								<td style="color: red;"><strong>❌ False Negative</strong><br>model przegapił kota</td>
+							</tr>
+							<tr>
+								<td>To nie był kot</td>
+								<td style="color: orange;"><strong>❌ False Positive</strong><br>model pomylił psa z
+									kotem</td>
+								<td style="color: green;"><strong>✔️ True Negative</strong><br>model poprawnie
+									zignorował</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<p class="fragment">🔁 Te cztery liczby to cała podstawa analizy jakości modelu</p>
+
+					<aside class="notes">
+						<p><strong>Storytelling:</strong><br>
+							Wyobraźcie sobie, że jesteśmy wolontariuszami w schronisku. W nocy po mieście biega 30 kotów
+							– mamy AI, które ma je rozpoznawać z kamer. Naszym celem jest wyłapać jak najwięcej kotów,
+							ale nie wybiegać z domu za każdym razem, gdy to tylko pies albo lis.<br><br>
+							Opowiedz z humorem:
+						<ul>
+							<li><strong>TP:</strong> Kamera krzyczy „KOT!" – i faktycznie jest kot. Sukces. 🐾</li>
+							<li><strong>FN:</strong> Kot przeszedł, ale AI nic nie powiedziało. Kot zaginął. 😿</li>
+							<li><strong>FP:</strong> AI krzyczy „KOT!", ale to... krzak, pies albo worek. Biegliśmy na
+								darmo. 🥴</li>
+							<li><strong>TN:</strong> Nic nie było i AI też nic nie powiedziało – dobrze!</li>
+						</ul>
+						</p>
+
+						<p><strong>Puenta:</strong><br>
+							Confusion matrix nie jest „matematycznym potworem", tylko dziennikiem sukcesów i porażek
+							naszej AI.<br>
+							Te 4 wartości wystarczą, by policzyć precyzję, recall, F1 i wszystko inne.</p>
+
+						<p><strong>Bonus pytanie aktywizujące:</strong><br>
+							„Wolicie, żeby AI nigdy nie przegapiało kotów, ale czasem się myliło? Czy odwrotnie – niech
+							nie myli się nigdy, ale może coś przegapić?"<br>
+							➜ To ładnie przechodzi do metryk typu recall vs precision.</p>
+					</aside>
+				</section>
+
+				<section style="font-size: 0.9em;">
+					<h2>4. Ocena i tuning</h2>
+					<div style="display: flex; gap: 3em; flex-wrap: wrap;">
+						<div style="flex: 1; min-width: 300px;">
+							<ul>
+								<li class="fragment">Metryki: accuracy, precision, recall, F1</li>
+								<li class="fragment">Analiza błędów (confusion matrix)</li>
+								<li class="fragment">Tuning hiperparametrów</li>
+							</ul>
+						</div>
+
+						<div class="fragment" style="flex: 1; min-width: 300px;">
+							<p><strong>Confusion matrix (przykład)</strong></p>
+							<table style="border-collapse: collapse;">
+								<thead>
+									<tr>
+										<th></th>
+										<th style="padding: 0.4em; border: 1px solid #ccc;">Pred: Bug</th>
+										<th style="padding: 0.4em; border: 1px solid #ccc;">Pred: Feature</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td style="padding-right: 0.5em;">Actual: Bug</td>
+										<td style="padding: 0.4em; border: 1px solid #ccc; background-color: #c8e6c9;">
+											96
+										</td>
+										<td style="padding: 0.4em; border: 1px solid #ccc;">4</td>
+									</tr>
+									<tr>
+										<td>Actual: Feature</td>
+										<td style="padding: 0.4em; border: 1px solid #ccc;">18</td>
+										<td style="padding: 0.4em; border: 1px solid #ccc; background-color: #c8e6c9;">
+											22
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<p style="font-size: 0.75em; color: #666;">🟩 = trafienia, liczby poza przekątną = błędy
+								modelu
+							</p>
+						</div>
+					</div>
+					<aside class="notes">
+						<p>📊 Czas sprawdzić, jak nasz uczeń sobie radzi – ale nie na kartkówce, którą zna, tylko na
+							nowych
+							danych.</p>
+
+						<p>🧪 To dlatego dzielimy dane na <strong>treningowe</strong> i <strong>testowe</strong>.
+							Testujemy,
+							czy model
+							potrafi uogólnić – a nie tylko zapamiętać.</p>
+
+						<p>🎯 Metryki – krótko i konkretnie:</p>
+						<ul>
+							<li><strong>Accuracy</strong> – wszystkie trafienia / wszystkie przypadki</li>
+							<li><strong>Precision</strong> – z tych, co oznaczył jako X, ile było rzeczywiście X</li>
+							<li><strong>Recall</strong> – z rzeczywiście X, ile wykrył</li>
+							<li><strong>F1-score</strong> – balans precision i recall (ważny przy nierównych klasach)
+							</li>
+						</ul>
+
+						<p>📈 Pokazana tablica to confusion matrix. Liczby na przekątnej to poprawne klasyfikacje – poza
+							przekątną to błędy.</p>
+
+						<p>🧠 Tuning hiperparametrów – to jak ustawianie piekarnika. <br>
+							Jeśli damy za dużą temperaturę, coś się przypali (przeuczenie). Za niską – nie upiecze się w
+							ogóle (niedouczenie). <br>
+							Parametry zależą od modelu, ale typowe to:</p>
+						<ul>
+							<li><code>max_depth</code> – jak głębokie może być drzewo</li>
+							<li><code>alpha / lambda</code> – regularyzacja w regresji</li>
+							<li><code>C</code> w SVM – balans między błędami a marginesem</li>
+							<li><code>learning_rate</code> – jak szybko model się uczy</li>
+						</ul>
+
+						<p>📦 Narzędzie: <strong>GridSearchCV</strong> lub <strong>RandomizedSearchCV</strong> – testują
+							różne kombinacje automatycznie.</p>
+
+						<p>❓ Pytanie do uczestników: <br> Czy ktoś z was miał model, który miał świetne wyniki… ale
+							tylko na
+							papierze?</p>
+					</aside>
+
+				</section>
+
+			</section>
+
+			<section>
+				<h2>5. Wdrożenie i monitoring</h2>
+				<ul>
+					<li class="fragment">Model jako API / mikrousługa</li>
+					<li class="fragment">Wersjonowanie danych i modeli</li>
+					<li class="fragment">Monitorowanie jakości predykcji</li>
+				</ul>
+				<aside class="notes">
+					<p>Model to nie plik `.pkl` wrzucony na dysk i zapomniany. To część systemu – musi działać w
+						środowisku
+						produkcyjnym, obsługiwać rzeczywiste przypadki, być monitorowany i reagować na zmiany.</p>
+					<p>🔧 Wyobraźcie sobie, że model to nowy pracownik w firmie. Świetnie przeszedł onboarding (czyli
+						trening na danych), ale jeśli nikt go nie aktualizuje, przestaje rozumieć, co się dzieje. Firma
+						zmieniła procesy, formularze – a model wciąż żyje w przeszłości.</p>
+					<p>🤖 Przykład: chatbot, który polecał stary formularz zamówienia – mimo że już nie istniał. Klienci
+						byli sfrustrowani, firma traciła zaufanie, a zespół techniczny dowiedział się... przypadkiem.
+					</p>
+					<p>✅ Co możemy zrobić?</p>
+					<ul>
+						<li>Monitorujemy jakość predykcji (czy odpowiedzi nadal trafiają)</li>
+						<li>Zbieramy feedback i trenujemy model ponownie</li>
+						<li>Automatyzujemy testy jakości (np. czy nadal dobrze klasyfikuje topowe przypadki)</li>
+					</ul>
+					<p>🚗 To jak z samochodem: jeśli działa, nie znaczy, że nie trzeba sprawdzać ciśnienia w oponach.
+						Model
+						też musi mieć „przegląd".</p>
+					<p>➡️ Zakończ pytaniem do grupy: „Czy ktoś miał w pracy sytuację, gdzie model lub reguły się
+						'zestarzały' i trzeba było to zauważyć dopiero po awarii?"</p>
+				</aside>
+			</section>
+
+			<section>
+
+				<section>
+					<h2>Ćwiczenie: zdefiniuj własny projekt ML</h2>
+					<p>Napisz krótko w czacie:</p>
+					<ul>
+						<li>Problem: co AI miałoby rozwiązać?</li>
+						<li>Dane: skąd je masz?</li>
+						<li>Cel: co ma przewidywać?</li>
+					</ul>
+					<aside class="notes">
+						Poproś o 2–3 przykłady na żywo. Przeróbcie je razem jako mini-sesję projektowania modelu ML.
+						Świetna
+						okazja do angażowania.
+					</aside>
+				</section>
+
+				<section style="font-size: 0.8em;">
+					<h2>✅ Przykład projektu ML – Nieoczywiste zastosowanie</h2>
+					<p><strong>🎯 Cel:</strong> Pomóc zespołowi HR w przewidywaniu rotacji pracowników</p>
+
+					<div style="border: 1px solid #ccc; padding: 10px; margin-top: 15px; background-color: #3a3a3a;">
+						<ul>
+							<li><strong>Problem:</strong> HR chce zidentyfikować pracowników, którzy mogą odejść w ciągu
+								najbliższych 6 miesięcy.</li>
+							<li><strong>Dane:</strong> Historia zatrudnienia, liczba dni urlopu, liczba nadgodzin,
+								wyniki ocen rocznych, udział w szkoleniach.</li>
+							<li><strong>Model przewiduje:</strong> Prawdopodobieństwo odejścia z firmy (churn
+								prediction).</li>
+						</ul>
+					</div>
+
+					<p class="fragment">📌 To tylko jeden przykład – inne projekty mogą dotyczyć np. logistyki, obsługi
+						klienta, analizy błędów testów, sprzedaży, helpdesku…</p>
+
+					<aside class="notes">
+						<p><strong>Cel slajdu:</strong> Pokazać uczestnikom, że projekty ML nie muszą być tylko o
+							klasyfikacji obrazków czy rozpoznawaniu mowy – można je wykorzystać w nietypowych,
+							wewnętrznych procesach firmy.</p>
+
+						<p><strong>Typowe odpowiedzi uczestników – czego możesz się spodziewać:</strong></p>
+						<ul>
+							<li><em>"Chciałbym przewidzieć, kiedy użytkownik zrezygnuje z aplikacji."</em></li>
+							<li><em>"Przewidywanie czy dany klient kupi coś w najbliższym tygodniu."</em></li>
+							<li><em>"Automatyczna klasyfikacja ticketów supportowych na podstawie treści."</em></li>
+							<li><em>"Przewidywanie błędów w testach automatycznych."</em></li>
+						</ul>
+
+						<p><strong>Nieoczywiste, ciekawe kierunki, które możesz podrzucić jeśli dyskusja
+								ucichnie:</strong></p>
+						<ul>
+							<li><strong>AI w HR:</strong> przewidywanie rotacji, dopasowanie ludzi do projektów, analiza
+								ryzyka wypalenia na podstawie kalendarza / zachowań w systemie.</li>
+							<li><strong>AI w testach:</strong> wykrywanie powtarzalnych błędów na podstawie historii
+								testów (czyli regresja w testach testujących 😉).</li>
+							<li><strong>AI w mailach:</strong> klasyfikacja tonów wypowiedzi klientów / analityka
+								nastroju.</li>
+							<li><strong>AI w projektach Agile:</strong> przewidywanie, czy task będzie opóźniony na
+								podstawie historii commitów i ticketów.</li>
+						</ul>
+
+						<p><strong>Jak pomóc uczestnikom, którzy się zablokują?</strong></p>
+						<ul>
+							<li>Zadaj pytania pomocnicze:
+								<ul>
+									<li>„Z jakimi danymi pracujecie najczęściej?"</li>
+									<li>„Co w waszej codziennej pracy jest żmudne i mogłoby być zautomatyzowane?"</li>
+									<li>„Czy macie jakieś powtarzalne decyzje, które podejmujecie na podstawie danych?"
+									</li>
+								</ul>
+							</li>
+							<li>Przypomnij, że to nie musi być projekt z życia – może być hipotetyczny, zabawny albo
+								eksperymentalny.</li>
+							<li>Zachęć do myślenia: „Co AI mogłoby zrobić za mnie?"</li>
+						</ul>
+
+						<p><strong>Co możesz zrobić z odpowiedziami na czacie?</strong></p>
+						<ul>
+							<li>Wybierz 1–2 i zrób z tego „mini konsultację na żywo" – rozbij pomysł uczestnika na
+								problem, dane, model.</li>
+							<li>Pokaż, że nawet nieidealne dane da się spróbować zamodelować – chodzi o sposób myślenia.
+							</li>
+							<li>Nie oceniaj – dopytuj! Nawet pomysł, który na początku wydaje się słaby, można
+								dopracować wspólnie.</li>
+						</ul>
+					</aside>
+				</section>
+
+			</section>
+			<!-- #endregion -->
+
+			<section>
+				<h2>🍽️ Przerwa obiadowa – 30 minut</h2>
+				<p class="fragment">Wracamy 15:00</p>
+				<aside class="notes">
+					Przerwa obiadowa: 45 minut – zadbaj o różnorodność dań i czas na networking.
+				</aside>
+			</section>
+
+			<!-- #region Temat - DEMO - COLAB - GROUPOWE -->
+			<section>
+				<h2>DEMO – klasyfikator SPAM vs NIE-SPAM</h2>
+				<p>Mini-projekt: wykrywanie spamu na podstawie treści wiadomości</p>
+				<ul>
+					<li class="fragment">Dane: krótkie wiadomości e-mail (np. „Win a prize", „Meeting at 10am")</li>
+					<li class="fragment">Model: Logistic Regression / Naive Bayes</li>
+					<li class="fragment">Wynik: klasyfikacja SPAM / NIE-SPAM + prawdopodobieństwo</li>
+				</ul>
+				<aside class="notes">
+					📌 Pokaż kod w Colabie. Uczestnicy zobaczą krok po kroku:
+					<br><br>
+					✅ Jak przekształcamy tekst w wektory (CountVectorizer → macierz słów)
+					<br>
+					✅ Jak model się uczy (Logistic Regression)
+					<br>
+					✅ Jak sprawdzamy, co przewidział – i z jakim prawdopodobieństwem
+					<br><br>
+					🧠 Wspomnij, że to uproszczony przykład – ale taki, który pokazuje działanie ML w praktyce od A do
+					Z.
+					<br><br>
+					❓ Zachęć uczestników do wpisania swoich zdań (np. „Here is your invoice") i sprawdzenia, czy model
+					uzna je za spam.
+				</aside>
+			</section>
+
+			<section>
+				<h2>Ćwiczenie: sprawdź swój tekst!</h2>
+				<p>📩 Wpisz własną wiadomość e-mail i zobacz, czy zostanie uznana za spam</p>
+				<ul>
+					<li class="fragment">Zmień tekst i zobacz wynik + prawdopodobieństwo</li>
+					<li class="fragment">Przetestuj różne przypadki (np. „free offer", „deadline change")</li>
+					<li class="fragment">Spróbuj zgadnąć, które słowa mają największy wpływ!</li>
+				</ul>
+				<aside class="notes">
+					To moment na eksperymentowanie. Daj uczestnikom 5–10 minut.
+					<br><br>
+					👨‍💻 Zachęć: „Wpisz coś z pracy, coś typowego – albo zaskakującego".
+					<br>
+					Potem pokaż w notebooku, które słowa model uznaje za najbardziej spamowe lub nie-spamowe (etap 6).
+					<br><br>
+					📈 Dodatkowo możesz wspomnieć: „Zmieniamy tylko dane, ale to też forma tuningu!" – to wprowadza
+					płynnie do pojęcia <em>feature importance</em>.
+				</aside>
+			</section>
+
+			<section style="font-size: 0.6em;">
+				<h2>🛠️ Rozszerzenie ćwiczenia – Klasyfikator SPAM/NIE-SPAM</h2>
+				<ul>
+					<li><strong>Dodaj własne dane</strong>
+						<ul>
+							<li>Dodaj po 3 wiadomości SPAM i 3 NIE-SPAM.</li>
+							<li>Wymyśl je samodzielnie lub podejrzyj w mailach.</li>
+							<li><em>Podpowiedź:</em> użyj <code>X.extend([...])</code> i <code>y.extend([...])</code>
+							</li>
+						</ul>
+					</li>
+					<li><strong>Przetestuj własne wiadomości</strong>
+						<ul>
+							<li>Wpisz 5 własnych przykładów tekstu.</li>
+							<li>Sprawdź, jak model je klasyfikuje: SPAM czy NIE-SPAM.</li>
+							<li><em>Podpowiedź:</em> użyj <code>model.predict(...)</code></li>
+						</ul>
+					</li>
+					<li><strong>Eksperymentuj z parametrami</strong>
+						<ul>
+							<li>Zmień ustawienia <code>CountVectorizer</code>.</li>
+							<li>Przykłady:
+								<ul>
+									<li><code>stop_words='english'</code></li>
+									<li><code>ngram_range=(1,2)</code></li>
+								</ul>
+							</li>
+							<li><em>Podpowiedź:</em>
+								<code>CountVectorizer(stop_words='english', ngram_range=(1,2))</code>
+							</li>
+						</ul>
+					</li>
+					<li><strong>Krótka refleksja</strong>
+						<ul>
+							<li>Co bardziej wpływa na skuteczność: lepszy model czy lepsze dane?</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>☕ Przerwa kawowa – 15 minut</h2>
+				<p class="fragment">Czas na kawę!</p>
+				<p>Wracamy o ...</p>
+				<aside class="notes">
+					Przerwa kawowa: 15 minut – sprawdź, czy jest świeża kawa i drożdżówki.
+				</aside>
+			</section>
+
+			<section>
+				<h2>🧬 Kreatywne myślenie: AI w nietypowym miejscu</h2>
+				<p class="fragment">Gdzie AI mogłoby działać, a dziś jeszcze tam go nie ma?</p>
+				<ul>
+					<li class="fragment">🧐 Analiza humoru w mailach?</li>
+					<li class="fragment">🎨 Automatyczne tworzenie playlist na podstawie nastroju?</li>
+					<li class="fragment">🛒 Optymalizacja zakupów spożywczych?</li>
+				</ul>
+				<p class="fragment" style="margin-top: 1em;">👉 Wymyśl własny pomysł i napisz na czacie!</p>
+				<aside class="notes">
+					<p>Wprowadzenie:</p>
+					<ul>
+						<li>Zapytaj: "AI zmienia nasze życie w znanych obszarach, ale... gdzie jeszcze może
+							wkroczyć?"</li>
+						<li>Rozbudź kreatywność: "Dzisiaj pomarzmy. Nawet najbardziej szalone pomysły są mile
+							widziane!"</li>
+					</ul>
+
+					<p>Inspiracja/anegdotka:</p>
+					<ul>
+						<li>Opowiedz krótką historię: "Pewien startup stworzył AI, która analizuje ton głosu podczas
+							rozmów telefonicznych z klientami i automatycznie sugeruje konsultantowi, że rozmówca
+							się irytuje, zanim jeszcze padną ostre słowa. Taki 'nastrojometr' w call center."</li>
+						<li>Wyjaśnij: "To pokazuje, że AI może działać tam, gdzie nawet my nie zawsze zauważamy
+							zmiany nastroju."</li>
+					</ul>
+
+					<p>Moderacja dyskusji:</p>
+					<ul>
+						<li>Daj uczestnikom 2 minuty na wpisanie swoich pomysłów.</li>
+						<li>Wybierz 2-3 przykłady i krótko je skomentuj: "Super pomysł, a co byłoby największym
+							wyzwaniem?"</li>
+					</ul>
+
+					<p>Zakończenie:</p>
+					<ul>
+						<li>Podkreśl: "AI to narzędzie kreatywności - nie tylko automatyzacji. W przyszłości będzie
+							nas wspierać tam, gdzie dzisiaj jeszcze tego nie oczekujemy."</li>
+					</ul>
+				</aside>
+			</section>
+
+			<section style="font-size: 0.8em;">
+				<h2>🚫 Błędy początkujących w AI / ML</h2>
+				<ul>
+					<li class="fragment">🔢 Użycie za małej liczby danych – model „uczy się na pamięć"</li>
+					<li class="fragment">🔁 Trening i test na tych samych danych – zafałszowane wyniki</li>
+					<li class="fragment">🔍 Skupienie się na modelu, a nie na jakości danych</li>
+					<li class="fragment">🧪 Brak walidacji – nie wiemy, jak model działa poza labem</li>
+					<li class="fragment">🏗️ Zbyt skomplikowany model do prostego problemu</li>
+					<li class="fragment">🎯 Optymalizacja „na metryki", a nie na realny problem</li>
+				</ul>
+				<p class="fragment" style="font-size: 1.1em; margin-top: 1.5em;">🧠 W ML najpierw zrozum problem. Potem
+					modeluj.</p>
+
+				<aside class="notes">
+					<p><strong>Intro:</strong></p>
+					<p>
+						Na tym etapie uczestnicy widzieli już kilka przykładów działania modeli – mogą mieć poczucie, że
+						to wszystko działa „magicznie dobrze". Ten slajd ma ich uziemić i pokazać typowe błędy, które
+						popełnia prawie każdy zaczynając przygodę z AI/ML.
+					</p>
+
+					<p><strong>Co mówić przy każdym punkcie:</strong></p>
+					<ul>
+						<li><strong>🔢 Za mało danych:</strong><br>
+							Z małą próbką model uczy się na pamięć – zamiast uogólniać, po prostu zapamiętuje dane.
+							Metafora: to jak uczeń, który dostał 5 przykładów na sprawdzian i nauczył się ich na pamięć.
+							Na te 5 odpowie idealnie, ale jak dostanie nowe – nie wie co robić.</li>
+
+						<li><strong>🔁 Trening i test na tych samych danych:</strong><br>
+							Model uczy się na czymś, a potem sprawdzamy go na tym samym – efekt to iluzja skuteczności.
+							Metafora: to jakby ktoś trenował do egzaminu, mając kartkę z odpowiedziami – super wynik,
+							zero wiedzy.</li>
+
+						<li><strong>🔍 Skupienie się na modelu, nie na danych:</strong><br>
+							Ludzie spędzają godziny na dobieraniu algorytmu, a pomijają jakość danych. W praktyce 80%
+							pracy to zrozumienie, oczyszczenie i przemyślenie danych. Metafora kucharska: najdroższy
+							robot kuchenny nic nie da, jeśli masz zgniłe składniki.</li>
+
+						<li><strong>🧪 Brak walidacji:</strong><br>
+							Model świetnie działa w labie, a potem się wykłada w realnym świecie, bo nie został
+							sprawdzony na nowych danych. W ML potrzebna jest walidacja z boku – osobny zestaw danych,
+							który model widzi pierwszy raz.</li>
+
+						<li><strong>🏗️ Zbyt skomplikowany model:</strong><br>
+							Częsty błąd – bo skoro są sieci neuronowe, to chcemy ich użyć nawet do prostych zadań.
+							Tymczasem proste modele często działają stabilniej i są łatwiejsze do wyjaśnienia. Metafora:
+							nie używaj młota pneumatycznego, żeby wbić pinezkę.</li>
+
+						<li><strong>🎯 Optymalizacja na metryki:</strong><br>
+							Czasem model ma świetne accuracy czy F1-score, ale nie spełnia celu biznesowego. Przykład:
+							model kredytowy mówi „tak" do wszystkich i ma 95% skuteczności – bo 95% ludzi i tak spłaca.
+							Ale to nie znaczy, że dobrze odróżnia ryzyko. Liczby nie są celem – mają pomagać podejmować
+							lepsze decyzje.</li>
+					</ul>
+
+					<p><strong>Puenta:</strong><br>
+						Dobry model to nie ten z najlepszą metryką, tylko ten, który działa w praktyce. Zrozumienie
+						kontekstu i danych jest ważniejsze niż tuning hiperparametrów.</p>
+
+					<p><strong>Aktywizacja:</strong><br>
+						Zapytaj: „Który z tych błędów widzieliście u siebie albo u innych?" – zachęć do historii z
+						projektów, testowania, integracji. Nawet krótka wymiana może uruchomić wartościową dyskusję o
+						praktyce.</p>
+				</aside>
+			</section>
+
+			<!-- #endregion -->
+
+			<section>
+				<h2>Przejdź do Części 3</h2>
+				<p><a href="part3.html" style="font-size: 1.2em; padding: 0.5em 1em; background: #42affa; color: white; border-radius: 8px; text-decoration: none;">➡️ Część 3: Typy uczenia maszynowego</a></p>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="../../dist/reveal.js"></script>
+	<script src="../../plugin/notes/notes.js"></script>
+	<script src="../../plugin/markdown/markdown.js"></script>
+	<script src="../../plugin/highlight/highlight.js"></script>
+	<script>
+		Reveal.initialize({
+			hash: true,
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+			pdfSeparateFragments: false
+		});
+	</script>
+</body>
+
+</html>
